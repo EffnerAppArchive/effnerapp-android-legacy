@@ -9,30 +9,54 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.text.ParseException;
+
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
+import de.effnerapp.effner.data.DataStack;
+import de.effnerapp.effner.data.utils.HeaderTextParser;
 
 public class HomeFragment extends Fragment {
-
-//    private HomeViewModel homeViewModel;
-
+    
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        TextView textView = root.findViewById(R.id.text_home);
-        String text;
-        if(!SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", "").isEmpty()) {
-            text = "Hallo " + SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", "") + "! Deine Klasse: "+ SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "ERROR");
-        } else {
-            text = "Hallo! Deine Klasse: "+ SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "ERROR");
-        }
+        TextView headerTextView = root.findViewById(R.id.headertextview);
+        DataStack dataStack = SplashActivity.getDataStack();
+        String headerText = "Noch 42 Tage bis zum Wochenende!";
+        try {
 
-        textView.setText(text);
+            headerText = new HeaderTextParser().parse(dataStack.getHolidays());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        headerTextView.setText(headerText);
+
+        CardView sCard = root.findViewById(R.id.stundenplan_card);
+        CardView hCard = root.findViewById(R.id.hausaufgaben_card);
+        sCard.setOnClickListener(view -> {
+            Snackbar snackbar = Snackbar.make(view,"Hier wird noch gearbeitet!",Snackbar.LENGTH_SHORT);
+            snackbar.setAction("Schließen", view12 -> {
+
+            }) ;
+            snackbar.show();
+        });
+        hCard.setOnClickListener(view -> {
+            Snackbar snackbar = Snackbar.make(view,"Hier wird noch gearbeitet!",Snackbar.LENGTH_SHORT);
+            snackbar.setAction("Schließen", view1 -> {
+
+            }) ;
+            snackbar.show();
+        });
+        
         return root;
     }
 }

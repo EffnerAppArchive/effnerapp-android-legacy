@@ -12,14 +12,25 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="de.effnerapp.effner.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_substitutions"
+        android:name="de.effnerapp.effner.ui.substitutions.SubstitutionsFragment"
+        android:label="@string/title_substitutions"
+        tools:layout="@layout/fragment_substitutions" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="de.effnerapp.effner.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_schooltests"
+        android:name="de.effnerapp.effner.ui.schooltests.SchooltestsFragment"
+        android:label="@string/title_schooltests"
+        tools:layout="@layout/fragment_schooltests" />
+
+    <fragment
+        android:id="@+id/navigation_terms"
+        android:name="de.effnerapp.effner.ui.terms.TermsFragment"
+        android:label="@string/title_terms"
+        tools:layout="@layout/fragment_terms" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="de.effnerapp.effner.ui.settings.SettingsFragment"
+        android:label="@string/title_settings" />
 </navigation>
