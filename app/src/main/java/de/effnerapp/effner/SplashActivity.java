@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.text.ParseException;
 
 import de.effnerapp.effner.data.DataStack;
+import de.effnerapp.effner.data.dsbmobile.Vertretungen;
 import de.effnerapp.effner.data.utils.DataStackReader;
 import de.effnerapp.effner.data.utils.HeaderTextParser;
 import de.effnerapp.effner.tools.LoginManager;
@@ -26,6 +27,7 @@ import de.effnerapp.effner.ui.login.LoginActivity;
 public class SplashActivity extends AppCompatActivity {
     public static SharedPreferences sharedPreferences;
     private static DataStack dataStack;
+    private static Vertretungen vertretungen = new Vertretungen();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,6 @@ public class SplashActivity extends AppCompatActivity {
         DataStackReader reader = new DataStackReader();
         dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), sharedPreferences.getString("APP_AUTH_TOKEN", ""));
 
-        System.out.println(dataStack.getSchooltests()[0].getName());
         HeaderTextParser parser = new HeaderTextParser();
         String result = null;
         try {
@@ -106,5 +107,22 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Log.d("SPLASH", "HeaderText: " + result);
+
+        Log.d("SPLASH", "------------");
+        boolean login = vertretungen.login("***REMOVED***", "***REMOVED***");
+        Log.d("SPLASH", "Res: " + login);
+        try {
+            vertretungen.load();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static DataStack getDataStack() {
+        return dataStack;
+    }
+
+    public static Vertretungen getVertretungen() {
+        return vertretungen;
     }
 }

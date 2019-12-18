@@ -27,6 +27,7 @@ import java.util.List;
 
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.json.Classes;
 import de.effnerapp.effner.tools.LoginManager;
 import okhttp3.Call;
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 boolean login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), sClass.getSelectedItem().toString(), username.getText().toString());
                 if(login) {
                     Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(this, MainActivity.class));
+                    startActivity(new Intent(this, SplashActivity.class));
                     finish();
                 } else {
                     Toast.makeText(this, "Fehler beim Anmelden!", Toast.LENGTH_LONG).show();
@@ -71,10 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Bitte gebe die Anmeldedaten ein!", Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 
     private List<String> getClasses() {

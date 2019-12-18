@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Effner</string>
-    <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_register">Registrieren</string>
@@ -20,4 +19,13 @@
     <string name="prompt_class">Klasse</string>
     <string name="prompt_username">Optional: Benutzername</string>
     <string name="action_sign_in">Anmelden</string>
+
+    <!-- Nav Menu Titles !-->
+    <string name="title_home">Home</string>
+    <string name="title_substitutions">Vertretungen</string>
+    <string name="title_schooltests">Schulaufgaben</string>
+    <string name="title_terms">Termine</string>
+    <string name="title_settings">Einstellungen</string>
+
+    <string name="feelsbadman">feelsbadman frog</string>
 </resources>
