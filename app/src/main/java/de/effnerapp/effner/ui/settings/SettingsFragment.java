@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -18,7 +19,9 @@ import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
 
 import java.util.Date;
+import java.util.Objects;
 
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 
@@ -28,16 +31,17 @@ import de.effnerapp.effner.SplashActivity;
  */
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public static final String KEY_PREF_NOTIFICATION_SWITCH = "notifications";
-    public static final String KEY_PREF_NOTIFICATION_TIME = "time";
-    public static final String KEY_PREF_NIGHT_MODE = "nightmode";
+    private static final String KEY_PREF_NOTIFICATION_SWITCH = "notifications";
+    private static final String KEY_PREF_NOTIFICATION_TIME = "time";
+    private static final String KEY_PREF_NIGHT_MODE = "nightmode";
+    private static final String KEY_PREF_LOGOUT = "logout";
     //public static final String KEY_PREF_SECURITY_STATS = "anonymStats";
     private Preference timePickerDialog;
     private PreferenceCategory notificationCategory;
     private Intent splashIntent;
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-
+        MainActivity.pageTextView.setText(R.string.title_settings);
         Context context = getPreferenceManager().getContext();
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
         splashIntent = new Intent(getContext(), SplashActivity.class);
@@ -51,6 +55,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         notificationPreference.setTitle("Erhalte Nachrichten über neue Vertretungen");
         notificationPreference.setDefaultValue(false);
         notificationPreference.setIcon(R.drawable.ic_notifications_active_black_24dp);
+        notificationPreference.setEnabled(false);
         notificationCategory.addPreference(notificationPreference);
 
 
@@ -127,6 +132,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         nightModePreference.setSummary("Aktiviere den Nachtmodus!");
         nightModePreference.setDefaultValue(false);
         nightModePreference.setIcon(R.drawable.ic_lightbulb_outline_black_24dp);
+        nightModePreference.setEnabled(false);
         miscCategory.addPreference(nightModePreference);
 
         PreferenceCategory securityCategory = new PreferenceCategory(context);
@@ -159,9 +165,21 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Preference buildPreference = new Preference(context);
         buildPreference.setKey("build");
         buildPreference.setTitle("Build Version");
-        buildPreference.setSummary("4.0.0.1");
+        buildPreference.setSummary("BUILD_VERSION");
         buildPreference.setIcon(R.drawable.ic_info_black_24dp);
         aboutCategory.addPreference(buildPreference);
+
+        PreferenceCategory logoutCategory = new PreferenceCategory(context);
+        logoutCategory.setKey("logout_c");
+        logoutCategory.setTitle("Abmelden");
+        screen.addPreference(logoutCategory);
+
+        Preference logoutPreference = new Preference(context);
+        logoutPreference.setKey("logout");
+        logoutPreference.setTitle("Abmelden");
+        logoutPreference.setSummary("Melde dich ab!");
+        logoutPreference.setIcon(R.drawable.ic_cancel_black_24dp);
+        logoutCategory.addPreference(logoutPreference);
 
         feedbackPreference.setOnPreferenceClickListener(preference -> {
 
@@ -175,6 +193,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             Toast toast = Toast.makeText(context, "Build: BUILD_VERSION", Toast.LENGTH_SHORT);
             toast.show();
 
+            return true;
+        });
+
+        logoutPreference.setOnPreferenceClickListener(preference -> {
+            Log.i("LOGOUT_PREF", "Logging out!");
+            SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
+            editor.clear().apply();
+
+            startActivity(new Intent(getContext(), SplashActivity.class));
+            Objects.requireNonNull(getActivity()).finish();
             return true;
         });
 
@@ -196,22 +224,31 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 } else {
                     notificationCategory.removePreference(timePickerDialog);
                 }
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
                 startActivity(splashIntent);
                 break;
             case KEY_PREF_NOTIFICATION_TIME:
 
                 Log.i("NOTIFICATION_TIME", "Preference value was updated to: " + sharedPreferences.getString(key, ""));
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
                 startActivity(splashIntent);
                 break;
             case KEY_PREF_NIGHT_MODE:
-                Intent intent = getActivity().getIntent();
+                Intent intent = Objects.requireNonNull(getActivity()).getIntent();
                 getActivity().finish();
                 startActivity(intent);
                 break;
+            case KEY_PREF_LOGOUT:
+                Log.i("LOGOUT_PREF", "Logging out!");
+                SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
+                editor.clear().apply();
+
+                startActivity(new Intent(getContext(), SplashActivity.class));
+                Objects.requireNonNull(getActivity()).finish();
+                break;
         }
     }
+
 
     //register and unregister SharedPreferenceListener
     @Override

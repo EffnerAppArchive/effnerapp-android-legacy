@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.DataStack;
@@ -29,6 +30,7 @@ public class HomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        MainActivity.pageTextView.setText(R.string.title_home);
         TextView headerTextView = root.findViewById(R.id.headertextview);
         DataStack dataStack = SplashActivity.getDataStack();
         String headerText = "Noch 42 Tage bis zum Wochenende!";

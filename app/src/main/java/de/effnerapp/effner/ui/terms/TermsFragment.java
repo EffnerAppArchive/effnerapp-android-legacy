@@ -13,14 +13,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Term;
 
 
 public class TermsFragment extends Fragment {
-    public static RecyclerView recyclerView;
-    public static TermItemAdapter adapter;
+    private RecyclerView recyclerView;
+    private TermItemAdapter adapter;
 
     public TermsFragment() {
         // Required empty public constructor
@@ -31,6 +32,7 @@ public class TermsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_terms, container, false);
+        MainActivity.pageTextView.setText(R.string.title_terms);
         recyclerView = view.findViewById(R.id.recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);

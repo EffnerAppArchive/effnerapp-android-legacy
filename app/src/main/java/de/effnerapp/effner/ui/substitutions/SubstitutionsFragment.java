@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.dsbmobile.model.Klasse;
@@ -45,7 +47,7 @@ public class SubstitutionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_substitutions, container, false);
-
+        MainActivity.pageTextView.setText(R.string.title_substitutions);
         //Wait for DSBMobile
         while (SplashActivity.getVertretungen() == null || SplashActivity.getVertretungen().getTable() == null) {
             Log.d("VerFrag", "Wait...");
@@ -75,7 +77,7 @@ public class SubstitutionsFragment extends Fragment {
         Spinner spinner = view.findViewById(R.id.spinner);
 
         //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dates);
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, dates);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, dates);
 
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
@@ -98,7 +100,7 @@ public class SubstitutionsFragment extends Fragment {
                             String persoKlasse = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
                             if (klasse.getName().equals(persoKlasse)) { // here your Klasse
 
-                                ImageView feelsbadman = container.findViewById(R.id.feelsbadman);
+                                ImageView feelsbadman = container.findViewById(R.id.no_subs_image);
                                 feelsbadman.setVisibility(View.INVISIBLE);
 
                                 for (Vertretung vertretung : klasse.getVertretungen()) {
@@ -140,10 +142,10 @@ public class SubstitutionsFragment extends Fragment {
                 }
 
                 if (size == 0) {
-                    ImageView feelsbadman = container.findViewById(R.id.feelsbadman);
+                    ImageView feelsbadman = container.findViewById(R.id.no_subs_image);
                     feelsbadman.setVisibility(View.VISIBLE);
                 } else {
-                    ImageView feelsbadman = container.findViewById(R.id.feelsbadman);
+                    ImageView feelsbadman = container.findViewById(R.id. no_subs_image);
                     feelsbadman.setVisibility(View.INVISIBLE);
                 }
 

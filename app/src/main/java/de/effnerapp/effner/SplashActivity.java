@@ -35,26 +35,25 @@ public class SplashActivity extends AppCompatActivity {
         startUp();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        boolean registered;
-        if(sharedPreferences.getBoolean("APP_REGISTERED", false)) {
-            LoginManager loginManager = new LoginManager();
-            if(loginManager.login(sharedPreferences.getString("APP_AUTH_TOKEN", ""))) {
-                registered = true;
+        new Thread(() -> {
+            boolean registered;
+            if(sharedPreferences.getBoolean("APP_REGISTERED", false)) {
+                LoginManager loginManager = new LoginManager();
+                registered = loginManager.login(sharedPreferences.getString("APP_AUTH_TOKEN", ""));
             } else {
                 registered = false;
             }
-        } else {
-            registered = false;
-        }
-        Log.d("SPLASH", "APP_REGISTERED: " + registered);
-        if(registered) {
-            loadData();
-            startActivity(new Intent(this, MainActivity.class));
-        } else {
-            startActivity(new Intent(this, LoginActivity.class));
-            Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show();
-        }
-        finish();
+            Log.d("SPLASH", "APP_REGISTERED: " + registered);
+            if(registered) {
+                loadData();
+                startActivity(new Intent(this, MainActivity.class));
+            } else {
+                startActivity(new Intent(this, LoginActivity.class));
+                SplashActivity.this.runOnUiThread(() -> Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show());
+
+            }
+            finish();
+        }).start();
     }
 
 
@@ -78,11 +77,11 @@ public class SplashActivity extends AppCompatActivity {
             Thread thread = new Thread(() -> {
                 while (true) {
                     try {
-                        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.icon_blue), PorterDuff.Mode.SRC_IN);
+                        progressBar.getIndeterminateDrawable().setColorFilter(getColor(R.color.icon_blue), PorterDuff.Mode.SRC_IN);
                         Thread.sleep(500);
-                        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.icon_yellow), PorterDuff.Mode.SRC_IN);
+                        progressBar.getIndeterminateDrawable().setColorFilter(getColor(R.color.icon_yellow), PorterDuff.Mode.SRC_IN);
                         Thread.sleep(500);
-                        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.icon_green), PorterDuff.Mode.SRC_IN);
+                        progressBar.getIndeterminateDrawable().setColorFilter(getColor(R.color.icon_green), PorterDuff.Mode.SRC_IN);
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -94,7 +93,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
     }
-    
+
     private void loadData() {
         DataStackReader reader = new DataStackReader();
         dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), sharedPreferences.getString("APP_AUTH_TOKEN", ""));
@@ -109,7 +108,7 @@ public class SplashActivity extends AppCompatActivity {
         Log.d("SPLASH", "HeaderText: " + result);
 
         Log.d("SPLASH", "------------");
-        boolean login = vertretungen.login("193622", "JEG1952");
+        boolean login = vertretungen.login(sharedPreferences.getString("APP_DSB_LOGIN_ID",""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD",""));
         Log.d("SPLASH", "Res: " + login);
         try {
             vertretungen.load();
