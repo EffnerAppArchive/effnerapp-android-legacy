@@ -5,22 +5,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.applandeo.materialcalendarview.CalendarView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Schooltest;
 
 public class SchooltestsFragment extends Fragment {
-    public static RecyclerView recyclerView;
-    public static SchooltestItemAdapter adapter;
+    private RecyclerView recyclerView;
+    private SchooltestItemAdapter adapter;
 
     public SchooltestsFragment() {
         // Required empty public constructor
@@ -31,7 +35,7 @@ public class SchooltestsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_schooltests, container, false);
-
+        MainActivity.pageTextView.setText(R.string.title_schooltests);
         recyclerView = view.findViewById(R.id.recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -39,6 +43,7 @@ public class SchooltestsFragment extends Fragment {
         adapter = new SchooltestItemAdapter(schooltests);
         recyclerView.setAdapter(adapter);
 
+        //CalendarView calendarView = view.findViewById(R.id.calendarView);
 
         return view;
     }

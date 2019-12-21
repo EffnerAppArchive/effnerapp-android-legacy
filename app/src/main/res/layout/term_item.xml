@@ -15,7 +15,6 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="12dp"
-        app:cardCornerRadius="12dp"
         app:cardElevation="0dp">
 
         <LinearLayout
@@ -29,8 +28,8 @@
                 android:id="@+id/term_pic_view"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:contentDescription="pic"
-                android:src="@drawable/feelsbadman" />
+                android:contentDescription="@string/description_effnerapp_logo_image"
+                android:src="@drawable/ic_school_black_24dp" />
 
             <TextView
                 android:id="@+id/term_item_view"
@@ -38,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|center_horizontal|center_vertical"
                 android:layout_marginStart="10dp"
-                android:text="text"
+                    android:text="@string/description_term_text"
                 android:textColor="#000"
                 android:textSize="18sp" />
 

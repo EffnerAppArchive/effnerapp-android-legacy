@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.SplashActivity;
@@ -49,7 +50,7 @@ public class LoginManager {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     System.out.println("Res");
-                    res[0] = response.body().string();
+                    res[0] = Objects.requireNonNull(response.body()).string();
                     System.out.println(res[0]);
 
                     error = gson.fromJson(res[0], Error.class);
@@ -83,6 +84,8 @@ public class LoginManager {
             editor.putBoolean("APP_REGISTERED", true);
             editor.putString("APP_AUTH_TOKEN", user.getToken());
             editor.putString("APP_USER_CLASS", user.getsClass());
+            editor.putString("APP_DSB_LOGIN_ID", id);
+            editor.putString("APP_DSB_LOGIN_PASSWORD", password);
             if(user.getUsername() != null && !user.getUsername().isEmpty()) {
                 editor.putString("APP_USER_USERNAME", user.getUsername());
             }
@@ -110,7 +113,7 @@ public class LoginManager {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     System.out.println("Res");
-                    res[0] = response.body().string();
+                    res[0] = Objects.requireNonNull(response.body()).string();
                     System.out.println(res[0]);
 
                     error = gson.fromJson(res[0], Error.class);
