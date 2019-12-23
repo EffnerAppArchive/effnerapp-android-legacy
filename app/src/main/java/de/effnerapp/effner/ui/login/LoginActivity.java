@@ -3,7 +3,6 @@ package de.effnerapp.effner.ui.login;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.json.Classes;
@@ -38,14 +36,12 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private boolean gCharSize;
     private Classes classes;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         EditText effnerappID = findViewById(R.id.effnerapp_id);
         EditText password = findViewById(R.id.password);

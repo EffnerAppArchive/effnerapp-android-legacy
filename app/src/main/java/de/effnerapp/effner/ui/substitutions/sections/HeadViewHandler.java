@@ -1,13 +1,18 @@
 package de.effnerapp.effner.ui.substitutions.sections;
 
+import android.graphics.Color;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.SplashActivity;
 
 import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
@@ -25,6 +30,10 @@ public class HeadViewHandler extends GroupViewHolder {
 
     public void bind(Head head) {
         mTextView.setText(head.getTitle());
+        if(SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
+            mTextView.setTextColor(Color.WHITE);
+            arrow.setColorFilter(Color.WHITE);
+        }
     }
 
     @Override

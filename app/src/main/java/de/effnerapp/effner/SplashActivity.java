@@ -97,7 +97,14 @@ public class SplashActivity extends AppCompatActivity {
     private void loadData() {
         DataStackReader reader = new DataStackReader();
         dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), sharedPreferences.getString("APP_AUTH_TOKEN", ""));
-
+        while (dataStack == null) {
+            Log.d("SPLASH", "Loading Data...");
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         HeaderTextParser parser = new HeaderTextParser();
         String result = null;
         try {
