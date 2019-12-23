@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -36,7 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     private static final String KEY_PREF_NOTIFICATION_SWITCH = "notifications";
     private static final String KEY_PREF_NOTIFICATION_TIME = "time";
-    private static final String KEY_PREF_NIGHT_MODE = "nightmode";
+    private static final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
     private static final String KEY_PREF_LOGOUT = "logout";
     //public static final String KEY_PREF_SECURITY_STATS = "anonymStats";
     private Preference timePickerDialog;
@@ -58,6 +61,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         notificationPreference.setTitle("Erhalte Nachrichten über neue Vertretungen");
         notificationPreference.setDefaultValue(false);
         notificationPreference.setIcon(R.drawable.ic_notifications_active_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            notificationPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         notificationPreference.setEnabled(false);
         notificationCategory.addPreference(notificationPreference);
 
@@ -67,6 +73,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         timePickerDialog.setTitle("Uhrzeit");
         timePickerDialog.setSummary("Stelle ein wann die Benachrichtigung kommen soll");
         timePickerDialog.setIcon(R.drawable.ic_access_alarm_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            timePickerDialog.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         if (notificationPreference.isChecked()) {
             notificationCategory.addPreference(timePickerDialog);
         }
@@ -130,12 +139,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         screen.addPreference(miscCategory);
 
         SwitchPreference nightModePreference = new SwitchPreference(context);
-        nightModePreference.setKey("nightmode");
+        nightModePreference.setKey("APP_DESIGN_DARK");
         nightModePreference.setTitle("Night-Mode :D");
         nightModePreference.setSummary("Aktiviere den Nachtmodus!");
         nightModePreference.setDefaultValue(false);
         nightModePreference.setIcon(R.drawable.ic_lightbulb_outline_black_24dp);
-        nightModePreference.setEnabled(false);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            nightModePreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         miscCategory.addPreference(nightModePreference);
 
         PreferenceCategory securityCategory = new PreferenceCategory(context);
@@ -149,6 +160,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         anonymStatsPreference.setSummary("Hilf anonym die App zu verbessern ❤");
         anonymStatsPreference.setDefaultValue(false);
         anonymStatsPreference.setIcon(R.drawable.ic_timeline_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            anonymStatsPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         securityCategory.addPreference(anonymStatsPreference);
 
         PreferenceCategory aboutCategory = new PreferenceCategory(context);
@@ -163,6 +177,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         feedbackPreference.setTitle("Brauchst du Hilfe?");
         feedbackPreference.setSummary("Schreibe doch eine E-Mail");
         feedbackPreference.setIcon(R.drawable.ic_mail_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            feedbackPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         aboutCategory.addPreference(feedbackPreference);
 
         //get VERSION_NAME
@@ -179,6 +196,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         buildPreference.setTitle("Build Version");
         buildPreference.setSummary(version);
         buildPreference.setIcon(R.drawable.ic_info_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            buildPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         aboutCategory.addPreference(buildPreference);
 
         PreferenceCategory accountCategory = new PreferenceCategory(context);
@@ -191,6 +211,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         classPreference.setTitle("Deine Klasse");
         classPreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "NONE"));
         classPreference.setIcon(R.drawable.ic_group_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            classPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         accountCategory.addPreference(classPreference);
 
         Preference usernamePreference = new Preference(context);
@@ -198,6 +221,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         usernamePreference.setTitle("Dein Benutzername");
         usernamePreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", "NONE"));
         usernamePreference.setIcon(R.drawable.ic_account_circle_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            usernamePreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         accountCategory.addPreference(usernamePreference);
 
         Preference logoutPreference = new Preference(context);
@@ -205,7 +231,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         logoutPreference.setTitle("Abmelden");
         logoutPreference.setSummary("Melde dich ab!");
         logoutPreference.setIcon(R.drawable.ic_cancel_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            logoutPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
         accountCategory.addPreference(logoutPreference);
+
 
         feedbackPreference.setOnPreferenceClickListener(preference -> {
 
@@ -265,9 +295,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 startActivity(splashIntent);
                 break;
             case KEY_PREF_NIGHT_MODE:
-                Intent intent = Objects.requireNonNull(getActivity()).getIntent();
-                getActivity().finish();
-                startActivity(intent);
+                getActivity().recreate();
                 break;
             case KEY_PREF_LOGOUT:
                 Log.i("LOGOUT_PREF", "Logging out!");
