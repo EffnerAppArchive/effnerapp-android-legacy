@@ -2,7 +2,6 @@ package de.effnerapp.effner.data.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -19,14 +18,13 @@ public class HeaderTextParser {
     }
 
     public String parse(Holidays[] holidays) throws ParseException {
-
         String headerText = "false";
         int days2weekend = 42;
         for (Holidays holiday : holidays) {
             String name = holiday.getName();
             name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-            String start = holiday.getStart();//.replace("T00:00", "");
-            String end = holiday.getEnd();//.replace("T00:00", "");
+            String start = holiday.getStart();
+            String end = holiday.getEnd();
 
             Date currentDate = new Date();
             Date startDate = format.parse(start);

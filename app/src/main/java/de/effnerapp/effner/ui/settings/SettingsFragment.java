@@ -5,8 +5,11 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -162,24 +165,47 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         feedbackPreference.setIcon(R.drawable.ic_mail_black_24dp);
         aboutCategory.addPreference(feedbackPreference);
 
+        //get VERSION_NAME
+        PackageInfo info = null;
+        try {
+            info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = info.versionName;
+
         Preference buildPreference = new Preference(context);
         buildPreference.setKey("build");
         buildPreference.setTitle("Build Version");
-        buildPreference.setSummary("BUILD_VERSION");
+        buildPreference.setSummary(version);
         buildPreference.setIcon(R.drawable.ic_info_black_24dp);
         aboutCategory.addPreference(buildPreference);
 
-        PreferenceCategory logoutCategory = new PreferenceCategory(context);
-        logoutCategory.setKey("logout_c");
-        logoutCategory.setTitle("Abmelden");
-        screen.addPreference(logoutCategory);
+        PreferenceCategory accountCategory = new PreferenceCategory(context);
+        accountCategory.setKey("account");
+        accountCategory.setTitle("Account");
+        screen.addPreference(accountCategory);
+
+        Preference classPreference = new Preference(context);
+        classPreference.setKey("class");
+        classPreference.setTitle("Deine Klasse");
+        classPreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "NONE"));
+        classPreference.setIcon(R.drawable.ic_group_black_24dp);
+        accountCategory.addPreference(classPreference);
+
+        Preference usernamePreference = new Preference(context);
+        usernamePreference.setKey("class");
+        usernamePreference.setTitle("Dein Benutzername");
+        usernamePreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", "NONE"));
+        usernamePreference.setIcon(R.drawable.ic_account_circle_black_24dp);
+        accountCategory.addPreference(usernamePreference);
 
         Preference logoutPreference = new Preference(context);
         logoutPreference.setKey("logout");
         logoutPreference.setTitle("Abmelden");
         logoutPreference.setSummary("Melde dich ab!");
         logoutPreference.setIcon(R.drawable.ic_cancel_black_24dp);
-        logoutCategory.addPreference(logoutPreference);
+        accountCategory.addPreference(logoutPreference);
 
         feedbackPreference.setOnPreferenceClickListener(preference -> {
 
@@ -190,9 +216,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         buildPreference.setOnPreferenceClickListener(preference -> {
-            Toast toast = Toast.makeText(context, "Build: BUILD_VERSION", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(context, "Build: " + version, Toast.LENGTH_SHORT);
             toast.show();
 
+            return true;
+        });
+
+        classPreference.setOnPreferenceClickListener(preference -> {
+            Toast.makeText(context, "Um deine Klasse zu ändern, melde dich zuerst ab!", Toast.LENGTH_LONG).show();
             return true;
         });
 

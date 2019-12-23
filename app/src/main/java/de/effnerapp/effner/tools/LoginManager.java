@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.Objects;
 
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.json.Error;
+import de.effnerapp.effner.json.Login;
 import de.effnerapp.effner.json.User;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -24,6 +24,8 @@ public class LoginManager {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private User user;
     private Error error;
+
+    private Login login;
 
     public LoginManager() {
 
@@ -37,6 +39,7 @@ public class LoginManager {
             OkHttpClient client = new OkHttpClient();
 
             String url = "https://api.effnerapp.de/auth/register" + "?id=" + id + "&password=" + password + "&class=" + sClass;
+
 
             if(username != null && !username.isEmpty()) {
                 url += "&username=" + username;
@@ -121,7 +124,8 @@ public class LoginManager {
                         ok[0] = false;
                     } else {
                         ok[0] = true;
-                        user = gson.fromJson(res[0], User.class);
+                        login = gson.fromJson(res[0], Login.class);
+                        ok[0] = login.isLogin();
                     }
 
                 }
