@@ -24,6 +24,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -44,10 +46,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     //public static final String KEY_PREF_SECURITY_STATS = "anonymStats";
     private Preference timePickerDialog;
     private PreferenceCategory notificationCategory;
+    private SwitchPreference notificationPreference;
     private Intent splashIntent;
+    private String sClass;
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         MainActivity.pageTextView.setText(R.string.title_settings);
+        sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
         Context context = getPreferenceManager().getContext();
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
         splashIntent = new Intent(getContext(), SplashActivity.class);
@@ -56,7 +61,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         notificationCategory.setTitle("Notifications");
         screen.addPreference(notificationCategory);
 
-        SwitchPreference notificationPreference = new SwitchPreference(context);
+        notificationPreference = new SwitchPreference(context);
         notificationPreference.setKey("notifications");
         notificationPreference.setTitle("Erhalte Nachrichten über neue Vertretungen");
         notificationPreference.setDefaultValue(false);
@@ -64,7 +69,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             notificationPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
-        notificationPreference.setEnabled(false);
         notificationCategory.addPreference(notificationPreference);
 
 
@@ -73,6 +77,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         timePickerDialog.setTitle("Uhrzeit");
         timePickerDialog.setSummary("Stelle ein wann die Benachrichtigung kommen soll");
         timePickerDialog.setIcon(R.drawable.ic_access_alarm_black_24dp);
+        timePickerDialog.setEnabled(false);
         if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             timePickerDialog.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
@@ -170,8 +175,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         aboutCategory.setTitle("Über");
         screen.addPreference(aboutCategory);
 
-
-
         Preference feedbackPreference = new Preference(context);
         feedbackPreference.setKey("issues");
         feedbackPreference.setTitle("Brauchst du Hilfe?");
@@ -200,7 +203,24 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             buildPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         aboutCategory.addPreference(buildPreference);
-
+        Preference easteregg = new Preference(context);
+        if(MainActivity.eaTriggered) {
+            easteregg.setKey("easteregg");
+            easteregg.setTitle("Maths sucks!");
+            easteregg.setSummary("Latin sucks too!");
+            easteregg.setIcon(R.drawable.feelsbadman);
+            aboutCategory.addPreference(easteregg);
+        }
+        new Thread(() -> {
+            while(MainActivity.eaTriggered) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            aboutCategory.removePreference(easteregg);
+        }).start();
         PreferenceCategory accountCategory = new PreferenceCategory(context);
         accountCategory.setKey("account");
         accountCategory.setTitle("Account");
@@ -217,7 +237,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         accountCategory.addPreference(classPreference);
 
         Preference usernamePreference = new Preference(context);
-        usernamePreference.setKey("class");
+        usernamePreference.setKey("username");
         usernamePreference.setTitle("Dein Benutzername");
         usernamePreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", "NONE"));
         usernamePreference.setIcon(R.drawable.ic_account_circle_black_24dp);
@@ -282,14 +302,29 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 if (sharedPreferences.getBoolean(key, false)) {
                     notificationCategory.addPreference(timePickerDialog);
 
+                    FirebaseMessaging.getInstance().subscribeToTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass).addOnCompleteListener(task -> {
+                        boolean success = task.isSuccessful();
+                        String msg = "NOTIFICATION_REGISTERED: " + success;
+                        if(!success) {
+                            notificationPreference.setEnabled(false);
+                        }
+                        Toast.makeText(getPreferenceManager().getContext(), msg, Toast.LENGTH_LONG).show();
+                    });
+
                 } else {
                     notificationCategory.removePreference(timePickerDialog);
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass ).addOnCompleteListener(task -> {
+                        boolean success = task.isSuccessful();
+                        String msg = "NOTIFICATION_UNREGISTERED: " + success;
+                        if(!success) {
+                            notificationPreference.setEnabled(false);
+                        }
+                        Toast.makeText(getPreferenceManager().getContext(), msg, Toast.LENGTH_LONG).show();
+                    });
                 }
-                Objects.requireNonNull(getActivity()).finish();
-                startActivity(splashIntent);
+
                 break;
             case KEY_PREF_NOTIFICATION_TIME:
-
                 Log.i("NOTIFICATION_TIME", "Preference value was updated to: " + sharedPreferences.getString(key, ""));
                 Objects.requireNonNull(getActivity()).finish();
                 startActivity(splashIntent);
@@ -299,9 +334,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 break;
             case KEY_PREF_LOGOUT:
                 Log.i("LOGOUT_PREF", "Logging out!");
+                //clear sharedPreferences
                 SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
                 editor.clear().apply();
-
+                //disable Firebase Notifications
+                FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+                        firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass );
+                        firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
                 startActivity(new Intent(getContext(), SplashActivity.class));
                 Objects.requireNonNull(getActivity()).finish();
                 break;

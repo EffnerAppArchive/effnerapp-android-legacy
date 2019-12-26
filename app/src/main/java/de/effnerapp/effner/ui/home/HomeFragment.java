@@ -46,14 +46,14 @@ public class HomeFragment extends Fragment {
         CardView hCard = root.findViewById(R.id.hausaufgaben_card);
         sCard.setOnClickListener(view -> {
             Snackbar snackbar = Snackbar.make(view,"Hier wird noch gearbeitet!",Snackbar.LENGTH_SHORT);
-            snackbar.setAction("Schließen", view12 -> {
+            snackbar.setAction("Schließen", v -> {
 
             }) ;
             snackbar.show();
         });
         hCard.setOnClickListener(view -> {
             Snackbar snackbar = Snackbar.make(view,"Hier wird noch gearbeitet!",Snackbar.LENGTH_SHORT);
-            snackbar.setAction("Schließen", view1 -> {
+            snackbar.setAction("Schließen", v -> {
 
             }) ;
             snackbar.show();

@@ -2,6 +2,7 @@ package de.effnerapp.effner.tools;
 
 import android.content.SharedPreferences;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -83,6 +84,7 @@ public class LoginManager {
         }
 
         if(ok[0]) {
+            //put sharedPreference Values
             SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
             editor.putBoolean("APP_REGISTERED", true);
             editor.putString("APP_AUTH_TOKEN", user.getToken());
@@ -93,6 +95,8 @@ public class LoginManager {
                 editor.putString("APP_USER_USERNAME", user.getUsername());
             }
             editor.apply();
+            //enable general notifications
+            FirebaseMessaging.getInstance().subscribeToTopic("APP_GENERAL_NOTIFICATIONS");
         }
 
         return ok[0];
