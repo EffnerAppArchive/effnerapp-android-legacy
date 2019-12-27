@@ -18,8 +18,6 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.effnerapp.effner.ui.settings.SettingsFragment;
-
 public class MainActivity extends AppCompatActivity {
     public static TextView pageTextView;
     public static boolean eaTriggered = false;

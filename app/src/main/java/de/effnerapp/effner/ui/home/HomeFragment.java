@@ -1,5 +1,6 @@
 package de.effnerapp.effner.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.text.ParseException;
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
+import de.effnerapp.effner.TimetableActivity;
 import de.effnerapp.effner.data.DataStack;
 import de.effnerapp.effner.data.utils.HeaderTextParser;
 
@@ -44,13 +46,7 @@ public class HomeFragment extends Fragment {
 
         CardView sCard = root.findViewById(R.id.stundenplan_card);
         CardView hCard = root.findViewById(R.id.hausaufgaben_card);
-        sCard.setOnClickListener(view -> {
-            Snackbar snackbar = Snackbar.make(view,"Hier wird noch gearbeitet!",Snackbar.LENGTH_SHORT);
-            snackbar.setAction("Schließen", v -> {
-
-            }) ;
-            snackbar.show();
-        });
+        sCard.setOnClickListener(view -> startActivity(new Intent(getContext(), TimetableActivity.class)));
         hCard.setOnClickListener(view -> {
             Snackbar snackbar = Snackbar.make(view,"Hier wird noch gearbeitet!",Snackbar.LENGTH_SHORT);
             snackbar.setAction("Schließen", v -> {
