@@ -33,7 +33,6 @@ public class HeaderTextParser {
             if (checkHolidays(currentDate, startDate, endDate)) {
                 headerText = "Es sind " + name;
             }
-
         }
 
         if (headerText.equals("false")) {

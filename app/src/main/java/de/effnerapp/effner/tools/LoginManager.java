@@ -2,6 +2,8 @@ package de.effnerapp.effner.tools;
 
 import android.content.SharedPreferences;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 import de.effnerapp.effner.SplashActivity;
@@ -21,10 +24,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class LoginManager {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private HashGenerator hashGenerator = new HashGenerator("SHA-256", UTF_8);
     private User user;
     private Error error;
+    private String firebaseToken;
 
     private Login login;
 
@@ -38,14 +45,26 @@ public class LoginManager {
         new Thread(() -> {
             System.out.println("Req!");
             OkHttpClient client = new OkHttpClient();
+            if(SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
+                firebaseToken = FirebaseInstanceId.getInstance().getToken();
+                SplashActivity.sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", firebaseToken).apply();
+            } else {
+                firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "");
+            }
 
-            String url = "https://api.effnerapp.de/auth/register" + "?id=" + id + "&password=" + password + "&class=" + sClass;
+            String url = null;
+            try {
+                url = "https://api.effnerapp.de/auth/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken;
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
 
 
             if(username != null && !username.isEmpty()) {
                 url += "&username=" + username;
             }
 
+            assert url != null;
             Request request = new Request.Builder()
                     .url(url)
                     .build();

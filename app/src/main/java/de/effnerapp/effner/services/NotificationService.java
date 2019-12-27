@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.SplashActivity;
 
 public class NotificationService extends FirebaseMessagingService {
     private static final String TAG = "FCM Service";
@@ -32,6 +33,7 @@ public class NotificationService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.app_logo)
+                .setColor(getResources().getColor(R.color.white))
                 .setContentTitle(remoteMessage.getNotification().getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -43,8 +45,6 @@ public class NotificationService extends FirebaseMessagingService {
 
         // notificationId is a unique int for each notification that you must define
         notificationManager.notify(2, builder.build());
-
-
     }
 
     private void createNotificationChannel() {
@@ -67,6 +67,7 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         Log.d(TAG, "Token: " + s);
+        SplashActivity.sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", s).apply();
     }
 
 }
