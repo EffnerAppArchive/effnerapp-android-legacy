@@ -1,16 +1,15 @@
 package de.effnerapp.effner.ui.login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
@@ -37,6 +37,7 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private Classes classes;
+    private ProgressDialog dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,22 +49,30 @@ public class LoginActivity extends AppCompatActivity {
         Spinner sClass = findViewById(R.id.sClass);
         EditText username = findViewById(R.id.username);
         Button loginButton = findViewById(R.id.login);
-        ProgressBar loadingProgressBar = findViewById(R.id.loading);
         List<String> items = new ArrayList<>(getClasses());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         sClass.setAdapter(adapter);
         loginButton.setOnClickListener(v -> {
-            loadingProgressBar.setVisibility(View.VISIBLE);
             if(!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
-                LoginManager loginManager = new LoginManager();
-                boolean login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), sClass.getSelectedItem().toString(), username.getText().toString());
-                if(login) {
-                    Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(this, SplashActivity.class));
-                    finish();
-                } else {
-                    Toast.makeText(this, "Fehler beim Anmelden!", Toast.LENGTH_LONG).show();
-                }
+                dialog = new ProgressDialog(this);
+                dialog.setTitle("Prüfe Daten...");
+                dialog.setMessage("Die Anmeldedaten werden überprüft!");
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog.setCancelable(false);
+                dialog.show();
+                new Thread(() -> {
+                    LoginManager loginManager = new LoginManager();
+                    boolean login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), sClass.getSelectedItem().toString(), username.getText().toString());
+                    if(login) {
+                        runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show());
+                        dialog.cancel();
+                        startActivity(new Intent(this, SplashActivity.class));
+                        finish();
+                    } else {
+                        dialog.cancel();
+                        runOnUiThread(() -> Toast.makeText(this, "Fehler beim Anmelden!", Toast.LENGTH_LONG).show());
+                    }
+                }).start();
             } else {
                 Toast.makeText(this, "Bitte gebe die Anmeldedaten ein!", Toast.LENGTH_LONG).show();
             }
@@ -83,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String res = response.body().string();
+                    String res = Objects.requireNonNull(response.body()).string();
                     System.out.println(res);
                     classes = gson.fromJson(res, Classes.class);
                 }
