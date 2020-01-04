@@ -8,4 +8,8 @@
         <item>Do</item>
         <item>Fr</item>
     </string-array>
+
+    <string-array name="timetable_sticker_colors">
+        <item>#FFF</item>
+    </string-array>
 </resources>
