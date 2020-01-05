@@ -4,6 +4,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
 
@@ -14,6 +16,10 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Objects;
 
 import de.effnerapp.effner.MainActivity;
@@ -40,6 +46,23 @@ public class NotificationService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .setPriority(1)
                 .setAutoCancel(true);
+        if(remoteMessage.getNotification().getImageUrl() != null) {
+            try {
+                URL url = new URL(remoteMessage.getNotification().getImageUrl().toString());
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(input);
+                builder.setLargeIcon(bitmap);
+                builder.setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(bitmap)
+                        .bigLargeIcon(null));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
         createNotificationChannel();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 

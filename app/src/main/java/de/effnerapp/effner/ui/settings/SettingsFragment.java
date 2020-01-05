@@ -1,19 +1,14 @@
 package de.effnerapp.effner.ui.settings;
 
-
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Spannable;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -26,7 +21,6 @@ import androidx.preference.SwitchPreference;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.Date;
 import java.util.Objects;
 
 import de.effnerapp.effner.MainActivity;

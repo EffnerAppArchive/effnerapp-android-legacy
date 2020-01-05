@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +63,12 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.show();
                 new Thread(() -> {
                     LoginManager loginManager = new LoginManager();
-                    boolean login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), sClass.getSelectedItem().toString(), username.getText().toString());
+                    boolean login = false;
+                    try {
+                        login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), sClass.getSelectedItem().toString(), username.getText().toString());
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
                     if(login) {
                         runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show());
                         dialog.cancel();
