@@ -3,7 +3,6 @@ package de.effnerapp.effner.tools;
 import android.content.SharedPreferences;
 
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,67 +30,57 @@ public class LoginManager {
     private HashGenerator hashGenerator = new HashGenerator("SHA-256", UTF_8);
     private User user;
     private Error error;
-    private String firebaseToken;
-
     private Login login;
 
     public LoginManager() {
 
     }
 
-    public boolean register(String id, String password, String sClass, String username) {
+    public boolean register(String id, String password, String sClass, String username) throws NoSuchAlgorithmException {
         final String[] res = new String[1];
         final boolean[] ok = new boolean[1];
-        new Thread(() -> {
-            System.out.println("Req!");
-            OkHttpClient client = new OkHttpClient();
-            if(SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
-                firebaseToken = FirebaseInstanceId.getInstance().getToken();
-                SplashActivity.sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", firebaseToken).apply();
-            } else {
-                firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "");
-            }
+        System.out.println("Req!");
+        OkHttpClient client = new OkHttpClient();
+        String firebaseToken;
+        if(SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
+            firebaseToken = FirebaseInstanceId.getInstance().getToken();
+            SplashActivity.sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", firebaseToken).apply();
+        } else {
+            firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "");
+        }
 
-            String url = null;
-            try {
-                url = "https://api.effnerapp.de/auth/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken;
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
+        String url = "https://auth.effnerapp.de/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken;
+        if(username != null && !username.isEmpty()) {
+            url += "&username=" + username;
+        }
 
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
 
-            if(username != null && !username.isEmpty()) {
-                url += "&username=" + username;
-            }
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                System.out.println("Res");
+                res[0] = Objects.requireNonNull(response.body()).string();
+                System.out.println(res[0]);
 
-            assert url != null;
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    System.out.println("Res");
-                    res[0] = Objects.requireNonNull(response.body()).string();
-                    System.out.println(res[0]);
-
-                    error = gson.fromJson(res[0], Error.class);
-                    if(error.getError() != null && !error.getError().isEmpty()) {
-                        ok[0] = false;
-                    } else {
-                        ok[0] = true;
-                        user = gson.fromJson(res[0], User.class);
-                    }
-
-                }
-
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                error = gson.fromJson(res[0], Error.class);
+                if(error.getError() != null && !error.getError().isEmpty()) {
                     ok[0] = false;
+                } else {
+                    ok[0] = true;
+                    user = gson.fromJson(res[0], User.class);
                 }
-            });
-        }).start();
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                ok[0] = false;
+            }
+
+        });
 
         while (res[0] == null) {
             System.out.println("Waiting for LoginServer....");

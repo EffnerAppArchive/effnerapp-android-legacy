@@ -4,13 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.github.tlaabs.timetableview.Schedule;
 import com.github.tlaabs.timetableview.Time;
@@ -85,7 +79,6 @@ public class TimetableActivity extends AppCompatActivity {
                        finish();
                     })
                     .setNegativeButton("Ok", (dialogInterface, i) -> finish());
-
             builder.show();
 
         }
@@ -102,24 +95,22 @@ public class TimetableActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.navigation_timetable_settings:
-                LayoutInflater inflater = getLayoutInflater();
-                View view = inflater.inflate(R.layout.timetable_settings_dialog, null);
-                int theme = THEME_HOLO_DARK;
-                ColorPickerDialog.Builder dialog = new ColorPickerDialog.Builder(this, THEME_DEVICE_DEFAULT_DARK)
-                        .setTitle("Wähle eine Farbe aus!")
-                        .setPreferenceName("APP_TIMETABLE_COLOR")
-                        .setPositiveButton("OK", (ColorEnvelopeListener) (envelope, fromUser) -> {
+        if (id == R.id.navigation_timetable_settings) {
+            LayoutInflater inflater = getLayoutInflater();
+            View view = inflater.inflate(R.layout.timetable_settings_dialog, null);
+            int theme = THEME_HOLO_DARK;
+            ColorPickerDialog.Builder dialog = new ColorPickerDialog.Builder(this, THEME_DEVICE_DEFAULT_DARK)
+                    .setTitle("Wähle eine Farbe aus!")
+                    .setPreferenceName("APP_TIMETABLE_COLOR")
+                    .setPositiveButton("OK", (ColorEnvelopeListener) (envelope, fromUser) -> {
 
-                        });
-                dialog.show();
+                    });
+            dialog.show();
 //                AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //                builder.setTitle("Stundenplan-Einstellungen")
 //                        .setView(view)
 //                        .setPositiveButton("OK", (dialogInterface, i) -> {})
 //                        .show();
-                break;
         }
         return super.onOptionsItemSelected(item);
     }
