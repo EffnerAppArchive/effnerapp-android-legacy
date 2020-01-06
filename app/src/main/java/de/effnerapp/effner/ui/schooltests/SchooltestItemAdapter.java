@@ -13,25 +13,34 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.model.Schooltest;
 
 public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAdapter.ItemViewHolder> {
     private List<Schooltest> schooltests;
+    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        LinearLayout linearLayout;
-        TextView textView;
-        ImageView pic;
+        CardView dateCard;
+        LinearLayout dateLayout;
+        TextView dateText;
+        CardView itemCard;
+        LinearLayout itemLayout;
+        TextView itemText;
         public ItemViewHolder(View view) {
             super(view);
-            cardView = view.findViewById(R.id.cardview);
-            linearLayout = view.findViewById(R.id.linearlayout);
-            textView = view.findViewById(R.id.term_item_view);
-            pic = view.findViewById(R.id.term_pic_view);
+            dateCard = view.findViewById(R.id.date_card);
+            dateLayout = view.findViewById(R.id.date_layout);
+            dateText = view.findViewById(R.id.term_date_view);
+            itemCard = view.findViewById(R.id.item_card);
+            itemLayout = view.findViewById(R.id.item_layout);
+            itemText = view.findViewById(R.id.term_item_view);
         }
     }
 
@@ -44,8 +53,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     public SchooltestItemAdapter.ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.term_item, parent, false);
-        ItemViewHolder vh = new ItemViewHolder(v);
-        return vh;
+        return new ItemViewHolder(v);
     }
 
     @Override
@@ -54,42 +62,53 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     }
 
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
-        String text = schooltests.get(i).getDate() + ": " + schooltests.get(i).getName();
-        int light_red = Color.rgb(242, 143, 143);
-        int light_blue = Color.rgb(193, 230, 225);
-        int blue = Color.rgb(88, 102, 130);
-        int light_green = Color.rgb(154, 255, 120);
-        int light_yellow = Color.rgb(249, 255, 130);
-        int orange = Color.rgb(255, 145, 82);
+        String text = schooltests.get(i).getName();
+        String date = schooltests.get(i).getDate();
+        int light_red = Color.argb(150,242, 143, 143);
+        int light_blue = Color.argb(150,193, 230, 225);
+        int blue = Color.argb(150,88, 102, 130);
+        int light_green = Color.argb(150,154, 255, 120);
+        int light_yellow = Color.argb(150,249, 255, 130);
+        int orange = Color.argb(150,255, 145, 82);
+        int green = Color.argb(100,66, 219, 132);
+        int red = Color.argb(100,240, 139, 139);
+
         switch (schooltests.get(i).getType()) {
             case "SA":
-                holder.linearLayout.setBackgroundColor(light_red);
+                holder.itemLayout.setBackgroundColor(light_red);
                 break;
             case "KA":
-                holder.linearLayout.setBackgroundColor(orange);
+                holder.itemLayout.setBackgroundColor(orange);
                 break;
             case "EX":
-                holder.linearLayout.setBackgroundColor(blue);
+                holder.itemLayout.setBackgroundColor(blue);
                 break;
             case "JGST":
-                holder.linearLayout.setBackgroundColor(light_blue);
+                holder.itemLayout.setBackgroundColor(light_blue);
                 break;
             case "TEST":
-                holder.linearLayout.setBackgroundColor(light_green);
+                holder.itemLayout.setBackgroundColor(light_green);
                 break;
             case "Debatte":
-                holder.linearLayout.setBackgroundColor(light_yellow);
+                holder.itemLayout.setBackgroundColor(light_yellow);
                 break;
         }
+        Date sDate = null;
+        try {
+            sDate = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        assert sDate != null;
+        if(sDate.after(new Date())) {
+            holder.dateLayout.setBackgroundColor(green);
+        } else {
+            holder.itemLayout.getBackground().setAlpha(100);
+            holder.dateLayout.setBackgroundColor(red);
+        }
+        holder.dateText.setText(date);
+        holder.itemText.setText(text);
 
-
-        holder.textView.setText(text);
-
-        holder.cardView.setOnClickListener(view -> {
-
-            Toast toast = Toast.makeText(view.getContext(), schooltests.get(i).getName(), Toast.LENGTH_SHORT);
-            toast.show();
-        });
     }
 
     @Override

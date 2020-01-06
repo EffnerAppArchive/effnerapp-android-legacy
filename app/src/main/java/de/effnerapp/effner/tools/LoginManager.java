@@ -41,6 +41,7 @@ public class LoginManager {
         final boolean[] ok = new boolean[1];
         System.out.println("Req!");
         OkHttpClient client = new OkHttpClient();
+
         String firebaseToken;
         if(SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
             firebaseToken = FirebaseInstanceId.getInstance().getToken();
@@ -49,7 +50,7 @@ public class LoginManager {
             firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "");
         }
 
-        String url = "https://auth.effnerapp.de/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken;
+        String url = "https://login.effnerapp.de/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken;
         if(username != null && !username.isEmpty()) {
             url += "&username=" + username;
         }
@@ -118,7 +119,7 @@ public class LoginManager {
             System.out.println("Req!");
             OkHttpClient client = new OkHttpClient();
 
-            String url = "https://api.effnerapp.de/auth/login" + "?token=" + token;
+            String url = "https://login.effnerapp.de/login" + "?token=" + token;
 
             Request request = new Request.Builder()
                     .url(url)

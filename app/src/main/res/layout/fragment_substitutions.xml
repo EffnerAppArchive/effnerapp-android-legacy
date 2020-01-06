@@ -33,7 +33,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/description_no_subs_image"
         android:src="@drawable/ic_cancel_black_24dp"
-        android:tint="#3F3D3D"
+        android:tint="#333D3D"
         android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView

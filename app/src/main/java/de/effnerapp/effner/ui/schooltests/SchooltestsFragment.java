@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.applandeo.materialcalendarview.CalendarView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,8 +39,6 @@ public class SchooltestsFragment extends Fragment {
         List<Schooltest> schooltests = new ArrayList<>(Arrays.asList(SplashActivity.getDataStack().getSchooltests()));
         adapter = new SchooltestItemAdapter(schooltests);
         recyclerView.setAdapter(adapter);
-
-        //CalendarView calendarView = view.findViewById(R.id.calendarView);
 
         return view;
     }

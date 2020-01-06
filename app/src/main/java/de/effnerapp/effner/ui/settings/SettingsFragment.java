@@ -126,24 +126,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             buildPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         aboutCategory.addPreference(buildPreference);
-        Preference easteregg = new Preference(context);
-        if(MainActivity.eaTriggered) {
-            easteregg.setKey("easteregg");
-            easteregg.setTitle("Maths sucks!");
-            easteregg.setSummary("Latin sucks too!");
-            easteregg.setIcon(R.drawable.feelsbadman);
-            aboutCategory.addPreference(easteregg);
-        }
-        new Thread(() -> {
-            while(MainActivity.eaTriggered) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            aboutCategory.removePreference(easteregg);
-        }).start();
+
         PreferenceCategory accountCategory = new PreferenceCategory(context);
         accountCategory.setKey("account");
         accountCategory.setTitle("Account");
@@ -188,9 +171,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         buildPreference.setOnPreferenceClickListener(preference -> {
-            Toast toast = Toast.makeText(context, "Effner v" + version + ", Build: " + build, Toast.LENGTH_SHORT);
-            toast.show();
-
+            Toast.makeText(context, "Effner v" + version + ", Build: " + build, Toast.LENGTH_SHORT).show();
             return true;
         });
 
@@ -221,20 +202,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 if (sharedPreferences.getBoolean(key, false)) {
                     FirebaseMessaging.getInstance().subscribeToTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass).addOnCompleteListener(task -> {
                         boolean success = task.isSuccessful();
-                        String msg = "NOTIFICATION_REGISTERED: " + success;
                         if(!success) {
                             notificationPreference.setEnabled(false);
                         }
-                        Toast.makeText(getPreferenceManager().getContext(), msg, Toast.LENGTH_LONG).show();
                     });
                 } else {
                     FirebaseMessaging.getInstance().unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass ).addOnCompleteListener(task -> {
                         boolean success = task.isSuccessful();
-                        String msg = "NOTIFICATION_UNREGISTERED: " + success;
                         if(!success) {
                             notificationPreference.setEnabled(false);
                         }
-                        Toast.makeText(getPreferenceManager().getContext(), msg, Toast.LENGTH_LONG).show();
                     });
                 }
                 break;

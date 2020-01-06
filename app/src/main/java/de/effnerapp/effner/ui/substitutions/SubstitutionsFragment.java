@@ -98,10 +98,10 @@ public class SubstitutionsFragment extends Fragment {
 
                             //Get Klasse from SharedPreferences
                             String persoKlasse = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
-                            if (klasse.getName().equals(persoKlasse)) { // here your Klasse
+                            if (klasse.getName().equals(persoKlasse)) {
 
-                                ImageView feelsbadman = container.findViewById(R.id.no_subs_image);
-                                feelsbadman.setVisibility(View.INVISIBLE);
+                                ImageView noSubs = container.findViewById(R.id.no_subs_image);
+                                noSubs.setVisibility(View.INVISIBLE);
 
                                 for (Vertretung vertretung : klasse.getVertretungen()) {
 
@@ -141,12 +141,23 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
+                if(SplashActivity.getVertretungen().getMainInformation().size() > 0) {
+                    size++;
+                    List<Item> items = new ArrayList<>();
+                    System.out.println(position);
+                    for(String info : SplashActivity.getVertretungen().getMainInformation().get(position)) {
+                        items.add(new Item(info));
+                    }
+                    Head head = new Head("Informationen für die ganze Schule", items);
+
+                    heads.add(head);
+                }
+
+                ImageView noSubs = container.findViewById(R.id.no_subs_image);
                 if (size == 0) {
-                    ImageView feelsbadman = container.findViewById(R.id.no_subs_image);
-                    feelsbadman.setVisibility(View.VISIBLE);
+                    noSubs.setVisibility(View.VISIBLE);
                 } else {
-                    ImageView feelsbadman = container.findViewById(R.id. no_subs_image);
-                    feelsbadman.setVisibility(View.INVISIBLE);
+                    noSubs.setVisibility(View.INVISIBLE);
                 }
 
                 ItemAdapter itemAdapter = new ItemAdapter(heads);
