@@ -33,4 +33,5 @@
     <string name="description_effnerapp_logo_image">EffnerApp</string>v
     <string name="description_term_icon_image">Term</string>
     <string name="description_term_text">Term</string>
+    <string name="description_date_text">Date</string>
 </resources>

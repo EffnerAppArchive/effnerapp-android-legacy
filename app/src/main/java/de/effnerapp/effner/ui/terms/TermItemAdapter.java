@@ -21,16 +21,20 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
     private List<Term> terms;
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        LinearLayout linearLayout;
-        TextView textView;
-        ImageView pic;
+        CardView dateCard;
+        LinearLayout dateLayout;
+        TextView dateText;
+        CardView itemCard;
+        LinearLayout itemLayout;
+        TextView itemText;
         public ItemViewHolder(View view) {
             super(view);
-            cardView = view.findViewById(R.id.cardview);
-            linearLayout = view.findViewById(R.id.linearlayout);
-            textView = view.findViewById(R.id.term_item_view);
-            pic = view.findViewById(R.id.term_pic_view);
+            dateCard = view.findViewById(R.id.date_card);
+            dateLayout = view.findViewById(R.id.date_layout);
+            dateText = view.findViewById(R.id.term_date_view);
+            itemCard = view.findViewById(R.id.item_card);
+            itemLayout = view.findViewById(R.id.item_layout);
+            itemText = view.findViewById(R.id.term_item_view);
         }
     }
 
@@ -43,8 +47,7 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
     public TermItemAdapter.ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.term_item, parent, false);
-        ItemViewHolder vh = new ItemViewHolder(v);
-        return vh;
+        return new ItemViewHolder(v);
     }
 
     @Override
@@ -54,9 +57,13 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
 
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
         int light_blue = Color.rgb(193, 230, 225);
-        String text = terms.get(i).getDate() + ": " + terms.get(i).getName();
-        holder.textView.setText(text);
-        holder.linearLayout.setBackgroundColor(light_blue);
+        int green = Color.argb(100,66, 219, 132);
+        String text = terms.get(i).getName();
+        String date = terms.get(i).getDate();
+        holder.dateText.setText(date);
+        holder.itemText.setText(text);
+        holder.dateLayout.setBackgroundColor(green);
+        holder.itemLayout.setBackgroundColor(light_blue);
     }
 
     @Override

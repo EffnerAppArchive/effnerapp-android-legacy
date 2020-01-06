@@ -24,6 +24,8 @@ public class Vertretungen {
     private DSBMobile dsbMobile;
     private String url;
     private List<Tag> table;
+    private List<String> tage = new ArrayList<>();
+    private List<List<String>> mainInformation = new ArrayList<>();
 
 
     public Vertretungen() {
@@ -32,9 +34,7 @@ public class Vertretungen {
 
     public boolean login(String username, String password) {
         try {
-            new Thread(() -> {
-                dsbMobile = new DSBMobile(username, password);
-            }).start();
+            new Thread(() -> dsbMobile = new DSBMobile(username, password)).start();
             return true;
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -49,13 +49,7 @@ public class Vertretungen {
         new Thread(() -> {
             ArrayList<DSBMobile.TimeTable> timeTables = dsbMobile.getTimeTables();
             url = timeTables.get(0).getDetail();
-            String date = timeTables.get(0).getDate();
-            //url = dsbApi.get();
-            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Berlin"));
-            String dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm", Locale.GERMANY).format(calendar.getTime());
-
             List<Tag> days = new ArrayList<>();
-
             Document document = null;
             try {
                 document = Jsoup.connect(url).get();
@@ -66,16 +60,31 @@ public class Vertretungen {
             String[] tableN = new String[10];
             int tableI = 0;
 
+            assert document != null;
             for (Element a : document.select("a")) {
                 if (a.text().equals("") || a.text() == null) continue;
                 Log.d("Vertretungen", "Days: " + a.text());
+                tage.add(tableI, a.text());
                 tableI++;
                 tableN[tableI] = a.text();
             }
 
             tableI = 0;
 
+            mainInformation.clear();
+            int i = 0;
             for (Element table : document.select("table")) {
+                if(table.attr("class").equals("F")) {
+                    if(i == 0 || i == 2) {
+                        List<String> items = new ArrayList<>();
+                        for(Element th : table.select("th")) {
+                            items.add(th.text());
+                        }
+                        mainInformation.add(items);
+                    }
+                    i++;
+                }
+
                 if (table.text().contains("vertreten durch")) {
                     tableI++;
                     Tag tag = new Tag(tableN[tableI]);
@@ -130,4 +139,13 @@ public class Vertretungen {
     public List<Tag> getTable() {
         return table;
     }
+
+    public List<String> getTage() {
+        return tage;
+    }
+
+    public List<List<String>> getMainInformation() {
+        return mainInformation;
+    }
+
 }
