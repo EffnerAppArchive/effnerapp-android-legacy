@@ -238,6 +238,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onResume() {
         super.onResume();
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        MainActivity.pageTextView.setText(R.string.title_settings);
     }
 
     @Override

@@ -3,9 +3,12 @@ package de.effnerapp.effner;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,10 +16,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-import com.github.tlaabs.timetableview.Schedule;
-import com.github.tlaabs.timetableview.Time;
-import com.github.tlaabs.timetableview.TimetableView;
+//import com.github.tlaabs.timetableview.Schedule;
+//import com.github.tlaabs.timetableview.Time;
+//import com.github.tlaabs.timetableview.TimetableView;
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
@@ -25,6 +29,9 @@ import java.util.Objects;
 
 import de.effnerapp.effner.data.model.TDay;
 import de.effnerapp.effner.data.utils.DigitsParser;
+import de.effnerapp.effner.ui.models.timetableview.Schedule;
+import de.effnerapp.effner.ui.models.timetableview.Time;
+import de.effnerapp.effner.ui.models.timetableview.TimetableView;
 
 import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
 import static android.app.AlertDialog.THEME_HOLO_DARK;
@@ -37,6 +44,7 @@ public class TimetableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
+//        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         timetable = findViewById(R.id.timetable);
@@ -58,7 +66,7 @@ public class TimetableActivity extends AppCompatActivity {
                     assert text != null;
                     if(!text.equals("-")) {
                         Schedule schedule = new Schedule();
-                        schedule.setClassTitle(text);
+                        schedule.setSubject(text);
                         schedule.setDay(dayI);
                         schedule.setStartTime(new Time(i + 1, 0));
                         schedule.setEndTime(new Time(i + 2, 0));
@@ -66,8 +74,12 @@ public class TimetableActivity extends AppCompatActivity {
                     }
                 }
             }
-
             timetable.add(schedules);
+            if(SplashActivity.sharedPreferences.contains("APP_TIMETABLE_COLOR")) {
+                for (int i = 0; i < timetable.getStickerViewSize(); i++) {
+                    timetable.setColor(i, SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620));
+                }
+            }
         } else {
             Log.d("TA", "Timetable empty!");
             AlertDialog.Builder builder = new AlertDialog.Builder(this)
@@ -95,22 +107,23 @@ public class TimetableActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.navigation_timetable_settings) {
-            LayoutInflater inflater = getLayoutInflater();
-            View view = inflater.inflate(R.layout.timetable_settings_dialog, null);
-            int theme = THEME_HOLO_DARK;
+        if(id == R.id.navigation_timetable_color) {
             ColorPickerDialog.Builder dialog = new ColorPickerDialog.Builder(this, THEME_DEVICE_DEFAULT_DARK)
                     .setTitle("Wähle eine Farbe aus!")
-                    .setPreferenceName("APP_TIMETABLE_COLOR")
                     .setPositiveButton("OK", (ColorEnvelopeListener) (envelope, fromUser) -> {
-
-                    });
+                        SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
+                        editor.putInt("APP_TIMETABLE_COLOR", envelope.getColor()).apply();
+                        for (int i = 0; i < timetable.getStickerViewSize(); i++) {
+                            timetable.setColor(i, envelope.getColor());
+                        }
+                    })
+                    .setNegativeButton("Abbrechen", null);
             dialog.show();
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                builder.setTitle("Stundenplan-Einstellungen")
-//                        .setView(view)
-//                        .setPositiveButton("OK", (dialogInterface, i) -> {})
-//                        .show();
+        } else if(id == R.id.navigation_timetable_settings_reset) {
+            SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
+            editor.remove("APP_TIMETABLE_COLOR").apply();
+            timetable.updateStickerColor();
+            Toast.makeText(this, "Einstellungen zurückgesetzt!", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);
     }
