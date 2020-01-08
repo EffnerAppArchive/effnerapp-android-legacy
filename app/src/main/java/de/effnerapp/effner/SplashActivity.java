@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         new Thread(() -> {
             boolean registered;
             if(sharedPreferences.getBoolean("APP_REGISTERED", false)) {
-                LoginManager loginManager = new LoginManager();
+                LoginManager loginManager = new LoginManager(this);
                 registered = loginManager.login(sharedPreferences.getString("APP_AUTH_TOKEN", ""));
             } else {
                 registered = false;

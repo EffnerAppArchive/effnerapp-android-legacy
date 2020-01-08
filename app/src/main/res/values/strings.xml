@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Effner</string>
-    <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_register">Registrieren</string>
     <string name="prompt_email">Email</string>
@@ -31,8 +30,10 @@
     <string name="title_timetable_settings_reset">Einstellungen zurücksetzen</string>
 
     <string name="description_no_subs_image">No Subs!</string>
-    <string name="description_effnerapp_logo_image">EffnerApp</string>v
+    <string name="description_effnerapp_logo_image">EffnerApp</string>
     <string name="description_term_icon_image">Term</string>
     <string name="description_term_text">Term</string>
     <string name="description_date_text">Date</string>
+
+    <string name="button_back">Zurück</string>
 </resources>

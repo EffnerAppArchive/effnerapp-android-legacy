@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 dialog.show();
                 new Thread(() -> {
-                    LoginManager loginManager = new LoginManager();
+                    LoginManager loginManager = new LoginManager(this);
                     boolean login = false;
                     try {
                         login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), sClass.getSelectedItem().toString(), username.getText().toString());
