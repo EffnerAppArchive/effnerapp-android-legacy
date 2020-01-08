@@ -9,7 +9,12 @@
         <item>Fr</item>
     </string-array>
 
-    <string-array name="timetable_sticker_colors">
-        <item>#FFF</item>
+    <string-array name="default_header_title">
+        <item />
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
     </string-array>
 </resources>

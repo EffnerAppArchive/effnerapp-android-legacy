@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/title_timetable" />
 
-    <com.github.tlaabs.timetableview.TimetableView
+    <de.effnerapp.effner.ui.models.timetableview.TimetableView
         android:id="@+id/timetable"
         android:layout_width="match_parent"
         android:layout_height="0dp"

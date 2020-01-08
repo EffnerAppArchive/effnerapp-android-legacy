@@ -141,10 +141,9 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                if(SplashActivity.getVertretungen().getMainInformation().size() > 0) {
+                if(SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
                     size++;
                     List<Item> items = new ArrayList<>();
-                    System.out.println(position);
                     for(String info : SplashActivity.getVertretungen().getMainInformation().get(position)) {
                         items.add(new Item(info));
                     }
