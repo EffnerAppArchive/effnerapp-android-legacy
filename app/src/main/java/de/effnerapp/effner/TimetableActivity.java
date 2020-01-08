@@ -5,22 +5,23 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-//import com.github.tlaabs.timetableview.Schedule;
-//import com.github.tlaabs.timetableview.Time;
-//import com.github.tlaabs.timetableview.TimetableView;
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
@@ -34,7 +35,6 @@ import de.effnerapp.effner.ui.models.timetableview.Time;
 import de.effnerapp.effner.ui.models.timetableview.TimetableView;
 
 import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
-import static android.app.AlertDialog.THEME_HOLO_DARK;
 
 
 public class TimetableActivity extends AppCompatActivity {
@@ -44,9 +44,19 @@ public class TimetableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
-//        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Button backButton = findViewById(R.id.back);
+        backButton.setOnClickListener(v -> finish());
+        if(SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
+            Log.d("TA", "Nightmode: ON");
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            Log.d("TA", "Nightmode: OFF");
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         timetable = findViewById(R.id.timetable);
         if(SplashActivity.getDataStack().getTimetable().length != 0 && !isEmpty(SplashActivity.getDataStack().getTimetable())) {
             Log.d("TA", "Generating timetable!");
@@ -82,7 +92,7 @@ public class TimetableActivity extends AppCompatActivity {
             }
         } else {
             Log.d("TA", "Timetable empty!");
-            AlertDialog.Builder builder = new AlertDialog.Builder(this)
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setTitle("Kein Stundenplan!")
                     .setMessage("Für deine Klasse wurde noch kein Stundenplan eingereicht!\nMöchtest du einen Stundenplan hochlanden?")
                     .setCancelable(false)
@@ -91,8 +101,7 @@ public class TimetableActivity extends AppCompatActivity {
                        finish();
                     })
                     .setNegativeButton("Ok", (dialogInterface, i) -> finish());
-            builder.show();
-
+            dialog.show();
         }
 
     }

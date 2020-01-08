@@ -1,6 +1,9 @@
 package de.effnerapp.effner.tools;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -31,9 +34,14 @@ public class LoginManager {
     private User user;
     private Error error;
     private Login login;
+    PackageInfo info;
 
-    public LoginManager() {
-
+    public LoginManager(Context context) {
+        try {
+            info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean register(String id, String password, String sClass, String username) throws NoSuchAlgorithmException {
@@ -50,7 +58,7 @@ public class LoginManager {
             firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "");
         }
 
-        String url = "https://login.effnerapp.de/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken;
+        String url = "https://login.effnerapp.de/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken + "&app_version=" + info.versionName;
         if(username != null && !username.isEmpty()) {
             url += "&username=" + username;
         }
@@ -119,7 +127,7 @@ public class LoginManager {
             System.out.println("Req!");
             OkHttpClient client = new OkHttpClient();
 
-            String url = "https://login.effnerapp.de/login" + "?token=" + token;
+            String url = "https://login.effnerapp.de/login" + "?token=" + token + "&app_version=" + info.versionName;
 
             Request request = new Request.Builder()
                     .url(url)
