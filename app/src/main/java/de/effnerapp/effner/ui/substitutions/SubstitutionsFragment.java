@@ -1,6 +1,5 @@
 package de.effnerapp.effner.ui.substitutions;
 
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +40,6 @@ public class SubstitutionsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,11 +70,9 @@ public class SubstitutionsFragment extends Fragment {
             i++;
         }
 
-
         // Spinner
         Spinner spinner = view.findViewById(R.id.spinner);
 
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, dates);
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, dates);
 
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -98,7 +94,7 @@ public class SubstitutionsFragment extends Fragment {
 
                             //Get Klasse from SharedPreferences
                             String persoKlasse = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
-                            if (klasse.getName().equals(persoKlasse)) {
+                            if (klasse.getName().contains(persoKlasse)) {
 
                                 ImageView noSubs = container.findViewById(R.id.no_subs_image);
                                 noSubs.setVisibility(View.INVISIBLE);
@@ -141,7 +137,7 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                if(SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
+                if(SplashActivity.getVertretungen().getMainInformation().size() == position + 1 && SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
                     size++;
                     List<Item> items = new ArrayList<>();
                     for(String info : SplashActivity.getVertretungen().getMainInformation().get(position)) {

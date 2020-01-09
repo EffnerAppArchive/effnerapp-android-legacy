@@ -49,8 +49,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MainActivity.class));
             } else {
                 startActivity(new Intent(this, LoginActivity.class));
-                SplashActivity.this.runOnUiThread(() -> Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show());
-
             }
             finish();
         }).start();
