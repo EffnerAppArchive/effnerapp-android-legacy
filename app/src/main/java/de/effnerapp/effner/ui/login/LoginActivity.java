@@ -1,5 +1,6 @@
 package de.effnerapp.effner.ui.login;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,6 +54,20 @@ public class LoginActivity extends AppCompatActivity {
         List<String> items = new ArrayList<>(getClasses());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         sClass.setAdapter(adapter);
+        if(SplashActivity.sharedPreferences.contains("APP_AUTH_TOKEN")) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setTitle("Ein Account existiert bereits!")
+                    .setMessage("Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl!\nDu kannst es entweder erneut versuchen oder dich neu anmelden!")
+                    .setPositiveButton("Neu versuchen", (dialogInterface, i) -> {
+                        startActivity(new Intent(this, SplashActivity.class));
+                        finish();
+                    })
+                    .setNegativeButton("Neu Anmelden", (dialogInterface, i) -> Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show());
+                    dialog.show();
+        } else {
+            Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show();
+        }
         loginButton.setOnClickListener(v -> {
             if(!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
                 dialog = new ProgressDialog(this);

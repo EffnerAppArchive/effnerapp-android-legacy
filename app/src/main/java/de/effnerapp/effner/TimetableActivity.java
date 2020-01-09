@@ -5,24 +5,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.skydoves.colorpickerview.ColorPickerDialog;
+import com.skydoves.colorpickerview.ColorPickerView;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import java.util.ArrayList;
@@ -119,14 +115,14 @@ public class TimetableActivity extends AppCompatActivity {
         if(id == R.id.navigation_timetable_color) {
             ColorPickerDialog.Builder dialog = new ColorPickerDialog.Builder(this, THEME_DEVICE_DEFAULT_DARK)
                     .setTitle("Wähle eine Farbe aus!")
+                    .setNegativeButton("Abbrechen", null)
                     .setPositiveButton("OK", (ColorEnvelopeListener) (envelope, fromUser) -> {
                         SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
                         editor.putInt("APP_TIMETABLE_COLOR", envelope.getColor()).apply();
                         for (int i = 0; i < timetable.getStickerViewSize(); i++) {
                             timetable.setColor(i, envelope.getColor());
                         }
-                    })
-                    .setNegativeButton("Abbrechen", null);
+            });
             dialog.show();
         } else if(id == R.id.navigation_timetable_settings_reset) {
             SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
