@@ -17,9 +17,11 @@
         <activity android:name=".TimetableActivity" />
         <activity
             android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_login" />
         <activity
             android:name=".SplashActivity"
+            android:screenOrientation="portrait"
             android:label="Effner"
             android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
@@ -30,6 +32,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

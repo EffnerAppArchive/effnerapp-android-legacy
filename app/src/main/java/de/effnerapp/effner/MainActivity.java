@@ -1,17 +1,31 @@
 package de.effnerapp.effner;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
     public static TextView pageTextView;
@@ -36,6 +50,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         pageTextView = findViewById(R.id.page_text);
 
+        Bundle bundle = getIntent().getExtras();
+        System.out.println(bundle == null);
+        System.out.println("############################################");
+        if(bundle != null) {
+            if(bundle.getString("NOTIFICATION_CONTENT") != null) {
+                System.out.println("yee");
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                        .setTitle(bundle.getString("NOTIFICATION_TITLE"))
+                        .setMessage(bundle.getString("NOTIFICATION_CONTENT"))
+                        .setCancelable(false)
+                        .setPositiveButton("OK", null);
+                dialog.show();
+            }
+        }
+
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
+        notificationManager.cancelAll();
 
     }
 

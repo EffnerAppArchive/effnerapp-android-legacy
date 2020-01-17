@@ -95,14 +95,11 @@ public class SubstitutionsFragment extends Fragment {
                             //Get Klasse from SharedPreferences
                             String persoKlasse = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
                             if (klasse.getName().contains(persoKlasse)) {
-
                                 ImageView noSubs = container.findViewById(R.id.no_subs_image);
                                 noSubs.setVisibility(View.INVISIBLE);
 
                                 for (Vertretung vertretung : klasse.getVertretungen()) {
-
                                     size++;
-
                                     //set body
                                     List<Item> items = new ArrayList<>();
                                     items.add(new Item("Ausfall: " + vertretung.getLehrkraft()));
@@ -128,16 +125,13 @@ public class SubstitutionsFragment extends Fragment {
                                     Head head = new Head(header.toString(), items);
 
                                     heads.add(head);
-
-
                                 }
-
                             }
                         }
                     }
                 }
 
-                if(SplashActivity.getVertretungen().getMainInformation().size() == position + 1 && SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
+                if(SplashActivity.getVertretungen().getMainInformation().size() >= position + 1 && SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
                     size++;
                     List<Item> items = new ArrayList<>();
                     for(String info : SplashActivity.getVertretungen().getMainInformation().get(position)) {

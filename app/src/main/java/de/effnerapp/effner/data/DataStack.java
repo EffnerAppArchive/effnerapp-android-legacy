@@ -10,6 +10,7 @@ public class DataStack {
     private Term[] terms;
     private Holidays[] holidays;
     private TDay[] timetable;
+    private String campuscafe_url;
 
     public DataStack() {
 
@@ -35,8 +36,8 @@ public class DataStack {
         return holidays;
     }
 
-    public void setHolydays(Holidays[] holydays) {
-        this.holidays = holydays;
+    public void setHolidays(Holidays[] holidays) {
+        this.holidays = holidays;
     }
 
     public TDay[] getTimetable() {
@@ -46,4 +47,13 @@ public class DataStack {
     public void setTimetable(TDay[] timetable) {
         this.timetable = timetable;
     }
+
+    public String getCampuscafe_url() {
+        return campuscafe_url;
+    }
+
+    public void setCampuscafe_url(String campuscafe_url) {
+        this.campuscafe_url = campuscafe_url;
+    }
+
 }
