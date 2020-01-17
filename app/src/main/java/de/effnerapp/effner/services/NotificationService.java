@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,9 +19,10 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
@@ -33,10 +35,14 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         Log.d(TAG, "From: "+ remoteMessage.getFrom());
-        Log.d(TAG, "Message Body: "+ Objects.requireNonNull(remoteMessage.getNotification()).getBody() + ":" + remoteMessage.getMessageId());
+        Log.d(TAG, "Message Body: "+ Objects.requireNonNull(remoteMessage.getNotification()).getBody() + " : " + remoteMessage.getMessageId());
+        Bundle bundle = new Bundle();
+        bundle.putString("NOTIFICATION_TITLE", remoteMessage.getNotification().getTitle());
+        bundle.putString("NOTIFICATION_CONTENT", remoteMessage.getNotification().getBody());
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        intent.putExtras(bundle);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.app_logo)
                 .setColor(getResources().getColor(R.color.white))
@@ -49,7 +55,7 @@ public class NotificationService extends FirebaseMessagingService {
         if(remoteMessage.getNotification().getImageUrl() != null) {
             try {
                 URL url = new URL(remoteMessage.getNotification().getImageUrl().toString());
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
@@ -67,7 +73,7 @@ public class NotificationService extends FirebaseMessagingService {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(2, builder.build());
+        notificationManager.notify(1, builder.build());
     }
 
     private void createNotificationChannel() {

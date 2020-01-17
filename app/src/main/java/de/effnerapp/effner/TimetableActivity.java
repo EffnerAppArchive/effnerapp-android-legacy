@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,7 @@ import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
 public class TimetableActivity extends AppCompatActivity {
     private TimetableView timetable;
     private DigitsParser digitsParser = new DigitsParser();
+    private Button backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class TimetableActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Button backButton = findViewById(R.id.back);
+        backButton = findViewById(R.id.back);
         backButton.setOnClickListener(v -> finish());
         if(SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
             Log.d("TA", "Nightmode: ON");
@@ -82,6 +84,7 @@ public class TimetableActivity extends AppCompatActivity {
             }
             timetable.add(schedules);
             if(SplashActivity.sharedPreferences.contains("APP_TIMETABLE_COLOR")) {
+                backButton.getBackground().setColorFilter(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620), PorterDuff.Mode.SRC_ATOP);
                 for (int i = 0; i < timetable.getStickerViewSize(); i++) {
                     timetable.setColor(i, SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620));
                 }
@@ -119,6 +122,7 @@ public class TimetableActivity extends AppCompatActivity {
                     .setPositiveButton("OK", (ColorEnvelopeListener) (envelope, fromUser) -> {
                         SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
                         editor.putInt("APP_TIMETABLE_COLOR", envelope.getColor()).apply();
+                        backButton.getBackground().setColorFilter(envelope.getColor(), PorterDuff.Mode.SRC_ATOP);
                         for (int i = 0; i < timetable.getStickerViewSize(); i++) {
                             timetable.setColor(i, envelope.getColor());
                         }
@@ -128,6 +132,7 @@ public class TimetableActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
             editor.remove("APP_TIMETABLE_COLOR").apply();
             timetable.updateStickerColor();
+            backButton.getBackground().setColorFilter(-14200620, PorterDuff.Mode.SRC_ATOP);
             Toast.makeText(this, "Einstellungen zurückgesetzt!", Toast.LENGTH_LONG).show();
         }
         return super.onOptionsItemSelected(item);

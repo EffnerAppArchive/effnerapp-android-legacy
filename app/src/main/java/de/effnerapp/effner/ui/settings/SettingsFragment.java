@@ -1,5 +1,6 @@
 package de.effnerapp.effner.ui.settings;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,7 +47,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
         PreferenceCategory notificationCategory = new PreferenceCategory(context);
         notificationCategory.setKey("notifications_category");
-        notificationCategory.setTitle("Notifications");
+        notificationCategory.setTitle("Benachrichtigungen");
         screen.addPreference(notificationCategory);
 
         notificationPreference = new SwitchPreference(context);
@@ -75,31 +76,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
         miscCategory.addPreference(nightModePreference);
 
-        PreferenceCategory securityCategory = new PreferenceCategory(context);
-        securityCategory.setKey("security");
-        securityCategory.setTitle("Sicherheit");
-        screen.addPreference(securityCategory);
-
-        SwitchPreference anonymStatsPreference = new SwitchPreference(context);
-        anonymStatsPreference.setKey("anonymStats");
-        anonymStatsPreference.setTitle("Sende Anonyme Nutzungsstatistiken");
-        anonymStatsPreference.setSummary("Hilf anonym die App zu verbessern ❤");
-        anonymStatsPreference.setDefaultValue(false);
-        anonymStatsPreference.setIcon(R.drawable.ic_timeline_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
-            anonymStatsPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
-        }
-        securityCategory.addPreference(anonymStatsPreference);
-
         PreferenceCategory aboutCategory = new PreferenceCategory(context);
         aboutCategory.setKey("about");
         aboutCategory.setTitle("Über");
         screen.addPreference(aboutCategory);
 
         Preference feedbackPreference = new Preference(context);
-        feedbackPreference.setKey("issues");
-        feedbackPreference.setTitle("Brauchst du Hilfe?");
-        feedbackPreference.setSummary("Schreibe doch eine E-Mail");
+        feedbackPreference.setKey("feedback");
+        feedbackPreference.setTitle("Ein kleines Feedback? ❤");
+        feedbackPreference.setSummary("Was findest du gut und was sollen wir besser machen?");
         feedbackPreference.setIcon(R.drawable.ic_mail_black_24dp);
         if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             feedbackPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
@@ -119,13 +104,22 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         Preference buildPreference = new Preference(context);
         buildPreference.setKey("build");
-        buildPreference.setTitle("Build Version");
+        buildPreference.setTitle("App-Version");
         buildPreference.setSummary(version);
-        buildPreference.setIcon(R.drawable.ic_info_black_24dp);
+        buildPreference.setIcon(R.drawable.ic_build_black_24dp);
         if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             buildPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         aboutCategory.addPreference(buildPreference);
+
+        Preference creditsPreference = new Preference(context);
+        creditsPreference.setKey("credits");
+        creditsPreference.setTitle("Über die App");
+        creditsPreference.setIcon(R.drawable.ic_info_black_24dp);
+        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            creditsPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
+        aboutCategory.addPreference(creditsPreference);
 
         PreferenceCategory accountCategory = new PreferenceCategory(context);
         accountCategory.setKey("account");
@@ -145,7 +139,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Preference usernamePreference = new Preference(context);
         usernamePreference.setKey("username");
         usernamePreference.setTitle("Dein Benutzername");
-        usernamePreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", "NONE"));
+        usernamePreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", "Du besitzt keinen Benutzernamen"));
         usernamePreference.setIcon(R.drawable.ic_account_circle_black_24dp);
         if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             usernamePreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
@@ -164,8 +158,22 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         feedbackPreference.setOnPreferenceClickListener(preference -> {
 
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:info@effnerapp.de"));
-            startActivity(browserIntent);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context)
+                    .setCancelable(false)
+                    .setTitle("Feedback")
+                    .setMessage("Melde dich bei uns in der Klasse 10B oder schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊👌")
+                    .setPositiveButton("E-Mail senden", (dialogInterface, i) -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:info@effnerapp.de"));
+                        startActivity(browserIntent);
+                    })
+                    .setNegativeButton("App bewerten", (dialogInterface, i) -> {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=de.effnerapp.effner"));
+                        startActivity(browserIntent);
+                    })
+                    .setNeutralButton("Ok", null);
+
+            dialog.show();
+
 
             return true;
         });
@@ -187,6 +195,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
             startActivity(new Intent(getContext(), SplashActivity.class));
             Objects.requireNonNull(getActivity()).finish();
+            return true;
+        });
+
+        creditsPreference.setOnPreferenceClickListener(preference -> {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context)
+                    .setCancelable(false)
+                    .setTitle("Über die App")
+                    .setMessage("EffnerApp - by Luis & Sebi!\n\n\n\n© 2020 EffnerApp - Danke an alle Mitwirkenden ❤")
+                    .setPositiveButton("Schließen", null);
+            dialog.show();
             return true;
         });
 
