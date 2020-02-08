@@ -51,11 +51,8 @@ public class MainActivity extends AppCompatActivity {
         pageTextView = findViewById(R.id.page_text);
 
         Bundle bundle = getIntent().getExtras();
-        System.out.println(bundle == null);
-        System.out.println("############################################");
         if(bundle != null) {
             if(bundle.getString("NOTIFICATION_CONTENT") != null) {
-                System.out.println("yee");
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                         .setTitle(bundle.getString("NOTIFICATION_TITLE"))
                         .setMessage(bundle.getString("NOTIFICATION_CONTENT"))

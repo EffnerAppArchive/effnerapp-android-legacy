@@ -5,10 +5,13 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import java.util.List;
 
 public class Head extends ExpandableGroup<Item> {
-
-    public Head(String title, List<Item> items) {
+    private int color;
+    public Head(String title, List<Item> items, int color) {
         super(title, items);
+        this.color = color;
     }
 
-
+    public int getColor() {
+        return color;
+    }
 }

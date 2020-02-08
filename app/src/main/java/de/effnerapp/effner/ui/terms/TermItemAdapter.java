@@ -12,13 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.model.Term;
 
 public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemViewHolder> {
     private List<Term> terms;
+    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         CardView dateCard;
@@ -58,12 +63,28 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
         int light_blue = Color.rgb(193, 230, 225);
         int green = Color.argb(100,66, 219, 132);
+        int red = Color.argb(100,240, 139, 139);
+        
         String text = terms.get(i).getName();
         String date = terms.get(i).getDate();
         holder.dateText.setText(date);
         holder.itemText.setText(text);
         holder.dateLayout.setBackgroundColor(green);
         holder.itemLayout.setBackgroundColor(light_blue);
+
+        Date sDate = null;
+        try {
+            sDate = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        assert sDate != null;
+        if(sDate.after(new Date())) {
+            holder.dateLayout.setBackgroundColor(green);
+        } else {
+            holder.itemLayout.getBackground().setAlpha(100);
+            holder.dateLayout.setBackgroundColor(red);
+        }
     }
 
     @Override

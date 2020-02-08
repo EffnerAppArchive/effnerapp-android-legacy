@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
         String headerText = "Noch 42 Tage bis zum Wochenende!";
         try {
 
-            headerText = new HeaderTextParser().parse(dataStack.getHolidays());
+            headerText = new HeaderTextParser().parse(dataStack.getHolidays(), SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", ""));
         } catch (ParseException e) {
             e.printStackTrace();
         }

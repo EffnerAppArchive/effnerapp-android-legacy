@@ -1,9 +1,12 @@
 package de.effnerapp.effner.tools;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -15,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.json.Error;
@@ -32,11 +37,15 @@ public class LoginManager {
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private HashGenerator hashGenerator = new HashGenerator("SHA-256", UTF_8);
     private User user;
-    private Error error;
     private Login login;
-    PackageInfo info;
+    private Context context;
+    private Activity activity;
+    private PackageInfo info;
+    private boolean isError;
 
-    public LoginManager(Context context) {
+    public LoginManager(Context context, Activity activity) {
+        this.context = context;
+        this.activity = activity;
         try {
             info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
@@ -44,55 +53,79 @@ public class LoginManager {
         }
     }
 
-    public boolean register(String id, String password, String sClass, String username) throws NoSuchAlgorithmException {
-        final String[] res = new String[1];
-        final boolean[] ok = new boolean[1];
-        System.out.println("Req!");
+    public boolean register(String id, String password, String sClass, String username) {
         OkHttpClient client = new OkHttpClient();
+        Timer timer = new Timer();
+        final String[] res = new String[1];
+        final Boolean[] ok = new Boolean[1];
 
-        String firebaseToken;
-        if(SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
-            firebaseToken = FirebaseInstanceId.getInstance().getToken();
-            SplashActivity.sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", firebaseToken).apply();
-        } else {
-            firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "");
-        }
+        new Thread(() -> {
+            String url = buildUrl(id, password, sClass, username);
 
-        String url = "https://login.effnerapp.de/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken + "&app_version=" + info.versionName;
-        if(username != null && !username.isEmpty()) {
-            url += "&username=" + username;
-        }
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
 
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    res[0] = Objects.requireNonNull(response.body()).string();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                System.out.println("Res");
-                res[0] = Objects.requireNonNull(response.body()).string();
-                System.out.println(res[0]);
+                    Error error = gson.fromJson(res[0], Error.class);
+                    if(error.getError() != null && !error.getError().isEmpty()) {
+                        isError = true;
+                        ok[0] = false;
+                    } else {
+                        isError = false;
+                        timer.cancel();
+                        ok[0] = true;
+                        user = gson.fromJson(res[0], User.class);
+                    }
 
-                error = gson.fromJson(res[0], Error.class);
-                if(error.getError() != null && !error.getError().isEmpty()) {
-                    ok[0] = false;
-                } else {
-                    ok[0] = true;
-                    user = gson.fromJson(res[0], User.class);
                 }
 
-            }
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("LoginMgr", "Exception: " + e);
+                    ok[0] = false;
+                    isError = true;
+                }
+            });
+        }).start();
 
+        timer.schedule(new TimerTask() {
+            int i = 0;
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                ok[0] = false;
+            public void run() {
+                if(i >= 10) {
+                     Log.e("LoginMgr", "Connection timed out!");
+                     AlertDialog.Builder builder =  new AlertDialog.Builder(context)
+                            .setTitle("Verbindung fehlgeschlagen!")
+                            .setCancelable(false)
+                            .setMessage("Die Verbindung zu unseren Servern ist fehlgeschlagen! Bitte überprüfe deine Internetverbindung oder versuche es später erneut!")
+                            .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> {
+                                for(Call call : client.dispatcher().queuedCalls()) {
+                                    call.cancel();
+                                }
+                                activity.recreate();
+                            })
+                            .setPositiveButton("Ok", (dialogInterface, i) -> {
+                                for(Call call : client.dispatcher().queuedCalls()) {
+                                    call.cancel();
+                                }
+                                activity.finish();
+                            });
+                     activity.runOnUiThread(builder::show);
+                     isError = true;
+                     timer.cancel();
+                     return;
+                }
+                i++;
             }
+        },0,1000);
 
-        });
-
-        while (res[0] == null) {
-            System.out.println("Waiting for LoginServer....");
+        while (res[0] == null && ok[0] == null) {
+            Log.d("LoginMgr", "Waiting for Server...");
             try {
                 Thread.sleep(250);
             } catch (InterruptedException e) {
@@ -120,12 +153,13 @@ public class LoginManager {
     }
 
     public boolean login(String token) {
+        OkHttpClient client = new OkHttpClient();
+        Timer timer = new Timer();
         final String[] res = new String[1];
-        final boolean[] ok = new boolean[1];
+        final Boolean[] ok = new Boolean[1];
 
         new Thread(() -> {
-            System.out.println("Req!");
-            OkHttpClient client = new OkHttpClient();
+            Log.d("LoginMgr", "Logging in...");
 
             String url = "https://login.effnerapp.de/login" + "?token=" + token + "&app_version=" + info.versionName;
 
@@ -136,30 +170,75 @@ public class LoginManager {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    System.out.println("Res");
                     res[0] = Objects.requireNonNull(response.body()).string();
-                    System.out.println(res[0]);
 
-                    error = gson.fromJson(res[0], Error.class);
+                    Error error = gson.fromJson(res[0], Error.class);
                     if(error.getError() != null && !error.getError().isEmpty()) {
                         ok[0] = false;
+                        isError = true;
+                        timer.cancel();
+                        AlertDialog.Builder builder =  new AlertDialog.Builder(context)
+                                .setTitle("Anmeldevorgang fehlgeschlagen!")
+                                .setCancelable(false)
+                                .setMessage("Error: " + error.getError())
+                                .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> call.cancel())
+                                .setPositiveButton("Ok", (dialogInterface, i) -> {
+                                    call.cancel();
+                                    activity.recreate();
+                                });
+                        activity.runOnUiThread(builder::show);
+
                     } else {
+                        isError = false;
+                        timer.cancel();
                         ok[0] = true;
                         login = gson.fromJson(res[0], Login.class);
                         ok[0] = login.isLogin();
                     }
-
                 }
 
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("LoginMgr", "Exception: " + e);
+                    isError = true;
                     ok[0] = false;
                 }
             });
         }).start();
 
-        while (res[0] == null) {
-            System.out.println("Waiting for LoginServer....");
+        timer.schedule(new TimerTask() {
+            int i = 0;
+            @Override
+            public void run() {
+                if(i >= 10) {
+                    Log.e("LoginMgr", "Connection timed out!");
+                    AlertDialog.Builder builder =  new AlertDialog.Builder(context)
+                            .setTitle("Verbindung fehlgeschlagen!")
+                            .setCancelable(false)
+                            .setMessage("Die Verbindung zu unseren Servern ist fehlgeschlagen! Bitte überprüfe deine Internetverbindung oder versuche es später erneut!")
+                            .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> {
+                                for(Call call : client.dispatcher().queuedCalls()) {
+                                    call.cancel();
+                                }
+                                activity.recreate();
+                            })
+                            .setPositiveButton("Ok", (dialogInterface, i) -> {
+                                for(Call call : client.dispatcher().queuedCalls()) {
+                                    call.cancel();
+                                }
+                                activity.finish();
+                            });
+                    activity.runOnUiThread(builder::show);
+                    isError = true;
+                    timer.cancel();
+                    return;
+                }
+                i++;
+            }
+        },0,1000);
+
+        while (res[0] == null && ok[0] == null) {
+            Log.d("LoginMgr", "Waiting for Server...");
             try {
                 Thread.sleep(250);
             } catch (InterruptedException e) {
@@ -170,7 +249,28 @@ public class LoginManager {
         return ok[0];
     }
 
-    public Error getError() {
-        return error;
+    private String buildUrl(String id, String password, String sClass, String username) {
+        String url = null;
+        String firebaseToken;
+        if(SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
+            firebaseToken = FirebaseInstanceId.getInstance().getToken();
+            SplashActivity.sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", firebaseToken).apply();
+        } else {
+            firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "");
+        }
+        try {
+            url = "https://login.effnerapp.de/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken + "&app_version=" + info.versionName;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        if(username != null && !username.isEmpty()) {
+            url += "&username=" + username;
+        }
+
+        return url;
+    }
+
+    public boolean isError() {
+        return isError;
     }
 }

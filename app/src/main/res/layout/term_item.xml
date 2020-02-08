@@ -66,7 +66,7 @@
                 android:gravity="center"
                 android:text="@string/description_term_text"
                 android:textColor="#000"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
