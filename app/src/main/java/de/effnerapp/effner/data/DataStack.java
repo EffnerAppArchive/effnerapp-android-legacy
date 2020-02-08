@@ -1,5 +1,6 @@
 package de.effnerapp.effner.data;
 
+import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.Holidays;
 import de.effnerapp.effner.data.model.Schooltest;
 import de.effnerapp.effner.data.model.TDay;
@@ -10,7 +11,7 @@ public class DataStack {
     private Term[] terms;
     private Holidays[] holidays;
     private TDay[] timetable;
-    private String campuscafe_url;
+    private Content[] content;
 
     public DataStack() {
 
@@ -48,12 +49,21 @@ public class DataStack {
         this.timetable = timetable;
     }
 
-    public String getCampuscafe_url() {
-        return campuscafe_url;
+    public Content[] getContent() {
+        return content;
     }
 
-    public void setCampuscafe_url(String campuscafe_url) {
-        this.campuscafe_url = campuscafe_url;
+    public void setContent(Content[] content) {
+        this.content = content;
     }
 
+    public Content getContentByKey(String key) {
+        for(Content c : content) {
+            if(c.getName().equals(key)) {
+                return c;
+            }
+        }
+
+        return null;
+    }
 }

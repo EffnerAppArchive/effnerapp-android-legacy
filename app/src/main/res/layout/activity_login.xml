@@ -12,6 +12,24 @@
     tools:context=".ui.login.LoginActivity">
 
     <EditText
+        android:id="@+id/course"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="8dp"
+        android:hint="@string/prompt_course"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/sClass"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.36" />
+
+    <EditText
         android:id="@+id/effnerapp_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -45,11 +63,12 @@
 
     <Spinner
         android:id="@+id/sClass"
-        android:layout_width="204dp"
+        android:layout_width="175dp"
         android:layout_height="46dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.57"
+        app:layout_constraintHorizontal_bias="0.443"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
@@ -80,10 +99,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/sClass"
         app:layout_constraintEnd_toStartOf="@+id/sClass"
-        app:layout_constraintHorizontal_bias="0.727"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.73" />
+        app:layout_constraintVertical_bias="0.692" />
 
     <EditText
         android:id="@+id/password"

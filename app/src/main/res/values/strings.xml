@@ -16,6 +16,7 @@
     <string name="prompt_id">EffnerApp-ID</string>
     <string name="prompt_password">Passwort</string>
     <string name="prompt_class">Klasse</string>
+    <string name="prompt_course">Kurs</string>
     <string name="prompt_username">Optional: Benutzername</string>
     <string name="action_sign_in">Anmelden</string>
 

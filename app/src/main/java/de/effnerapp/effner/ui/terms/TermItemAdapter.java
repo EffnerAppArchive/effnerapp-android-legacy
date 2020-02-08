@@ -61,9 +61,9 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
     }
 
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
-        int light_blue = Color.rgb(193, 230, 225);
-        int green = Color.argb(100,66, 219, 132);
-        int red = Color.argb(100,240, 139, 139);
+        int light_blue = Color.argb(150,89, 255, 249);
+        int green = Color.argb(100,16, 158, 0);
+        int red = Color.argb(100, 158, 0, 0);
         
         String text = terms.get(i).getName();
         String date = terms.get(i).getDate();

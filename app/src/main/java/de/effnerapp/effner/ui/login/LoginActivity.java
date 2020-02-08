@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText effnerappID = findViewById(R.id.effnerapp_id);
         EditText password = findViewById(R.id.password);
         Spinner sClass = findViewById(R.id.sClass);
+        EditText course = findViewById(R.id.course);
         EditText username = findViewById(R.id.username);
         Button loginButton = findViewById(R.id.login);
         List<String> items = new ArrayList<>(getClasses());
@@ -67,8 +70,25 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show();
         }
+
+        sClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(sClass.getItemAtPosition(position).equals("11") || sClass.getItemAtPosition(position).equals("12")) {
+                    course.setVisibility(View.VISIBLE);
+                } else {
+                    course.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                course.setVisibility(View.INVISIBLE);
+            }
+        });
+
         loginButton.setOnClickListener(v -> {
-            if(!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
+            if(!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty() && ((sClass.getSelectedItem().toString().equals("11") || sClass.getSelectedItem().toString().equals("12")) && !course.getText().toString().isEmpty()) || (!sClass.getSelectedItem().toString().equals("11") && !sClass.getSelectedItem().toString().equals("12"))) {
                 dialog = new ProgressDialog(this);
                 dialog.setTitle("Prüfe Daten...");
                 dialog.setMessage("Die Anmeldedaten werden überprüft!");
@@ -77,7 +97,8 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.show();
                 new Thread(() -> {
                     LoginManager loginManager = new LoginManager(this, this);
-                    boolean login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), sClass.getSelectedItem().toString(), username.getText().toString());
+                    String classS = sClass.getSelectedItem().toString().equals("11") ||  sClass.getSelectedItem().toString().equals("12") ?  sClass.getSelectedItem().toString() + "Q" + course.getText().toString() :  sClass.getSelectedItem().toString();
+                    boolean login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), classS, username.getText().toString());
                     if(login) {
                         runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show());
                         dialog.cancel();
