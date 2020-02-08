@@ -30,9 +30,16 @@ public class HeadViewHandler extends GroupViewHolder {
 
     public void bind(Head head) {
         mTextView.setText(head.getTitle());
-        if(SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
-            mTextView.setTextColor(Color.WHITE);
-            arrow.setColorFilter(Color.WHITE);
+        if(head.getColor() != Color.BLACK) {
+            mTextView.setTextColor(head.getColor());
+            if(SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
+                arrow.setColorFilter(Color.WHITE);
+            }
+        } else {
+            if(SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
+                mTextView.setTextColor(Color.WHITE);
+                arrow.setColorFilter(Color.WHITE);
+            }
         }
     }
 
@@ -56,7 +63,7 @@ public class HeadViewHandler extends GroupViewHolder {
 
     private void animateCollapse() {
         RotateAnimation rotate =
-                new RotateAnimation(180, 360, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
+                new RotateAnimation(180, 360 + 360, RELATIVE_TO_SELF, 0.5f, RELATIVE_TO_SELF, 0.5f);
         rotate.setDuration(300);
         rotate.setFillAfter(true);
         arrow.setAnimation(rotate);

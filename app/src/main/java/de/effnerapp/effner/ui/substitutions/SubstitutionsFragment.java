@@ -1,5 +1,6 @@
 package de.effnerapp.effner.ui.substitutions;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -122,7 +123,7 @@ public class SubstitutionsFragment extends Fragment {
                                         }
                                     }
                                     //set header
-                                    Head head = new Head(header.toString(), items);
+                                    Head head = new Head(header.toString(), items, Color.BLACK);
 
                                     heads.add(head);
                                 }
@@ -134,10 +135,12 @@ public class SubstitutionsFragment extends Fragment {
                 if(SplashActivity.getVertretungen().getMainInformation().size() >= position + 1 && SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
                     size++;
                     List<Item> items = new ArrayList<>();
+                    StringBuilder sb = new StringBuilder();
                     for(String info : SplashActivity.getVertretungen().getMainInformation().get(position)) {
-                        items.add(new Item(info));
+                        sb.append(info).append("\n");
                     }
-                    Head head = new Head("Informationen für die ganze Schule", items);
+                    items.add(new Item(sb.toString()));
+                    Head head = new Head("Informationen für die ganze Schule", items, Color.rgb(0, 150, 136));
 
                     heads.add(head);
                 }

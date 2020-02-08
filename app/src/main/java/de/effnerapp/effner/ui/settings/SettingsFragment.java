@@ -1,6 +1,8 @@
 package de.effnerapp.effner.ui.settings;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,6 +41,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     private static final String KEY_PREF_LOGOUT = "logout";
     private SwitchPreference notificationPreference;
     private String sClass;
+    private int DEV_MODE_ENABLE_COUNT = 0;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         MainActivity.pageTextView.setText(R.string.title_settings);
@@ -105,7 +109,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Preference buildPreference = new Preference(context);
         buildPreference.setKey("build");
         buildPreference.setTitle("App-Version");
-        buildPreference.setSummary(version);
+        buildPreference.setSummary("Version: " + version + ", Build: " + build);
         buildPreference.setIcon(R.drawable.ic_build_black_24dp);
         if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             buildPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
@@ -156,6 +160,30 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
         accountCategory.addPreference(logoutPreference);
 
+        PreferenceCategory developerCategory = new PreferenceCategory(context);
+        developerCategory.setKey("developer");
+        developerCategory.setTitle("Entwickleroptionen");
+        Preference tokenPreference = new Preference(context);
+        if(SplashActivity.sharedPreferences.getBoolean("APP_DEV_MODE_ENABLE", false)) {
+            screen.addPreference(developerCategory);
+            tokenPreference.setKey("token");
+            tokenPreference.setIcon(R.drawable.ic_developer_mode_black_24dp);
+            if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+                tokenPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+            }
+            tokenPreference.setTitle("App-Token");
+            tokenPreference.setSummary(SplashActivity.sharedPreferences.getString("APP_AUTH_TOKEN", ""));
+            developerCategory.addPreference(tokenPreference);
+
+            tokenPreference.setOnPreferenceClickListener(preference -> {
+                Toast.makeText(context, "Der Token wurde kopiert!", Toast.LENGTH_LONG).show();
+                ClipboardManager clipboardManager = (ClipboardManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("Effner_APP_TOKEN", SplashActivity.sharedPreferences.getString("APP_AUTH_TOKEN", ""));
+                assert clipboardManager != null;
+                clipboardManager.setPrimaryClip(clipData);
+                return true;
+            });
+        }
         feedbackPreference.setOnPreferenceClickListener(preference -> {
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
@@ -179,7 +207,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         buildPreference.setOnPreferenceClickListener(preference -> {
-            Toast.makeText(context, "Effner v" + version + ", Build: " + build, Toast.LENGTH_SHORT).show();
+            if(SplashActivity.sharedPreferences.getBoolean("APP_DEV_MODE_ENABLE", false)) {
+                Toast.makeText(context, "Der Entwicklermodus ist schon aktiviert!", Toast.LENGTH_LONG).show();
+            } else {
+                DEV_MODE_ENABLE_COUNT++;
+                if(DEV_MODE_ENABLE_COUNT > 5 && DEV_MODE_ENABLE_COUNT < 10) {
+                    Toast.makeText(context, "Sie sind in " + (10 - DEV_MODE_ENABLE_COUNT) + " Schritten ein Entwickler!", Toast.LENGTH_LONG).show();
+                } else if(DEV_MODE_ENABLE_COUNT >= 10) {
+                    Toast.makeText(context, "Der Entwicklermodus ist jetzt aktiviert!", Toast.LENGTH_LONG).show();
+                    SplashActivity.sharedPreferences.edit().putBoolean("APP_DEV_MODE_ENABLE", true).apply();
+                }
+            }
             return true;
         });
 
@@ -264,6 +302,4 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         super.onPause();
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
-
-
 }

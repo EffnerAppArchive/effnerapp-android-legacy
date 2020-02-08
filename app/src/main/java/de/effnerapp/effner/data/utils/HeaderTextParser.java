@@ -17,7 +17,7 @@ public class HeaderTextParser {
 
     }
 
-    public String parse(Holidays[] holidays) throws ParseException {
+    public String parse(Holidays[] holidays, String username) throws ParseException {
         String headerText = "false";
         int days2weekend = 42;
         for (Holidays holiday : holidays) {
@@ -67,6 +67,10 @@ public class HeaderTextParser {
             } else {
                 headerText = "Noch " + days2weekend + " Tage bis zum Wochenende!";
             }
+        }
+
+        if(username != null && !username.isEmpty()) {
+            headerText = "Hallo " + username + "! " + headerText;
         }
         return headerText;
     }

@@ -17,10 +17,11 @@
             android:id="@+id/headertextview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="42 Tage\nbis zum Wochenende!"
             android:textAlignment="center"
-            android:textSize="30sp"
-            android:layout_centerInParent="true" />
+            android:textColor="#009688"
+            android:textSize="24sp" />
     </RelativeLayout>
 
     <GridLayout

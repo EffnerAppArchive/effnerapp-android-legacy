@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import java.text.ParseException;
 
@@ -37,8 +36,8 @@ public class SplashActivity extends AppCompatActivity {
 
         new Thread(() -> {
             boolean registered;
+            LoginManager loginManager = new LoginManager(this, this);
             if(sharedPreferences.getBoolean("APP_REGISTERED", false)) {
-                LoginManager loginManager = new LoginManager(this);
                 registered = loginManager.login(sharedPreferences.getString("APP_AUTH_TOKEN", ""));
             } else {
                 registered = false;
@@ -46,11 +45,20 @@ public class SplashActivity extends AppCompatActivity {
             Log.d("SPLASH", "APP_REGISTERED: " + registered);
             if(registered) {
                 loadData();
-                startActivity(new Intent(this, MainActivity.class));
-            } else {
+                Intent intent = new Intent(this, MainActivity.class);
+                Bundle bundle = getIntent().getExtras();
+                if(bundle != null) {
+                    if(bundle.getString("NOTIFICATION_CONTENT") != null) {
+                        intent.putExtras(bundle);
+                    }
+                }
+
+                startActivity(intent);
+                finish();
+            } else if(!loginManager.isError()) {
                 startActivity(new Intent(this, LoginActivity.class));
+                finish();
             }
-            finish();
         }).start();
     }
 
@@ -106,15 +114,15 @@ public class SplashActivity extends AppCompatActivity {
         HeaderTextParser parser = new HeaderTextParser();
         String result = null;
         try {
-            result = parser.parse(dataStack.getHolidays());
+            result = parser.parse(dataStack.getHolidays(), sharedPreferences.getString("APP_USER_USERNAME", "") + "123");
         } catch (ParseException e) {
             e.printStackTrace();
         }
         Log.d("SPLASH", "HeaderText: " + result);
 
-        Log.d("SPLASH", "------------");
+        //Authentication on DSB-SERVER
         boolean login = vertretungen.login(sharedPreferences.getString("APP_DSB_LOGIN_ID",""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD",""));
-        Log.d("SPLASH", "Res: " + login);
+        Log.d("SPLASH", "Login: " + login);
         try {
             vertretungen.load();
         } catch (InterruptedException e) {
