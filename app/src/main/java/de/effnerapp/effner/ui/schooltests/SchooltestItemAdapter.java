@@ -64,14 +64,14 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
         String text = schooltests.get(i).getName();
         String date = schooltests.get(i).getDate();
-        int light_red = Color.argb(150,242, 143, 143);
-        int light_blue = Color.argb(150,193, 230, 225);
-        int blue = Color.argb(150,88, 102, 130);
-        int light_green = Color.argb(150,154, 255, 120);
-        int light_yellow = Color.argb(150,249, 255, 130);
-        int orange = Color.argb(150,255, 145, 82);
-        int green = Color.argb(100,66, 219, 132);
-        int red = Color.argb(100,240, 139, 139);
+        int light_red = Color.argb(150,255, 69, 69);
+        int light_blue = Color.argb(150,89, 255, 249);
+        int blue = Color.argb(150,112, 153, 255);
+        int light_green = Color.argb(150,170, 255, 150);
+        int light_yellow = Color.argb(150, 255, 215, 56);
+        int orange = Color.argb(150, 255, 157, 59);
+        int green = Color.argb(100,16, 158, 0);
+        int red = Color.argb(100, 158, 0, 0);
 
         switch (schooltests.get(i).getType()) {
             case "SA":

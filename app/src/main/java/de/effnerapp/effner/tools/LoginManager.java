@@ -74,6 +74,7 @@ public class LoginManager {
                     Error error = gson.fromJson(res[0], Error.class);
                     if(error.getError() != null && !error.getError().isEmpty()) {
                         isError = true;
+                        timer.cancel();
                         ok[0] = false;
                     } else {
                         isError = false;

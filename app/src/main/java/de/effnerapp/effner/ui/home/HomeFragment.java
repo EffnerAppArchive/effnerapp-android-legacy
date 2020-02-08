@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
         DataStack dataStack = SplashActivity.getDataStack();
         String headerText = "Noch 42 Tage bis zum Wochenende!";
         try {
-
             headerText = new HeaderTextParser().parse(dataStack.getHolidays(), SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", ""));
         } catch (ParseException e) {
             e.printStackTrace();
@@ -45,16 +44,12 @@ public class HomeFragment extends Fragment {
         headerTextView.setText(headerText);
 
         CardView sCard = root.findViewById(R.id.stundenplan_card);
-        CardView hCard = root.findViewById(R.id.hausaufgaben_card);
+        CardView iCard = root.findViewById(R.id.illness_doc_card);
         CardView cCard = root.findViewById(R.id.campuscafe_card);
         CardView subCard = root.findViewById(R.id.subs_card);
         sCard.setOnClickListener(view -> startActivity(new Intent(getContext(), TimetableActivity.class)));
-        hCard.setOnClickListener(view -> {
-            Snackbar snackbar = Snackbar.make(view,"Hier wird noch gearbeitet!",Snackbar.LENGTH_SHORT);
-            snackbar.setAction("Schließen", null) ;
-            snackbar.show();
-        });
-        cCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getCampuscafe_url()))));
+        iCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("illness_doc_1").getValue()))));
+        cCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("campus_cafe_url").getValue()))));
         subCard.setOnClickListener(view -> {
             NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
             navController.navigate(R.id.navigation_substitutions);
