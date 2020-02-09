@@ -7,8 +7,8 @@ android {
         applicationId "de.effnerapp.effner"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 17
-        versionName "alpha-1.2.10"
+        versionCode 19
+        versionName "alpha-1.2.12"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

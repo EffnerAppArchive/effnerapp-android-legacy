@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
+
+        String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
+        if(sClass.startsWith("11") || sClass.startsWith("12")) {
+            navView.getMenu().findItem(R.id.navigation_terms).setVisible(false);
+        }
+
         pageTextView = findViewById(R.id.page_text);
 
         Bundle bundle = getIntent().getExtras();
