@@ -29,6 +29,7 @@
     <string name="title_timetable">Stundenplan</string>
     <string name="title_color_timetable">Stundenplan-Farbe</string>
     <string name="title_timetable_settings_reset">Einstellungen zurücksetzen</string>
+    <string name="title_timetable_upload_timetable">Neuen Stundenplan hochladen</string>
 
     <string name="description_no_subs_image">No Subs!</string>
     <string name="description_effnerapp_logo_image">EffnerApp</string>

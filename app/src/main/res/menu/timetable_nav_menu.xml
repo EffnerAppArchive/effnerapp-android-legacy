@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/navigation_timetable_upload_timetable"
+        android:title="@string/title_timetable_upload_timetable" />
     <item
         android:id="@+id/navigation_timetable_color"
         android:title="@string/title_color_timetable" />

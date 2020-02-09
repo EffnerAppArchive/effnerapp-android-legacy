@@ -43,18 +43,20 @@ public class HomeFragment extends Fragment {
         }
         headerTextView.setText(headerText);
 
+        String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
+
         CardView sCard = root.findViewById(R.id.stundenplan_card);
         CardView iCard = root.findViewById(R.id.illness_doc_card);
         CardView cCard = root.findViewById(R.id.campuscafe_card);
         CardView subCard = root.findViewById(R.id.subs_card);
+
         sCard.setOnClickListener(view -> startActivity(new Intent(getContext(), TimetableActivity.class)));
-        iCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("illness_doc_1").getValue()))));
-        cCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("campus_cafe_url").getValue()))));
+        iCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_ILLNESS_DOC_" +  ((sClass.startsWith("11") || sClass.startsWith("12")) ? 1 : 0)).getValue()))));
+        cCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_FOOD_PLAN").getValue()))));
         subCard.setOnClickListener(view -> {
             NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
             navController.navigate(R.id.navigation_substitutions);
         });
-        
         return root;
     }
 }

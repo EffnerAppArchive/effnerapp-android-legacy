@@ -39,6 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     private static final String KEY_PREF_NOTIFICATION_SWITCH = "notifications";
     private static final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
     private static final String KEY_PREF_LOGOUT = "logout";
+    private static final String KEY_PREF_DEV_DOTIFICATIONS = "DEV_NOTIFICATIONS";
     private SwitchPreference notificationPreference;
     private String sClass;
     private int DEV_MODE_ENABLE_COUNT = 0;
@@ -160,12 +161,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
         accountCategory.addPreference(logoutPreference);
 
-        PreferenceCategory developerCategory = new PreferenceCategory(context);
-        developerCategory.setKey("developer");
-        developerCategory.setTitle("Entwickleroptionen");
-        Preference tokenPreference = new Preference(context);
-        if(SplashActivity.sharedPreferences.getBoolean("APP_DEV_MODE_ENABLE", false)) {
+        if (SplashActivity.sharedPreferences.getBoolean("APP_DEV_MODE_ENABLE", false)) {
+            PreferenceCategory developerCategory = new PreferenceCategory(context);
+            developerCategory.setKey("developer");
+            developerCategory.setTitle("Entwickleroptionen");
             screen.addPreference(developerCategory);
+
+            Preference tokenPreference = new Preference(context);
             tokenPreference.setKey("token");
             tokenPreference.setIcon(R.drawable.ic_developer_mode_black_24dp);
             if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
@@ -174,6 +176,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             tokenPreference.setTitle("App-Token");
             tokenPreference.setSummary(SplashActivity.sharedPreferences.getString("APP_AUTH_TOKEN", ""));
             developerCategory.addPreference(tokenPreference);
+
+            SwitchPreference devNotifications = new SwitchPreference(context);
+            devNotifications.setKey(KEY_PREF_DEV_DOTIFICATIONS);
+            devNotifications.setTitle("Developer Notification Channel");
+            devNotifications.setIcon(R.drawable.ic_perm_device_information_black_24dp);
+            if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+                tokenPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+            }
+            developerCategory.addPreference(devNotifications);
 
             tokenPreference.setOnPreferenceClickListener(preference -> {
                 Toast.makeText(context, "Der Token wurde kopiert!", Toast.LENGTH_LONG).show();
@@ -285,6 +296,24 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                         firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
                 startActivity(new Intent(getContext(), SplashActivity.class));
                 Objects.requireNonNull(getActivity()).finish();
+                break;
+            case KEY_PREF_DEV_DOTIFICATIONS:
+                Log.i("DEV_NOTIFICATION_SWITCH", "Preference value was updated to: " + sharedPreferences.getBoolean(key, false));
+                if (sharedPreferences.getBoolean(key, false)) {
+                    FirebaseMessaging.getInstance().subscribeToTopic("APP_DEVELOPER_NOTIFICATIONS").addOnCompleteListener(task -> {
+                        boolean success = task.isSuccessful();
+                        if (!success) {
+                            notificationPreference.setEnabled(false);
+                        }
+                    });
+                } else {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("APP_DEVELOPER_NOTIFICATIONS").addOnCompleteListener(task -> {
+                        boolean success = task.isSuccessful();
+                        if (!success) {
+                            notificationPreference.setEnabled(true);
+                        }
+                    });
+                }
                 break;
         }
     }

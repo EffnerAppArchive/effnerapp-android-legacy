@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     public static TextView pageTextView;
@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
+
+        String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
+        if(sClass.startsWith("11") || sClass.startsWith("12")) {
+            navView.getMenu().findItem(R.id.navigation_terms).setVisible(false);
+        }
+
         pageTextView = findViewById(R.id.page_text);
 
         Bundle bundle = getIntent().getExtras();
@@ -48,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("OK", null);
                 dialog.show();
+
+                bundle.remove("NOTIFICATION_TITLE");
+                bundle.remove("NOTIFICATION_CONTENT");
             }
         }
 

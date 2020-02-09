@@ -34,8 +34,8 @@ public class NotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        Log.d(TAG, "From: "+ remoteMessage.getFrom());
-        Log.d(TAG, "Message Body: "+ Objects.requireNonNull(remoteMessage.getNotification()).getBody() + " : " + remoteMessage.getMessageId());
+        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Log.d(TAG, "Message Body: " + Objects.requireNonNull(remoteMessage.getNotification()).getBody() + " : " + remoteMessage.getMessageId());
         Bundle bundle = new Bundle();
         bundle.putString("NOTIFICATION_TITLE", remoteMessage.getNotification().getTitle());
         bundle.putString("NOTIFICATION_CONTENT", remoteMessage.getNotification().getBody());

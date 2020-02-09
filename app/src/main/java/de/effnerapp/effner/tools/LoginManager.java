@@ -125,7 +125,7 @@ public class LoginManager {
             }
         },0,1000);
 
-        while (res[0] == null && ok[0] == null) {
+        while (res[0] == null || ok[0] == null) {
             Log.d("LoginMgr", "Waiting for Server...");
             try {
                 Thread.sleep(250);
@@ -238,7 +238,7 @@ public class LoginManager {
             }
         },0,1000);
 
-        while (res[0] == null && ok[0] == null) {
+        while (res[0] == null || ok[0] == null) {
             Log.d("LoginMgr", "Waiting for Server...");
             try {
                 Thread.sleep(250);

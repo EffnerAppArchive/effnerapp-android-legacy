@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
@@ -51,6 +52,7 @@ public class TimetableView extends LinearLayout {
     private Context context;
 
     HashMap<Integer, Sticker> stickers = new HashMap<>();
+    private List<TextView> items = new ArrayList<>();
     private int stickerCount = -1;
 
     private OnStickerSelectedListener stickerSelectedListener = null;
@@ -121,6 +123,7 @@ public class TimetableView extends LinearLayout {
             sticker.addTextView(tv);
             sticker.addSchedule(schedule);
             stickers.put(count, sticker);
+            items.add(tv);
             stickerBox.addView(tv);
         }
         updateStickerColor();
@@ -157,6 +160,12 @@ public class TimetableView extends LinearLayout {
 
     public void setColor(int i, int color) {
         Objects.requireNonNull(stickers.get(0)).getView().get(i).setBackgroundColor(color);
+    }
+
+    public void setTextColor(int color) {
+        for (TextView tv : items) {
+            tv.setTextColor(color);
+        }
     }
 
     public int getStickerViewSize() {
@@ -253,6 +262,10 @@ public class TimetableView extends LinearLayout {
         int p = (startTime + i) % 24;
         int res = p <= 12 ? p : p - 12;
         return res + "";
+    }
+
+    public List<TextView> getItems() {
+        return items;
     }
 
     static private int dp2Px(int dp) {
