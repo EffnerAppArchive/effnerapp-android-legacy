@@ -1,14 +1,8 @@
 package de.effnerapp.effner;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Point;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,8 +12,13 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+
 import com.skydoves.colorpickerview.ColorPickerDialog;
-import com.skydoves.colorpickerview.ColorPickerView;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class TimetableActivity extends AppCompatActivity {
         }
 
         timetable = findViewById(R.id.timetable);
-        if(SplashActivity.getDataStack().getTimetable().length != 0 && !isEmpty(SplashActivity.getDataStack().getTimetable())) {
+        if(SplashActivity.getDataStack().getTimetable() != null && SplashActivity.getDataStack().getTimetable().length != 0 && !isEmpty(SplashActivity.getDataStack().getTimetable())) {
             Log.d("TA", "Generating timetable!");
 
             ArrayList<Schedule> schedules = new ArrayList<>();
@@ -85,9 +84,11 @@ public class TimetableActivity extends AppCompatActivity {
             timetable.add(schedules);
             if(SplashActivity.sharedPreferences.contains("APP_TIMETABLE_COLOR")) {
                 backButton.getBackground().setColorFilter(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620), PorterDuff.Mode.SRC_ATOP);
+                backButton.setTextColor(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_TEXTCOLOR", Color.WHITE));
                 for (int i = 0; i < timetable.getStickerViewSize(); i++) {
                     timetable.setColor(i, SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620));
                 }
+                timetable.setTextColor(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_TEXTCOLOR", Color.WHITE));
             }
         } else {
             Log.d("TA", "Timetable empty!");
@@ -99,7 +100,7 @@ public class TimetableActivity extends AppCompatActivity {
                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.effnerapp.de")));
                        finish();
                     })
-                    .setNegativeButton("Ok", (dialogInterface, i) -> finish());
+                    .setNegativeButton("Abbrechen", (dialogInterface, i) -> finish());
             dialog.show();
         }
 
@@ -120,12 +121,17 @@ public class TimetableActivity extends AppCompatActivity {
                     .setTitle("Wähle eine Farbe aus!")
                     .setNegativeButton("Abbrechen", null)
                     .setPositiveButton("OK", (ColorEnvelopeListener) (envelope, fromUser) -> {
+                        int textColor = getTextColor(envelope.getColor());
                         SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
-                        editor.putInt("APP_TIMETABLE_COLOR", envelope.getColor()).apply();
+                        editor.putInt("APP_TIMETABLE_COLOR", envelope.getColor());
+                        editor.putInt("APP_TIMETABLE_TEXTCOLOR", textColor);
+                        editor.apply();
                         backButton.getBackground().setColorFilter(envelope.getColor(), PorterDuff.Mode.SRC_ATOP);
+                        backButton.setTextColor(textColor);
                         for (int i = 0; i < timetable.getStickerViewSize(); i++) {
                             timetable.setColor(i, envelope.getColor());
                         }
+                        timetable.setTextColor(textColor);
             });
             dialog.show();
         } else if(id == R.id.navigation_timetable_settings_reset) {
@@ -133,9 +139,36 @@ public class TimetableActivity extends AppCompatActivity {
             editor.remove("APP_TIMETABLE_COLOR").apply();
             timetable.updateStickerColor();
             backButton.getBackground().setColorFilter(-14200620, PorterDuff.Mode.SRC_ATOP);
+            backButton.setTextColor(Color.WHITE);
+            timetable.setTextColor(Color.WHITE);
             Toast.makeText(this, "Einstellungen zurückgesetzt!", Toast.LENGTH_LONG).show();
+        } else if (id == R.id.navigation_timetable_upload_timetable) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this)
+                    .setTitle("Neuer Stundenplan!")
+                    .setMessage("Du kannst einen neuen Stundenplan hochladen, wenn es Änderungen oder Fehler in der aktuellen Version gibt!")
+                    .setCancelable(false)
+                    .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.effnerapp.de")));
+                    })
+                    .setNegativeButton("Abbrechen", null);
+            dialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private int getTextColor(int color) {
+        float alpha = (color >> 24 & 0xFF) / 255.0F;
+        float red = (color >> 16 & 0xFF) / 255.0F;
+        float green = (color >> 8 & 0xFF) / 255.0F;
+        float blue = (color & 0xFF) / 255.0F;
+
+        double brightness = (0.21 * red) + (0.72 * green) + (0.07 * blue);
+        System.out.println(brightness);
+        if (brightness >= 0.9) {
+            return Color.BLACK;
+        } else {
+            return Color.WHITE;
+        }
     }
 
     private boolean isEmpty(TDay[] timetable) {

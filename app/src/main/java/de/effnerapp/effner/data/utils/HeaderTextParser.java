@@ -19,7 +19,7 @@ public class HeaderTextParser {
 
     public String parse(Holidays[] holidays, String username) throws ParseException {
         String headerText = "false";
-        int days2weekend = 42;
+        int days2weekend;
         for (Holidays holiday : holidays) {
             String name = holiday.getName();
             name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
@@ -36,41 +36,24 @@ public class HeaderTextParser {
         }
 
         if (headerText.equals("false")) {
-            boolean weekend = false;
-
-
-            switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-                case Calendar.MONDAY:
-                    days2weekend = 5;
-                    break;
-                case Calendar.TUESDAY:
-                    days2weekend = 4;
-                    break;
-                case Calendar.WEDNESDAY:
-                    days2weekend = 3;
-                    break;
-                case Calendar.THURSDAY:
-                    days2weekend = 2;
-                    break;
-                case Calendar.FRIDAY:
-                    days2weekend = 1;
-                    break;
+            int day = calendar.get(Calendar.DAY_OF_WEEK);
+            switch (day) {
                 case Calendar.SATURDAY:
                 case Calendar.SUNDAY:
-                    days2weekend = 0;
-                    weekend = true;
+                    headerText = "Es ist Wochenende!";
                     break;
-            }
-
-            if (weekend) {
-                headerText = "Es ist Wochenende!";
-            } else {
-                headerText = "Noch " + days2weekend + " Tage bis zum Wochenende!";
+                default:
+                    days2weekend = 7 - day;
+                    if (calendar.get(Calendar.HOUR_OF_DAY) >= 13) {
+                        days2weekend--;
+                        headerText = (days2weekend > 0) ? "Noch " + days2weekend + " Tage bis zum Wochenende!" : "Das Wochenende beginnt!";
+                    }
+                    break;
             }
         }
 
         if(username != null && !username.isEmpty()) {
-            headerText = "Hallo " + username + "! " + headerText;
+            headerText = "Hallo " + username + "!\n" + headerText;
         }
         return headerText;
     }

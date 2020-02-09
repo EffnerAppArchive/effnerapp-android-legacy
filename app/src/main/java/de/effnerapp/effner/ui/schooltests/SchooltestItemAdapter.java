@@ -4,10 +4,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -64,10 +62,10 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
         String text = schooltests.get(i).getName();
         String date = schooltests.get(i).getDate();
-        int light_red = Color.argb(150,255, 69, 69);
-        int light_blue = Color.argb(150,89, 255, 249);
+        int light_blue = Color.argb(150, 89, 213, 247);
+        int light_green = Color.argb(150, 107, 255, 154);
         int blue = Color.argb(150,112, 153, 255);
-        int light_green = Color.argb(150,170, 255, 150);
+        int dark_blue = Color.argb(150, 61, 63, 209);
         int light_yellow = Color.argb(150, 255, 215, 56);
         int orange = Color.argb(150, 255, 157, 59);
         int green = Color.argb(100,16, 158, 0);
@@ -75,7 +73,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
 
         switch (schooltests.get(i).getType()) {
             case "SA":
-                holder.itemLayout.setBackgroundColor(light_red);
+                holder.itemLayout.setBackgroundColor(light_blue);
                 break;
             case "KA":
                 holder.itemLayout.setBackgroundColor(orange);
@@ -84,7 +82,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
                 holder.itemLayout.setBackgroundColor(blue);
                 break;
             case "JGST":
-                holder.itemLayout.setBackgroundColor(light_blue);
+                holder.itemLayout.setBackgroundColor(dark_blue);
                 break;
             case "TEST":
                 holder.itemLayout.setBackgroundColor(light_green);

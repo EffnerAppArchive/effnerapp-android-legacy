@@ -16,9 +16,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
@@ -31,7 +36,7 @@ import de.effnerapp.effner.ui.substitutions.sections.Item;
 import de.effnerapp.effner.ui.substitutions.sections.ItemAdapter;
 
 public class SubstitutionsFragment extends Fragment {
-
+    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
     private List<Head> heads = new ArrayList<>();
     private RecyclerView recyclerView;
     private List<Tag> table;
@@ -78,6 +83,23 @@ public class SubstitutionsFragment extends Fragment {
 
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
+
+        int a = 0;
+        for (String date : dates) {
+            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 13) {
+                if (date.equals(format.format(new Date()))) {
+                    spinner.setSelection(a);
+                    break;
+                }
+            } else {
+                if (date.equals(format.format(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(24))))) {
+                    spinner.setSelection(a);
+                    break;
+                }
+            }
+            a++;
+        }
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
