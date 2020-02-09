@@ -56,7 +56,7 @@ public class TimetableActivity extends AppCompatActivity {
         }
 
         timetable = findViewById(R.id.timetable);
-        if(SplashActivity.getDataStack().getTimetable().length != 0 && !isEmpty(SplashActivity.getDataStack().getTimetable())) {
+        if(SplashActivity.getDataStack().getTimetable() != null && SplashActivity.getDataStack().getTimetable().length != 0 && !isEmpty(SplashActivity.getDataStack().getTimetable())) {
             Log.d("TA", "Generating timetable!");
 
             ArrayList<Schedule> schedules = new ArrayList<>();
