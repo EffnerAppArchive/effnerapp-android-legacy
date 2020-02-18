@@ -5,12 +5,7 @@ import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
-
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
-
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 
