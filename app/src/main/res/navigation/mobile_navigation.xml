@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="de.effnerapp.effner.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_substitutions"
+        android:name="de.effnerapp.effner.ui.substitutions.SubstitutionsFragment"
+        android:label="@string/title_substitutions"
+        tools:layout="@layout/fragment_substitutions" />
+
+    <fragment
+        android:id="@+id/navigation_schooltests"
+        android:name="de.effnerapp.effner.ui.schooltests.SchooltestsFragment"
+        android:label="@string/title_schooltests"
+        tools:layout="@layout/fragment_schooltests" />
+
+    <fragment
+        android:id="@+id/navigation_terms"
+        android:name="de.effnerapp.effner.ui.terms.TermsFragment"
+        android:label="@string/title_terms"
+        tools:layout="@layout/fragment_terms" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="de.effnerapp.effner.ui.settings.SettingsFragment"
+        android:label="@string/title_settings" />
+</navigation>

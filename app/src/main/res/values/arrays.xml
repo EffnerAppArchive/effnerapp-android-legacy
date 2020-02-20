@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="timetable_header_title">
+        <item />
+        <item>Mo</item>
+        <item>Di</item>
+        <item>Mi</item>
+        <item>Do</item>
+        <item>Fr</item>
+    </string-array>
+
+    <string-array name="default_header_title">
+        <item />
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+    </string-array>
+</resources>
