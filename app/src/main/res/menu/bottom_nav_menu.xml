@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+    <item
+        android:id="@+id/navigation_substitutions"
+        android:icon="@drawable/ic_view_list_black_24dp"
+        android:title="@string/title_substitutions" />
+    <item
+        android:id="@+id/navigation_schooltests"
+        android:icon="@drawable/ic_school_black_24dp"
+        android:title="@string/title_schooltests" />
+
+    <item
+        android:id="@+id/navigation_terms"
+        android:icon="@drawable/ic_event_available_black_24dp"
+        android:title="@string/title_terms" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/title_settings" />
+
+</menu>
