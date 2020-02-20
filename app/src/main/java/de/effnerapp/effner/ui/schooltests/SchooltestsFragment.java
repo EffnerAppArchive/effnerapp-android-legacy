@@ -1,7 +1,6 @@
 package de.effnerapp.effner.ui.schooltests;
 
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,8 +16,6 @@ import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,7 +51,7 @@ public class SchooltestsFragment extends Fragment {
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
 
 
-        if(!sClass.startsWith("11") && !sClass.startsWith("12")) {
+        if (!sClass.startsWith("11") && !sClass.startsWith("12")) {
             String[] items = {"Neuste zuerst", "Älteste zuerst"};
             ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, items);
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -70,7 +67,7 @@ public class SchooltestsFragment extends Fragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     Log.d("SchooltestSpinner", "Item: " + parent.getItemAtPosition(position));
-                    if(position == 1) {
+                    if (position == 1) {
                         List<Schooltest> list = new ArrayList<>(schooltests);
                         Collections.reverse(list);
                         adapter = new SchooltestItemAdapter(list);
@@ -83,9 +80,10 @@ public class SchooltestsFragment extends Fragment {
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-                    Log.w("SchooltestSpinner","Nothing selected!");
+                    Log.w("SchooltestSpinner", "Nothing selected!");
                 }
             });
+
         } else {
             recyclerView.setVisibility(View.INVISIBLE);
             spinner.setVisibility(View.INVISIBLE);
@@ -95,9 +93,10 @@ public class SchooltestsFragment extends Fragment {
             CardView h1_card = view.findViewById(R.id.h1_card);
             CardView h2_card = view.findViewById(R.id.h2_card);
             String key = "DATA_TOP_LEVEL_SA_DOC_" + (sClass.startsWith("11") ? 11 : 12) + "_";
+
             h1_card.setOnClickListener(v -> {
                 Content content = SplashActivity.getDataStack().getContentByKey(key + 1);
-                if(content != null) {
+                if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
                 } else {
                     Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_LONG).show();
@@ -105,7 +104,7 @@ public class SchooltestsFragment extends Fragment {
             });
             h2_card.setOnClickListener(v -> {
                 Content content = SplashActivity.getDataStack().getContentByKey(key + 2);
-                if(content != null) {
+                if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
                 } else {
                     Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_LONG).show();

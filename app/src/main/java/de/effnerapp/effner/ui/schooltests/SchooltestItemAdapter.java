@@ -1,6 +1,5 @@
 package de.effnerapp.effner.ui.schooltests;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,29 +26,11 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     private List<Schooltest> schooltests;
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
-        CardView dateCard;
-        LinearLayout dateLayout;
-        TextView dateText;
-        CardView itemCard;
-        LinearLayout itemLayout;
-        TextView itemText;
-        public ItemViewHolder(View view) {
-            super(view);
-            dateCard = view.findViewById(R.id.date_card);
-            dateLayout = view.findViewById(R.id.date_layout);
-            dateText = view.findViewById(R.id.term_date_view);
-            itemCard = view.findViewById(R.id.item_card);
-            itemLayout = view.findViewById(R.id.item_layout);
-            itemText = view.findViewById(R.id.term_item_view);
-        }
-    }
-
-    public SchooltestItemAdapter(List<Schooltest> schooltests) {
+    SchooltestItemAdapter(List<Schooltest> schooltests) {
         this.schooltests = schooltests;
     }
 
-
+    @NotNull
     @Override
     public SchooltestItemAdapter.ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
@@ -71,7 +54,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
             e.printStackTrace();
         }
         assert sDate != null;
-        if(sDate.after(new Date())) {
+        if (sDate.after(new Date())) {
             holder.dateLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
         } else {
             holder.itemLayout.getBackground().setAlpha(100);
@@ -85,5 +68,24 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     @Override
     public int getItemCount() {
         return schooltests.size();
+    }
+
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
+        CardView dateCard;
+        LinearLayout dateLayout;
+        TextView dateText;
+        CardView itemCard;
+        LinearLayout itemLayout;
+        TextView itemText;
+
+        ItemViewHolder(View view) {
+            super(view);
+            dateCard = view.findViewById(R.id.date_card);
+            dateLayout = view.findViewById(R.id.date_layout);
+            dateText = view.findViewById(R.id.term_date_view);
+            itemCard = view.findViewById(R.id.item_card);
+            itemLayout = view.findViewById(R.id.item_layout);
+            itemText = view.findViewById(R.id.term_item_view);
+        }
     }
 }

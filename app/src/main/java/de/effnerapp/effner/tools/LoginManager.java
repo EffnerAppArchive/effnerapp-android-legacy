@@ -72,7 +72,7 @@ public class LoginManager {
                     res[0] = Objects.requireNonNull(response.body()).string();
 
                     Error error = gson.fromJson(res[0], Error.class);
-                    if(error.getError() != null && !error.getError().isEmpty()) {
+                    if (error.getError() != null && !error.getError().isEmpty()) {
                         isError = true;
                         timer.cancel();
                         ok[0] = false;
@@ -96,34 +96,35 @@ public class LoginManager {
 
         timer.schedule(new TimerTask() {
             int i = 0;
+
             @Override
             public void run() {
-                if(i >= 10) {
-                     Log.e("LoginMgr", "Connection timed out!");
-                     AlertDialog.Builder builder =  new AlertDialog.Builder(context)
+                if (i >= 10) {
+                    Log.e("LoginMgr", "Connection timed out!");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setTitle("Verbindung fehlgeschlagen!")
                             .setCancelable(false)
                             .setMessage("Die Verbindung zu unseren Servern ist fehlgeschlagen! Bitte überprüfe deine Internetverbindung oder versuche es später erneut!")
                             .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> {
-                                for(Call call : client.dispatcher().queuedCalls()) {
+                                for (Call call : client.dispatcher().queuedCalls()) {
                                     call.cancel();
                                 }
                                 activity.recreate();
                             })
                             .setPositiveButton("Ok", (dialogInterface, i) -> {
-                                for(Call call : client.dispatcher().queuedCalls()) {
+                                for (Call call : client.dispatcher().queuedCalls()) {
                                     call.cancel();
                                 }
                                 activity.finish();
                             });
-                     activity.runOnUiThread(builder::show);
-                     isError = true;
-                     timer.cancel();
-                     return;
+                    activity.runOnUiThread(builder::show);
+                    isError = true;
+                    timer.cancel();
+                    return;
                 }
                 i++;
             }
-        },0,1000);
+        }, 0, 1000);
 
         while (res[0] == null || ok[0] == null) {
             Log.d("LoginMgr", "Waiting for Server...");
@@ -134,7 +135,7 @@ public class LoginManager {
             }
         }
 
-        if(ok[0]) {
+        if (ok[0]) {
             //put sharedPreference Values
             SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
             editor.putBoolean("APP_REGISTERED", true);
@@ -142,7 +143,7 @@ public class LoginManager {
             editor.putString("APP_USER_CLASS", user.getsClass());
             editor.putString("APP_DSB_LOGIN_ID", id);
             editor.putString("APP_DSB_LOGIN_PASSWORD", password);
-            if(user.getUsername() != null && !user.getUsername().isEmpty()) {
+            if (user.getUsername() != null && !user.getUsername().isEmpty()) {
                 editor.putString("APP_USER_USERNAME", user.getUsername());
             }
             editor.apply();
@@ -174,11 +175,11 @@ public class LoginManager {
                     res[0] = Objects.requireNonNull(response.body()).string();
 
                     Error error = gson.fromJson(res[0], Error.class);
-                    if(error.getError() != null && !error.getError().isEmpty()) {
+                    if (error.getError() != null && !error.getError().isEmpty()) {
                         ok[0] = false;
                         isError = true;
                         timer.cancel();
-                        AlertDialog.Builder builder =  new AlertDialog.Builder(context)
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context)
                                 .setTitle("Anmeldevorgang fehlgeschlagen!")
                                 .setCancelable(false)
                                 .setMessage("Error: " + error.getError())
@@ -209,22 +210,23 @@ public class LoginManager {
 
         timer.schedule(new TimerTask() {
             int i = 0;
+
             @Override
             public void run() {
-                if(i >= 10) {
+                if (i >= 10) {
                     Log.e("LoginMgr", "Connection timed out!");
-                    AlertDialog.Builder builder =  new AlertDialog.Builder(context)
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setTitle("Verbindung fehlgeschlagen!")
                             .setCancelable(false)
                             .setMessage("Die Verbindung zu unseren Servern ist fehlgeschlagen! Bitte überprüfe deine Internetverbindung oder versuche es später erneut!")
                             .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> {
-                                for(Call call : client.dispatcher().queuedCalls()) {
+                                for (Call call : client.dispatcher().queuedCalls()) {
                                     call.cancel();
                                 }
                                 activity.recreate();
                             })
                             .setPositiveButton("Ok", (dialogInterface, i) -> {
-                                for(Call call : client.dispatcher().queuedCalls()) {
+                                for (Call call : client.dispatcher().queuedCalls()) {
                                     call.cancel();
                                 }
                                 activity.finish();
@@ -236,7 +238,7 @@ public class LoginManager {
                 }
                 i++;
             }
-        },0,1000);
+        }, 0, 1000);
 
         while (res[0] == null || ok[0] == null) {
             Log.d("LoginMgr", "Waiting for Server...");
@@ -253,7 +255,7 @@ public class LoginManager {
     private String buildUrl(String id, String password, String sClass, String username) {
         String url = null;
         String firebaseToken;
-        if(SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
+        if (SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
             firebaseToken = FirebaseInstanceId.getInstance().getToken();
             SplashActivity.sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", firebaseToken).apply();
         } else {
@@ -264,7 +266,7 @@ public class LoginManager {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        if(username != null && !username.isEmpty()) {
+        if (username != null && !username.isEmpty()) {
             url += "&username=" + username;
         }
 

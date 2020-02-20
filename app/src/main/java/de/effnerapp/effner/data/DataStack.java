@@ -1,13 +1,18 @@
 package de.effnerapp.effner.data;
 
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
+
 import de.effnerapp.effner.data.model.AppColor;
 import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.Holidays;
 import de.effnerapp.effner.data.model.Schooltest;
 import de.effnerapp.effner.data.model.TDay;
 import de.effnerapp.effner.data.model.Term;
+import lombok.Getter;
+import lombok.Setter;
 
 public class DataStack {
+
     private Schooltest[] schooltests;
     private Term[] terms;
     private Holidays[] holidays;
@@ -15,8 +20,10 @@ public class DataStack {
     private Content[] content;
     private AppColor[] colors;
 
-    public DataStack() {
 
+
+    public DataStack() {
+        // requires empty constructor
     }
 
     public Schooltest[] getSchooltests() {
@@ -60,8 +67,8 @@ public class DataStack {
     }
 
     public Content getContentByKey(String key) {
-        for(Content c : content) {
-            if(c.getName().equals(key)) {
+        for (Content c : content) {
+            if (c.getName().equals(key)) {
                 return c;
             }
         }
@@ -77,8 +84,8 @@ public class DataStack {
     }
 
     public AppColor getColorByKey(String key) {
-        for(AppColor color : colors) {
-            if(color.getName().equals(key)) {
+        for (AppColor color : colors) {
+            if (color.getName().equals(key)) {
                 return color;
             }
         }

@@ -15,7 +15,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import java.text.ParseException;
-
 import java.util.Objects;
 
 import de.effnerapp.effner.MainActivity;
@@ -26,10 +25,10 @@ import de.effnerapp.effner.data.DataStack;
 import de.effnerapp.effner.data.utils.HeaderTextParser;
 
 public class HomeFragment extends Fragment {
-    
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        
+
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         MainActivity.pageTextView.setText(R.string.title_home);
         TextView headerTextView = root.findViewById(R.id.headertextview);
@@ -50,7 +49,7 @@ public class HomeFragment extends Fragment {
         CardView subCard = root.findViewById(R.id.subs_card);
 
         sCard.setOnClickListener(view -> startActivity(new Intent(getContext(), TimetableActivity.class)));
-        iCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_ILLNESS_DOC_" +  ((sClass.startsWith("11") || sClass.startsWith("12")) ? 1 : 0)).getValue()))));
+        iCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_ILLNESS_DOC_" + ((sClass.startsWith("11") || sClass.startsWith("12")) ? 1 : 0)).getValue()))));
         cCard.setOnClickListener(view -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_FOOD_PLAN").getValue()))));
         subCard.setOnClickListener(view -> {
             NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);

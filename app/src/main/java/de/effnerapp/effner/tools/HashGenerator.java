@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 public class HashGenerator {
     private String algorithm;
     private Charset charset;
+
     public HashGenerator(String algorithm, Charset charset) {
         this.algorithm = algorithm;
         this.charset = charset;
@@ -24,7 +25,7 @@ public class HashGenerator {
     }
 
     private String getHexString(byte[] hash) {
-        BigInteger hashI = new BigInteger(1 , hash);
+        BigInteger hashI = new BigInteger(1, hash);
         StringBuilder hexString = new StringBuilder(hashI.toString(16));
 
         while (hexString.length() < 32) {
