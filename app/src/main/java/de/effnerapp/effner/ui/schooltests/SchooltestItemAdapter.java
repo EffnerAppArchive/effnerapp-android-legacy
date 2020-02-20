@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Schooltest;
 
 public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAdapter.ItemViewHolder> {
@@ -62,35 +63,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
         String text = schooltests.get(i).getName();
         String date = schooltests.get(i).getDate();
-        int light_blue = Color.argb(150, 89, 213, 247);
-        int light_green = Color.argb(150, 107, 255, 154);
-        int blue = Color.argb(150,112, 153, 255);
-        int dark_blue = Color.argb(150, 61, 63, 209);
-        int light_yellow = Color.argb(150, 255, 215, 56);
-        int orange = Color.argb(150, 255, 157, 59);
-        int green = Color.argb(100,16, 158, 0);
-        int red = Color.argb(100, 158, 0, 0);
-
-        switch (schooltests.get(i).getType()) {
-            case "SA":
-                holder.itemLayout.setBackgroundColor(light_blue);
-                break;
-            case "KA":
-                holder.itemLayout.setBackgroundColor(orange);
-                break;
-            case "EX":
-                holder.itemLayout.setBackgroundColor(blue);
-                break;
-            case "JGST":
-                holder.itemLayout.setBackgroundColor(dark_blue);
-                break;
-            case "TEST":
-                holder.itemLayout.setBackgroundColor(light_green);
-                break;
-            case "Debatte":
-                holder.itemLayout.setBackgroundColor(light_yellow);
-                break;
-        }
+        holder.itemLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_ITEMS_" + schooltests.get(i).getType().toUpperCase()).getColorValue());
         Date sDate = null;
         try {
             sDate = format.parse(date);
@@ -99,10 +72,10 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
         }
         assert sDate != null;
         if(sDate.after(new Date())) {
-            holder.dateLayout.setBackgroundColor(green);
+            holder.dateLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
         } else {
             holder.itemLayout.getBackground().setAlpha(100);
-            holder.dateLayout.setBackgroundColor(red);
+            holder.dateLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_STATIC_RED").getColorValue());
         }
         holder.dateText.setText(date);
         holder.itemText.setText(text);

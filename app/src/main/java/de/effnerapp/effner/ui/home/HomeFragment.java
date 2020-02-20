@@ -14,9 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import java.text.ParseException;
+
 import java.util.Objects;
 
 import de.effnerapp.effner.MainActivity;
@@ -57,6 +56,7 @@ public class HomeFragment extends Fragment {
             NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
             navController.navigate(R.id.navigation_substitutions);
         });
+
         return root;
     }
 }

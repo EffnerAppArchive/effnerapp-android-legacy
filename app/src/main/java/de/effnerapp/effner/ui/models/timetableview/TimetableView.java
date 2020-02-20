@@ -1,5 +1,6 @@
 package de.effnerapp.effner.ui.models.timetableview;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
@@ -46,12 +48,13 @@ public class TimetableView extends LinearLayout {
     private int startTime;
 
     private RelativeLayout stickerBox;
-    TableLayout tableHeader;
-    TableLayout tableBox;
+    private TableLayout tableHeader;
+    private TableLayout tableBox;
 
     private Context context;
 
-    HashMap<Integer, Sticker> stickers = new HashMap<>();
+    @SuppressLint("UseSparseArrays")
+    private Map<Integer, Sticker> stickers = new HashMap<>();
     private List<TextView> items = new ArrayList<>();
     private int stickerCount = -1;
 
