@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="196dp"
         android:layout_gravity="center"
-        android:layout_weight="3"
         android:alignmentMode="alignMargins"
         android:columnCount="2"
         android:columnOrderPreserved="false"
@@ -47,13 +46,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_insert_drive_file_black_24dp"
-                    android:tint="#efb523" />
+                    android:tint="#efb523"
+                    android:contentDescription="@string/base_description" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="1. Halbjahr"
+                    android:text="@string/schooltests_card_hj1"
                     android:textAlignment="center"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -90,13 +90,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_insert_drive_file_black_24dp"
-                    android:tint="#efb523" />
+                    android:tint="#efb523"
+                    android:contentDescription="@string/base_description" />
 
                 <TextView
                     android:layout_width="143dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="2. Halbjahr"
+                    android:text="@string/schooltests_card_hj2"
                     android:textAlignment="center"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -114,7 +115,7 @@
         android:layout_gravity="end" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/schooltests_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="25dp">

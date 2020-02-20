@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Content;
@@ -44,8 +43,7 @@ public class SchooltestsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_schooltests, container, false);
-        MainActivity.pageTextView.setText(R.string.title_schooltests);
-        recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView = view.findViewById(R.id.schooltests_recycler_view);
         Spinner spinner = view.findViewById(R.id.spinner);
 
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");

@@ -38,4 +38,13 @@
     <string name="description_date_text">Date</string>
 
     <string name="button_back">Zurück</string>
+
+    <string name="header_text">42 Tage bis zum Wochenende!</string>
+    <string name="substitution_card_text">Vertretungen</string>
+    <string name="base_description">Effner</string>
+    <string name="food_plan_card_text">Speiseplan</string>
+    <string name="illness_doc_card_text">Krankheitsanzeige</string>
+    <string name="timetable_card_text">Stundenplan</string>
+    <string name="schooltests_card_hj2">2. Halbjahr</string>
+    <string name="schooltests_card_hj1">1. Halbjahr</string>
 </resources>

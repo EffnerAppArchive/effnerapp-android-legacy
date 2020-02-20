@@ -8,7 +8,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,22 +100,13 @@ public class LoginManager {
             public void run() {
                 if (i >= 10) {
                     Log.e("LoginMgr", "Connection timed out!");
+                    client.dispatcher().cancelAll();
                     AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setTitle("Verbindung fehlgeschlagen!")
                             .setCancelable(false)
                             .setMessage("Die Verbindung zu unseren Servern ist fehlgeschlagen! Bitte überprüfe deine Internetverbindung oder versuche es später erneut!")
-                            .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> {
-                                for (Call call : client.dispatcher().queuedCalls()) {
-                                    call.cancel();
-                                }
-                                activity.recreate();
-                            })
-                            .setPositiveButton("Ok", (dialogInterface, i) -> {
-                                for (Call call : client.dispatcher().queuedCalls()) {
-                                    call.cancel();
-                                }
-                                activity.finish();
-                            });
+                            .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> activity.recreate())
+                            .setPositiveButton("Ok", (dialogInterface, i) -> activity.finish());
                     activity.runOnUiThread(builder::show);
                     isError = true;
                     timer.cancel();
@@ -179,15 +169,13 @@ public class LoginManager {
                         ok[0] = false;
                         isError = true;
                         timer.cancel();
+                        call.cancel();
                         AlertDialog.Builder builder = new AlertDialog.Builder(context)
                                 .setTitle("Anmeldevorgang fehlgeschlagen!")
                                 .setCancelable(false)
                                 .setMessage("Error: " + error.getError())
-                                .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> call.cancel())
-                                .setPositiveButton("Ok", (dialogInterface, i) -> {
-                                    call.cancel();
-                                    activity.recreate();
-                                });
+                                .setNegativeButton("Neu Versuchen", null)
+                                .setPositiveButton("Ok", (dialogInterface, i) -> activity.recreate());
                         activity.runOnUiThread(builder::show);
 
                     } else {
@@ -215,22 +203,13 @@ public class LoginManager {
             public void run() {
                 if (i >= 10) {
                     Log.e("LoginMgr", "Connection timed out!");
+                    client.dispatcher().cancelAll();
                     AlertDialog.Builder builder = new AlertDialog.Builder(context)
                             .setTitle("Verbindung fehlgeschlagen!")
                             .setCancelable(false)
                             .setMessage("Die Verbindung zu unseren Servern ist fehlgeschlagen! Bitte überprüfe deine Internetverbindung oder versuche es später erneut!")
-                            .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> {
-                                for (Call call : client.dispatcher().queuedCalls()) {
-                                    call.cancel();
-                                }
-                                activity.recreate();
-                            })
-                            .setPositiveButton("Ok", (dialogInterface, i) -> {
-                                for (Call call : client.dispatcher().queuedCalls()) {
-                                    call.cancel();
-                                }
-                                activity.finish();
-                            });
+                            .setNegativeButton("Neu Versuchen", (dialogInterface, i) -> activity.recreate())
+                            .setPositiveButton("Ok", (dialogInterface, i) -> activity.finish());
                     activity.runOnUiThread(builder::show);
                     isError = true;
                     timer.cancel();
@@ -254,13 +233,7 @@ public class LoginManager {
 
     private String buildUrl(String id, String password, String sClass, String username) {
         String url = null;
-        String firebaseToken;
-        if (SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "").isEmpty()) {
-            firebaseToken = FirebaseInstanceId.getInstance().getToken();
-            SplashActivity.sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", firebaseToken).apply();
-        } else {
-            firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "");
-        }
+        String firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "NONE");
         try {
             url = "https://login.effnerapp.de/register" + "?id=" + hashGenerator.generate(id) + "&password=" + hashGenerator.generate(password) + "&class=" + sClass + "&firebase_token=" + firebaseToken + "&app_version=" + info.versionName;
         } catch (NoSuchAlgorithmException e) {
