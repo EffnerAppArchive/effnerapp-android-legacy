@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = SplashActivity.sharedPreferences;
-        if(sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
+        if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
             Log.d("MAIN", "Nightmode: ON");
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -39,15 +39,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
-        if(sClass.startsWith("11") || sClass.startsWith("12")) {
+        if (sClass.startsWith("11") || sClass.startsWith("12")) {
             navView.getMenu().findItem(R.id.navigation_terms).setVisible(false);
         }
 
         pageTextView = findViewById(R.id.page_text);
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            if(bundle.getString("NOTIFICATION_CONTENT") != null) {
+        if (bundle != null) {
+            if (bundle.getString("NOTIFICATION_CONTENT") != null) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                         .setTitle(bundle.getString("NOTIFICATION_TITLE"))
                         .setMessage(bundle.getString("NOTIFICATION_CONTENT"))
