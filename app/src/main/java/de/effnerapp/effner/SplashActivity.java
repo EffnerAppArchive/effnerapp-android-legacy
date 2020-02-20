@@ -14,8 +14,6 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.ParseException;
-
 import de.effnerapp.effner.data.DataStack;
 import de.effnerapp.effner.data.dsbmobile.Vertretungen;
 import de.effnerapp.effner.data.utils.DataStackReader;
@@ -118,14 +116,6 @@ public class SplashActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        HeaderTextParser parser = new HeaderTextParser();
-        String result = null;
-        try {
-            result = parser.parse(dataStack.getHolidays(), sharedPreferences.getString("APP_USER_USERNAME", "") + "123");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.d("SPLASH", "HeaderText: " + result);
 
         //Authentication on DSB-SERVER
         boolean login = vertretungen.login(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));

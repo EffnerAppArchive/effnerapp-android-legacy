@@ -39,7 +39,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     private static final String KEY_PREF_NOTIFICATION_SWITCH = "notifications";
     private static final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
     private static final String KEY_PREF_LOGOUT = "logout";
-    private static final String KEY_PREF_DEV_DOTIFICATIONS = "DEV_NOTIFICATIONS";
+    private static final String KEY_PREF_DEV_NOTIFICATIONS = "DEV_NOTIFICATIONS";
     private SwitchPreference notificationPreference;
     private String sClass;
     private int DEV_MODE_ENABLE_COUNT = 0;
@@ -60,7 +60,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         notificationPreference.setTitle("Erhalte Nachrichten über neue Vertretungen");
         notificationPreference.setDefaultValue(false);
         notificationPreference.setIcon(R.drawable.ic_notifications_active_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+        if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             notificationPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         notificationCategory.addPreference(notificationPreference);
@@ -76,7 +76,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         nightModePreference.setSummary("Aktiviere den Nachtmodus!");
         nightModePreference.setDefaultValue(false);
         nightModePreference.setIcon(R.drawable.ic_lightbulb_outline_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+        if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             nightModePreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         miscCategory.addPreference(nightModePreference);
@@ -91,7 +91,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         feedbackPreference.setTitle("Ein kleines Feedback? ❤");
         feedbackPreference.setSummary("Was findest du gut und was sollen wir besser machen?");
         feedbackPreference.setIcon(R.drawable.ic_mail_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+        if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             feedbackPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         aboutCategory.addPreference(feedbackPreference);
@@ -112,7 +112,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         buildPreference.setTitle("App-Version");
         buildPreference.setSummary("Version: " + version + ", Build: " + build);
         buildPreference.setIcon(R.drawable.ic_build_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+        if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             buildPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         aboutCategory.addPreference(buildPreference);
@@ -121,7 +121,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         creditsPreference.setKey("credits");
         creditsPreference.setTitle("Über die App");
         creditsPreference.setIcon(R.drawable.ic_info_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+        if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             creditsPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         aboutCategory.addPreference(creditsPreference);
@@ -136,7 +136,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         classPreference.setTitle("Deine Klasse");
         classPreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "NONE"));
         classPreference.setIcon(R.drawable.ic_group_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+        if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             classPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         accountCategory.addPreference(classPreference);
@@ -146,7 +146,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         usernamePreference.setTitle("Dein Benutzername");
         usernamePreference.setSummary(SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", "Du besitzt keinen Benutzernamen"));
         usernamePreference.setIcon(R.drawable.ic_account_circle_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+        if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             usernamePreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         accountCategory.addPreference(usernamePreference);
@@ -156,7 +156,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         logoutPreference.setTitle("Abmelden");
         logoutPreference.setSummary("Melde dich ab!");
         logoutPreference.setIcon(R.drawable.ic_cancel_black_24dp);
-        if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+        if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             logoutPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         accountCategory.addPreference(logoutPreference);
@@ -170,7 +170,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             Preference tokenPreference = new Preference(context);
             tokenPreference.setKey("token");
             tokenPreference.setIcon(R.drawable.ic_developer_mode_black_24dp);
-            if(SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
                 tokenPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
             }
             tokenPreference.setTitle("App-Token");
@@ -178,7 +178,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             developerCategory.addPreference(tokenPreference);
 
             SwitchPreference devNotifications = new SwitchPreference(context);
-            devNotifications.setKey(KEY_PREF_DEV_DOTIFICATIONS);
+            devNotifications.setKey(KEY_PREF_DEV_NOTIFICATIONS);
             devNotifications.setTitle("Developer Notification Channel");
             devNotifications.setIcon(R.drawable.ic_perm_device_information_black_24dp);
             if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
@@ -218,13 +218,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         buildPreference.setOnPreferenceClickListener(preference -> {
-            if(SplashActivity.sharedPreferences.getBoolean("APP_DEV_MODE_ENABLE", false)) {
+            if (SplashActivity.sharedPreferences.getBoolean("APP_DEV_MODE_ENABLE", false)) {
                 Toast.makeText(context, "Der Entwicklermodus ist schon aktiviert!", Toast.LENGTH_LONG).show();
             } else {
                 DEV_MODE_ENABLE_COUNT++;
-                if(DEV_MODE_ENABLE_COUNT > 5 && DEV_MODE_ENABLE_COUNT < 10) {
+                if (DEV_MODE_ENABLE_COUNT > 5 && DEV_MODE_ENABLE_COUNT < 10) {
                     Toast.makeText(context, "Sie sind in " + (10 - DEV_MODE_ENABLE_COUNT) + " Schritten ein Entwickler!", Toast.LENGTH_LONG).show();
-                } else if(DEV_MODE_ENABLE_COUNT >= 10) {
+                } else if (DEV_MODE_ENABLE_COUNT >= 10) {
                     Toast.makeText(context, "Der Entwicklermodus ist jetzt aktiviert!", Toast.LENGTH_LONG).show();
                     SplashActivity.sharedPreferences.edit().putBoolean("APP_DEV_MODE_ENABLE", true).apply();
                 }
@@ -269,14 +269,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 if (sharedPreferences.getBoolean(key, false)) {
                     FirebaseMessaging.getInstance().subscribeToTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass).addOnCompleteListener(task -> {
                         boolean success = task.isSuccessful();
-                        if(!success) {
+                        if (!success) {
                             notificationPreference.setEnabled(false);
                         }
                     });
                 } else {
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass ).addOnCompleteListener(task -> {
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass).addOnCompleteListener(task -> {
                         boolean success = task.isSuccessful();
-                        if(!success) {
+                        if (!success) {
                             notificationPreference.setEnabled(false);
                         }
                     });
@@ -292,12 +292,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 editor.clear().apply();
                 //disable Firebase Notifications
                 FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
-                        firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass );
-                        firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
+                firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
+                firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
                 startActivity(new Intent(getContext(), SplashActivity.class));
                 Objects.requireNonNull(getActivity()).finish();
                 break;
-            case KEY_PREF_DEV_DOTIFICATIONS:
+            case KEY_PREF_DEV_NOTIFICATIONS:
                 Log.i("DEV_NOTIFICATION_SWITCH", "Preference value was updated to: " + sharedPreferences.getBoolean(key, false));
                 if (sharedPreferences.getBoolean(key, false)) {
                     FirebaseMessaging.getInstance().subscribeToTopic("APP_DEVELOPER_NOTIFICATIONS").addOnCompleteListener(task -> {

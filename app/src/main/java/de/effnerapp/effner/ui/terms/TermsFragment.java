@@ -22,9 +22,7 @@ import java.util.Objects;
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
-import de.effnerapp.effner.data.model.Schooltest;
 import de.effnerapp.effner.data.model.Term;
-import de.effnerapp.effner.ui.schooltests.SchooltestItemAdapter;
 
 
 public class TermsFragment extends Fragment {

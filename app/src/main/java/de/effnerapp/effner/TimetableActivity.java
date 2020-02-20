@@ -37,6 +37,7 @@ public class TimetableActivity extends AppCompatActivity {
     private TimetableView timetable;
     private DigitsParser digitsParser = new DigitsParser();
     private Button backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,7 @@ public class TimetableActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         backButton = findViewById(R.id.back);
         backButton.setOnClickListener(v -> finish());
-        if(SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
+        if (SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
             Log.d("TA", "Nightmode: ON");
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -55,15 +56,15 @@ public class TimetableActivity extends AppCompatActivity {
         }
 
         timetable = findViewById(R.id.timetable);
-        if(SplashActivity.getDataStack().getTimetable() != null && SplashActivity.getDataStack().getTimetable().length != 0 && !isEmpty(SplashActivity.getDataStack().getTimetable())) {
+        if (SplashActivity.getDataStack().getTimetable() != null && SplashActivity.getDataStack().getTimetable().length != 0 && !isEmpty(SplashActivity.getDataStack().getTimetable())) {
             Log.d("TA", "Generating timetable!");
 
             ArrayList<Schedule> schedules = new ArrayList<>();
 
 
-            for(TDay day : SplashActivity.getDataStack().getTimetable()) {
-                int dayI = day.getId() -1;
-                for (int i = 0; i < 10 ; i++) {
+            for (TDay day : SplashActivity.getDataStack().getTimetable()) {
+                int dayI = day.getId() - 1;
+                for (int i = 0; i < 10; i++) {
                     String text = null;
                     try {
                         text = Objects.requireNonNull(day.getClass().getField(digitsParser.parse(i)).get(day)).toString();
@@ -71,7 +72,7 @@ public class TimetableActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     assert text != null;
-                    if(!text.equals("-")) {
+                    if (!text.equals("-")) {
                         Schedule schedule = new Schedule();
                         schedule.setSubject(text);
                         schedule.setDay(dayI);
@@ -82,7 +83,7 @@ public class TimetableActivity extends AppCompatActivity {
                 }
             }
             timetable.add(schedules);
-            if(SplashActivity.sharedPreferences.contains("APP_TIMETABLE_COLOR")) {
+            if (SplashActivity.sharedPreferences.contains("APP_TIMETABLE_COLOR")) {
                 backButton.getBackground().setColorFilter(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620), PorterDuff.Mode.SRC_ATOP);
                 backButton.setTextColor(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_TEXTCOLOR", Color.WHITE));
                 for (int i = 0; i < timetable.getStickerViewSize(); i++) {
@@ -97,8 +98,8 @@ public class TimetableActivity extends AppCompatActivity {
                     .setMessage("Für deine Klasse wurde noch kein Stundenplan eingereicht!\nMöchtest du einen Stundenplan hochlanden?")
                     .setCancelable(false)
                     .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> {
-                       startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.effnerapp.de")));
-                       finish();
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.effnerapp.de")));
+                        finish();
                     })
                     .setNegativeButton("Abbrechen", (dialogInterface, i) -> finish());
             dialog.show();
@@ -116,7 +117,7 @@ public class TimetableActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.navigation_timetable_color) {
+        if (id == R.id.navigation_timetable_color) {
             ColorPickerDialog.Builder dialog = new ColorPickerDialog.Builder(this, THEME_DEVICE_DEFAULT_DARK)
                     .setTitle("Wähle eine Farbe aus!")
                     .setNegativeButton("Abbrechen", null)
@@ -132,9 +133,9 @@ public class TimetableActivity extends AppCompatActivity {
                             timetable.setColor(i, envelope.getColor());
                         }
                         timetable.setTextColor(textColor);
-            });
+                    });
             dialog.show();
-        } else if(id == R.id.navigation_timetable_settings_reset) {
+        } else if (id == R.id.navigation_timetable_settings_reset) {
             SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
             editor.remove("APP_TIMETABLE_COLOR").apply();
             timetable.updateStickerColor();
@@ -181,7 +182,7 @@ public class TimetableActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 assert text != null;
-                if(!text.isEmpty() && !text.equals("-")) {
+                if (!text.isEmpty() && !text.equals("-")) {
                     return false;
                 }
             }

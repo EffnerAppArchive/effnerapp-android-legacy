@@ -126,7 +126,7 @@ public class SubstitutionsFragment extends Fragment {
                                     //set body
                                     List<Item> items = new ArrayList<>();
                                     items.add(new Item("Ausfall: " + vertretung.getLehrkraft()));
-                                    if(!vertretung.getRaum().equals("")) {
+                                    if (!vertretung.getRaum().equals("")) {
                                         items.add(new Item("Raum: " + vertretung.getRaum()));
                                     }
                                     if (!vertretung.getInfo().equals("")) {
@@ -138,7 +138,7 @@ public class SubstitutionsFragment extends Fragment {
                                     if (!vertretung.getVertretung().equals("")) {
                                         header.append(" vertreten durch ").append(vertretung.getVertretung());
                                     } else {
-                                        if(!vertretung.getInfo().equals("")) {
+                                        if (!vertretung.getInfo().equals("")) {
                                             header.append(": ").append(vertretung.getInfo());
                                         } else {
                                             header.append(": keine Info");
@@ -154,11 +154,11 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                if(SplashActivity.getVertretungen().getMainInformation().size() >= position + 1 && SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
+                if (SplashActivity.getVertretungen().getMainInformation().size() >= position + 1 && SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
                     size++;
                     List<Item> items = new ArrayList<>();
                     StringBuilder sb = new StringBuilder();
-                    for(String info : SplashActivity.getVertretungen().getMainInformation().get(position)) {
+                    for (String info : SplashActivity.getVertretungen().getMainInformation().get(position)) {
                         sb.append(info).append("\n");
                     }
                     items.add(new Item(sb.toString()));

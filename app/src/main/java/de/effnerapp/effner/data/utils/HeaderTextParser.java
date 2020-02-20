@@ -13,21 +13,28 @@ import de.effnerapp.effner.data.model.Holidays;
 public class HeaderTextParser {
     private GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Berlin"));
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.GERMAN);
-    public HeaderTextParser() {
 
+    public HeaderTextParser() {
     }
 
-    public String parse(Holidays[] holidays, String username) throws ParseException {
+    public String parse(Holidays[] holidays, String username) {
         String headerText = "false";
         boolean currentlyHolidays = false;
+
         for (Holidays holiday : holidays) {
             String name = holiday.getName().substring(0, 1).toUpperCase() + holiday.getName().substring(1).toLowerCase();
             String start = holiday.getStart();
             String end = holiday.getEnd();
 
             Date currentDate = new Date();
-            Date startDate = format.parse(start);
-            Date endDate = format.parse(end);
+            Date startDate = null;
+            Date endDate = null;
+            try {
+                startDate = format.parse(start);
+                endDate = format.parse(end);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             if (checkHolidays(currentDate, startDate, endDate)) {
                 currentlyHolidays = true;
@@ -56,7 +63,7 @@ public class HeaderTextParser {
             }
         }
 
-        if(username != null && !username.isEmpty()) {
+        if (username != null && !username.isEmpty()) {
             headerText = "Hallo " + username + "!\n" + headerText;
         }
         return headerText;

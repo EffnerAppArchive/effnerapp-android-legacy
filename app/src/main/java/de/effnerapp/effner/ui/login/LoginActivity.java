@@ -4,9 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -56,17 +55,18 @@ public class LoginActivity extends AppCompatActivity {
         List<String> items = new ArrayList<>(getClasses());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         sClass.setAdapter(adapter);
-        if(SplashActivity.sharedPreferences.contains("APP_AUTH_TOKEN")) {
+        if (SplashActivity.sharedPreferences.contains("APP_AUTH_TOKEN")) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("Ein Account existiert bereits!")
-                    .setMessage("Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl!\nDu kannst es entweder erneut versuchen oder dich neu anmelden!")
+                    .setMessage("Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl!" +
+                            "\nDu kannst es entweder erneut versuchen oder dich neu anmelden!")
                     .setPositiveButton("Neu versuchen", (dialogInterface, i) -> {
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     })
                     .setNegativeButton("Neu Anmelden", (dialogInterface, i) -> Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show());
-                    dialog.show();
+            dialog.show();
         } else {
             Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show();
         }
@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         sClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(sClass.getItemAtPosition(position).equals("11") || sClass.getItemAtPosition(position).equals("12")) {
+                if (sClass.getItemAtPosition(position).equals("11") || sClass.getItemAtPosition(position).equals("12")) {
                     course.setVisibility(View.VISIBLE);
                 } else {
                     course.setVisibility(View.INVISIBLE);
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            if(!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty() && ((sClass.getSelectedItem().toString().equals("11") || sClass.getSelectedItem().toString().equals("12")) && !course.getText().toString().isEmpty()) || (!sClass.getSelectedItem().toString().equals("11") && !sClass.getSelectedItem().toString().equals("12"))) {
+            if (!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty() && ((sClass.getSelectedItem().toString().equals("11") || sClass.getSelectedItem().toString().equals("12")) && !course.getText().toString().isEmpty()) || (!sClass.getSelectedItem().toString().equals("11") && !sClass.getSelectedItem().toString().equals("12"))) {
                 dialog = new ProgressDialog(this);
                 dialog.setTitle("Prüfe Daten...");
                 dialog.setMessage("Die Anmeldedaten werden überprüft!");
@@ -97,9 +97,9 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.show();
                 new Thread(() -> {
                     LoginManager loginManager = new LoginManager(this, this);
-                    String classS = sClass.getSelectedItem().toString().equals("11") ||  sClass.getSelectedItem().toString().equals("12") ?  sClass.getSelectedItem().toString() + "Q" + course.getText().toString() :  sClass.getSelectedItem().toString();
+                    String classS = sClass.getSelectedItem().toString().equals("11") || sClass.getSelectedItem().toString().equals("12") ? sClass.getSelectedItem().toString() + "Q" + course.getText().toString() : sClass.getSelectedItem().toString();
                     boolean login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), classS, username.getText().toString());
-                    if(login) {
+                    if (login) {
                         runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show());
                         dialog.cancel();
                         startActivity(new Intent(this, SplashActivity.class));
@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                     Log.d("LA", "Fail! " + e.getMessage());
                 }
+
             });
         }).start();
 
