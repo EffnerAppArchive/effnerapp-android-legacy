@@ -1,10 +1,8 @@
 package de.effnerapp.effner.ui.terms;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Term;
 
 public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemViewHolder> {
@@ -61,16 +60,11 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
     }
 
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
-        int light_blue = Color.argb(150,89, 255, 249);
-        int green = Color.argb(100,16, 158, 0);
-        int red = Color.argb(100, 158, 0, 0);
-        
         String text = terms.get(i).getName();
         String date = terms.get(i).getDate();
         holder.dateText.setText(date);
         holder.itemText.setText(text);
-        holder.dateLayout.setBackgroundColor(green);
-        holder.itemLayout.setBackgroundColor(light_blue);
+        holder.itemLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_ITEMS_TERM").getColorValue());
 
         Date sDate = null;
         try {
@@ -80,10 +74,10 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
         }
         assert sDate != null;
         if(sDate.after(new Date())) {
-            holder.dateLayout.setBackgroundColor(green);
+            holder.dateLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
         } else {
             holder.itemLayout.getBackground().setAlpha(100);
-            holder.dateLayout.setBackgroundColor(red);
+            holder.dateLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_STATIC_RED").getColorValue());
         }
     }
 

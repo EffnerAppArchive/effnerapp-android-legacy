@@ -1,5 +1,6 @@
 package de.effnerapp.effner.data;
 
+import de.effnerapp.effner.data.model.AppColor;
 import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.Holidays;
 import de.effnerapp.effner.data.model.Schooltest;
@@ -12,6 +13,7 @@ public class DataStack {
     private Holidays[] holidays;
     private TDay[] timetable;
     private Content[] content;
+    private AppColor[] colors;
 
     public DataStack() {
 
@@ -65,4 +67,22 @@ public class DataStack {
         }
         return null;
     }
+
+    public AppColor[] getColors() {
+        return colors;
+    }
+
+    public void setColors(AppColor[] colors) {
+        this.colors = colors;
+    }
+
+    public AppColor getColorByKey(String key) {
+        for(AppColor color : colors) {
+            if(color.getName().equals(key)) {
+                return color;
+            }
+        }
+        return null;
+    }
+
 }
