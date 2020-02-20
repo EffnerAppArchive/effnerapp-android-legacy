@@ -17,7 +17,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    public static TextView pageTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +37,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
 
+        TextView pageHeader = findViewById(R.id.page_text);
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> pageHeader.setText(destination.getLabel()));
+
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
         if (sClass.startsWith("11") || sClass.startsWith("12")) {
             navView.getMenu().findItem(R.id.navigation_terms).setVisible(false);
         }
-
-        pageTextView = findViewById(R.id.page_text);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

@@ -25,7 +25,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.dsbmobile.model.Klasse;
@@ -51,7 +50,6 @@ public class SubstitutionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_substitutions, container, false);
-        MainActivity.pageTextView.setText(R.string.title_substitutions);
         //Wait for DSBMobile
         while (SplashActivity.getVertretungen() == null || SplashActivity.getVertretungen().getTable() == null) {
             Log.d("VerFrag", "Wait...");
@@ -62,7 +60,7 @@ public class SubstitutionsFragment extends Fragment {
             }
         }
 
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.subs_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 

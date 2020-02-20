@@ -5,7 +5,7 @@
 
 
     <FrameLayout
-        android:id="@+id/progressBarHolderVertretung"
+        android:id="@+id/progressBarHolderSubs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.4"
@@ -37,7 +37,7 @@
         android:layout_gravity="end" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/subs_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="25dp"

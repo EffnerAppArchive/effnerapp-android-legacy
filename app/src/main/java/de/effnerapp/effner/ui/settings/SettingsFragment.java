@@ -26,7 +26,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 
@@ -46,7 +45,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        MainActivity.pageTextView.setText(R.string.title_settings);
         sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
         Context context = getPreferenceManager().getContext();
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
@@ -182,7 +180,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             devNotifications.setTitle("Developer Notification Channel");
             devNotifications.setIcon(R.drawable.ic_perm_device_information_black_24dp);
             if (SplashActivity.sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
-                tokenPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+                devNotifications.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
             }
             developerCategory.addPreference(devNotifications);
 
@@ -323,7 +321,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onResume() {
         super.onResume();
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        MainActivity.pageTextView.setText(R.string.title_settings);
+//        MainActivity.pageTextView.setText(R.string.title_settings);
     }
 
     @Override

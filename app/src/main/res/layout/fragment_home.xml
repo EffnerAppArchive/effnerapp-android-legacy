@@ -8,6 +8,22 @@
     android:weightSum="10"
     tools:context=".ui.home.HomeFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/headerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/header_text"
+            android:textAlignment="center"
+            android:textColor="#3C92DD"
+            android:textSize="24sp" />
+    </RelativeLayout>
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -21,7 +37,7 @@
         <!-- Column 1 -->
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/stundenplan_card"
+            android:id="@+id/timetable_card"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_rowWeight="1"
@@ -46,13 +62,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_today_black_24dp"
-                    android:tint="#41d855" />
+                    android:tint="#41d855"
+                    android:contentDescription="@string/base_description" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Stundenplan"
+                    android:text="@string/timetable_card_text"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -89,13 +106,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_insert_drive_file_black_24dp"
-                    android:tint="#efb523" />
+                    android:tint="#efb523"
+                    android:contentDescription="@string/base_description" />
 
                 <TextView
                     android:layout_width="143dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Krankheitsanzeige"
+                    android:text="@string/illness_doc_card_text"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -118,7 +136,7 @@
 
         <!-- Column 1 -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/campuscafe_card"
+            android:id="@+id/food_plan_card"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_rowWeight="1"
@@ -143,13 +161,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_restaurant_black_24dp"
-                    android:tint="#FF2818" />
+                    android:tint="#FF2818"
+                    android:contentDescription="@string/base_description" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Speiseplan"
+                    android:text="@string/food_plan_card_text"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -186,13 +205,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/ic_view_list_black_24dp"
-                    android:tint="#3F51B5" />
+                    android:tint="#3F51B5"
+                    android:contentDescription="@string/base_description" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Vertretungen"
+                    android:text="@string/substitution_card_text"
                     android:textAlignment="center"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -202,21 +222,5 @@
         </androidx.cardview.widget.CardView>
 
     </GridLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2">
-
-        <TextView
-            android:id="@+id/headertextview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="42 Tage\nbis zum Wochenende!"
-            android:textAlignment="center"
-            android:textColor="#3C92DD"
-            android:textSize="24sp" />
-    </RelativeLayout>
 
 </LinearLayout>
