@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 bundle.remove("NOTIFICATION_CONTENT");
             }
         }
+        System.out.println("hi");
 
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager != null;
