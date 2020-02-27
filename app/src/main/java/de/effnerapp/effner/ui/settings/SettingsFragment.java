@@ -1,5 +1,6 @@
 package de.effnerapp.effner.ui.settings;
 
+import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -39,6 +40,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     private static final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
     private static final String KEY_PREF_LOGOUT = "logout";
     private static final String KEY_PREF_DEV_NOTIFICATIONS = "DEV_NOTIFICATIONS";
+    private Context context;
+    private AccountManager accountManager;
     private SwitchPreference notificationPreference;
     private String sClass;
     private int DEV_MODE_ENABLE_COUNT = 0;
@@ -46,7 +49,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
-        Context context = getPreferenceManager().getContext();
+        context = getPreferenceManager().getContext();
+        accountManager = AccountManager.get(context);
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
         PreferenceCategory notificationCategory = new PreferenceCategory(context);
         notificationCategory.setKey("notifications_category");
@@ -172,7 +176,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 tokenPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
             }
             tokenPreference.setTitle("App-Token");
-            tokenPreference.setSummary(SplashActivity.sharedPreferences.getString("APP_AUTH_TOKEN", ""));
+            tokenPreference.setSummary(accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
             developerCategory.addPreference(tokenPreference);
 
             SwitchPreference devNotifications = new SwitchPreference(context);
@@ -187,7 +191,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             tokenPreference.setOnPreferenceClickListener(preference -> {
                 Toast.makeText(context, "Der Token wurde kopiert!", Toast.LENGTH_LONG).show();
                 ClipboardManager clipboardManager = (ClipboardManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("Effner_APP_TOKEN", SplashActivity.sharedPreferences.getString("APP_AUTH_TOKEN", ""));
+                ClipData clipData = ClipData.newPlainText("Effner_APP_TOKEN", accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
                 assert clipboardManager != null;
                 clipboardManager.setPrimaryClip(clipData);
                 return true;
@@ -236,12 +240,26 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         logoutPreference.setOnPreferenceClickListener(preference -> {
-            Log.i("LOGOUT_PREF", "Logging out!");
-            SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
-            editor.clear().apply();
-
-            startActivity(new Intent(getContext(), SplashActivity.class));
-            Objects.requireNonNull(getActivity()).finish();
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context)
+                    .setTitle("Abmelden?")
+                    .setMessage("Willst du dich wirklich abmelden?")
+                    .setCancelable(false)
+                    .setPositiveButton("Abmelden", (dialogInterface, i) -> {
+                        Log.i("LOGOUT_PREF", "Logging out!");
+                        //clear sharedPreferences
+                        SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
+                        editor.clear().apply();
+                        //remove account
+                        accountManager.removeAccountExplicitly(accountManager.getAccountsByType("de.effnerapp")[0]);
+                        //disable Firebase Notifications
+                        FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+                        firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
+                        firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
+                        startActivity(new Intent(getContext(), SplashActivity.class));
+                        Objects.requireNonNull(getActivity()).finish();
+                    })
+                    .setNegativeButton("Abbrechen", null);
+            dialog.show();
             return true;
         });
 
@@ -284,16 +302,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 Objects.requireNonNull(getActivity()).recreate();
                 break;
             case KEY_PREF_LOGOUT:
-                Log.i("LOGOUT_PREF", "Logging out!");
-                //clear sharedPreferences
-                SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
-                editor.clear().apply();
-                //disable Firebase Notifications
-                FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
-                firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
-                firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
-                startActivity(new Intent(getContext(), SplashActivity.class));
-                Objects.requireNonNull(getActivity()).finish();
+
                 break;
             case KEY_PREF_DEV_NOTIFICATIONS:
                 Log.i("DEV_NOTIFICATION_SWITCH", "Preference value was updated to: " + sharedPreferences.getBoolean(key, false));

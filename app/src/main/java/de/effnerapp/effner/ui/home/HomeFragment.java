@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView headerTextView = view.findViewById(R.id.headerTextView);
         DataStack dataStack = SplashActivity.getDataStack();
-        String headerText = new HeaderTextParser().parse(dataStack.getHolidays(), SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", ""));
+        String headerText = new HeaderTextParser().parse(dataStack.getHolidays(), dataStack.getPhday(), SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", ""));
         headerTextView.setText(headerText);
 
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");

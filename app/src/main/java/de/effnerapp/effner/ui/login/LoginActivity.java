@@ -1,5 +1,6 @@
 package de.effnerapp.effner.ui.login;
 
+import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -55,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         List<String> items = new ArrayList<>(getClasses());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         sClass.setAdapter(adapter);
-        if (SplashActivity.sharedPreferences.contains("APP_AUTH_TOKEN")) {
+        AccountManager accountManager = AccountManager.get(this);
+        if (accountManager.getAccountsByType("de.effnerapp").length == 1) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("Ein Account existiert bereits!")

@@ -1,5 +1,7 @@
 package de.effnerapp.effner.tools;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -129,7 +131,7 @@ public class LoginManager {
             //put sharedPreference Values
             SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
             editor.putBoolean("APP_REGISTERED", true);
-            editor.putString("APP_AUTH_TOKEN", user.getToken());
+//            editor.putString("APP_AUTH_TOKEN", user.getToken());
             editor.putString("APP_USER_CLASS", user.getsClass());
             editor.putString("APP_DSB_LOGIN_ID", id);
             editor.putString("APP_DSB_LOGIN_PASSWORD", password);
@@ -139,12 +141,17 @@ public class LoginManager {
             editor.apply();
             //enable general notifications
             FirebaseMessaging.getInstance().subscribeToTopic("APP_GENERAL_NOTIFICATIONS");
+
+            AccountManager accountManager = AccountManager.get(context);
+            Account account = new Account("EffnerAPP", "de.effnerapp");
+            accountManager.addAccountExplicitly(account, user.getToken(), null);
         }
 
         return ok[0];
     }
 
     public boolean login(String token) {
+        System.out.println("TOKEN: " + token);
         OkHttpClient client = new OkHttpClient();
         Timer timer = new Timer();
         final String[] res = new String[1];

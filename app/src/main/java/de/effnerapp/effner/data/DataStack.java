@@ -3,6 +3,7 @@ package de.effnerapp.effner.data;
 import de.effnerapp.effner.data.model.AppColor;
 import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.Holidays;
+import de.effnerapp.effner.data.model.PHDay;
 import de.effnerapp.effner.data.model.Schooltest;
 import de.effnerapp.effner.data.model.TDay;
 import de.effnerapp.effner.data.model.Term;
@@ -12,6 +13,7 @@ public class DataStack {
     private Schooltest[] schooltests;
     private Term[] terms;
     private Holidays[] holidays;
+    private PHDay phday;
     private TDay[] timetable;
     private Content[] content;
     private AppColor[] colors;
@@ -25,40 +27,24 @@ public class DataStack {
         return schooltests;
     }
 
-    public void setSchooltests(Schooltest[] schooltests) {
-        this.schooltests = schooltests;
-    }
-
     public Term[] getTerms() {
         return terms;
-    }
-
-    public void setTerms(Term[] terms) {
-        this.terms = terms;
     }
 
     public Holidays[] getHolidays() {
         return holidays;
     }
 
-    public void setHolidays(Holidays[] holidays) {
-        this.holidays = holidays;
+    public PHDay getPhday() {
+        return phday;
     }
 
     public TDay[] getTimetable() {
         return timetable;
     }
 
-    public void setTimetable(TDay[] timetable) {
-        this.timetable = timetable;
-    }
-
     public Content[] getContent() {
         return content;
-    }
-
-    public void setContent(Content[] content) {
-        this.content = content;
     }
 
     public Content getContentByKey(String key) {
@@ -72,10 +58,6 @@ public class DataStack {
 
     public AppColor[] getColors() {
         return colors;
-    }
-
-    public void setColors(AppColor[] colors) {
-        this.colors = colors;
     }
 
     public AppColor getColorByKey(String key) {

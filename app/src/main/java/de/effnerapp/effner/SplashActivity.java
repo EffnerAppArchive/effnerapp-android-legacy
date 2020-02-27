@@ -1,5 +1,7 @@
 package de.effnerapp.effner;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -42,10 +44,19 @@ public class SplashActivity extends AppCompatActivity {
         new Thread(() -> {
             boolean registered;
             LoginManager loginManager = new LoginManager(this, this);
+            AccountManager accountManager = AccountManager.get(this);
             if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
-                registered = loginManager.login(sharedPreferences.getString("APP_AUTH_TOKEN", ""));
+                if(accountManager.getAccountsByType("de.effnerapp").length > 0) {
+                    registered = loginManager.login(accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
+                } else {
+                    registered = false;
+                }
             } else {
                 registered = false;
+                // REMOVE all accounts!
+                for(Account account : accountManager.getAccountsByType("de.effnerapp")) {
+                    accountManager.removeAccountExplicitly(account);
+                }
             }
             Log.d("SPLASH", "APP_REGISTERED: " + registered);
             if (registered) {
@@ -106,7 +117,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void loadData() {
         DataStackReader reader = new DataStackReader(this, this);
-        dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), sharedPreferences.getString("APP_AUTH_TOKEN", ""));
+        AccountManager accountManager = AccountManager.get(this);
+        dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
         while (dataStack == null) {
             Log.d("SPLASH", "Loading Data...");
             try {
