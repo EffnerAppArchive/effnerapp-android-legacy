@@ -37,32 +37,29 @@ public class DataStackReader {
     public DataStack read(String sClass, String token) {
         Timer timer = new Timer();
         OkHttpClient client = new OkHttpClient();
-        new Thread(() -> {
 
-            String url = "https://api.effnerapp.de/rest/v2/get.php" + "?class=" + sClass + "&token=" + token;
+        String url = "https://api.effnerapp.de/rest/v2/get.php" + "?class=" + sClass + "&token=" + token;
 
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
 
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    res = Objects.requireNonNull(response.body()).string();
-                    System.out.println(res);
-                    dataStack = gson.fromJson(res, DataStack.class);
-                    timer.cancel();
-                }
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                res = Objects.requireNonNull(response.body()).string();
+                System.out.println(res);
+                dataStack = gson.fromJson(res, DataStack.class);
+                timer.cancel();
+            }
 
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    call.cancel();
-                    timer.cancel();
-                    handleError();
-                }
-            });
-
-        }).start();
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                call.cancel();
+                timer.cancel();
+                handleError();
+            }
+        });
 
         timer.schedule(new TimerTask() {
             int i = 0;

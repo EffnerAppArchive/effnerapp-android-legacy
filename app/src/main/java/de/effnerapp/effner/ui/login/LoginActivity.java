@@ -30,7 +30,7 @@ import java.util.Objects;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.json.Classes;
-import de.effnerapp.effner.tools.LoginManager;
+import de.effnerapp.effner.tools.auth.ServerAuthenticator;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -98,16 +98,15 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 dialog.show();
                 new Thread(() -> {
-                    LoginManager loginManager = new LoginManager(this, this);
+                    ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this, this);
                     String classS = sClass.getSelectedItem().toString().equals("11") || sClass.getSelectedItem().toString().equals("12") ? sClass.getSelectedItem().toString() + "Q" + course.getText().toString() : sClass.getSelectedItem().toString();
-                    boolean login = loginManager.register(effnerappID.getText().toString(), password.getText().toString(), classS, username.getText().toString());
+                    boolean login = serverAuthenticator.register(effnerappID.getText().toString(), password.getText().toString(), classS, username.getText().toString());
+                    runOnUiThread(dialog::cancel);
                     if (login) {
                         runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show());
-                        dialog.cancel();
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     } else {
-                        dialog.cancel();
                         runOnUiThread(() -> Toast.makeText(this, "Fehler beim Anmelden!", Toast.LENGTH_LONG).show());
                     }
                 }).start();

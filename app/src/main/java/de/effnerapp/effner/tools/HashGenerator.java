@@ -15,12 +15,18 @@ public class HashGenerator {
     }
 
 
-    public String generate(String input) throws NoSuchAlgorithmException {
+    public String generate(String input) {
         return getHexString(getHashedBytes(input));
     }
 
-    private byte[] getHashedBytes(String input) throws NoSuchAlgorithmException {
-        MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
+    private byte[] getHashedBytes(String input) {
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance(algorithm);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        assert messageDigest != null;
         return messageDigest.digest(input.getBytes(charset));
     }
 

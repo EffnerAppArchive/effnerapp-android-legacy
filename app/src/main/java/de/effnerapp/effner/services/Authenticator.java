@@ -11,6 +11,8 @@ import android.os.Bundle;
  * of its methods
  */
 public class Authenticator extends AbstractAccountAuthenticator {
+    public static final String ACCOUNT_TYPE = "de.effnerapp";
+    public static final String ACCOUNT_NAME = "EffnerApp";
     // Simple constructor
     public Authenticator(Context context) {
         super(context);
