@@ -19,7 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import de.effnerapp.effner.data.DataStack;
 import de.effnerapp.effner.data.dsbmobile.Vertretungen;
 import de.effnerapp.effner.data.utils.DataStackReader;
-import de.effnerapp.effner.tools.LoginManager;
+import de.effnerapp.effner.services.Authenticator;
+import de.effnerapp.effner.tools.auth.ServerAuthenticator;
 import de.effnerapp.effner.ui.login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -40,42 +41,32 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         startUp();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this, this);
+        AccountManager accountManager = AccountManager.get(this);
 
-        new Thread(() -> {
-            boolean registered;
-            LoginManager loginManager = new LoginManager(this, this);
-            AccountManager accountManager = AccountManager.get(this);
-            if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
-                if(accountManager.getAccountsByType("de.effnerapp").length > 0) {
-                    registered = loginManager.login(accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
-                } else {
-                    registered = false;
-                }
-            } else {
-                registered = false;
-                // REMOVE all accounts!
-                for(Account account : accountManager.getAccountsByType("de.effnerapp")) {
-                    accountManager.removeAccountExplicitly(account);
-                }
-            }
-            Log.d("SPLASH", "APP_REGISTERED: " + registered);
-            if (registered) {
-                loadData();
-                Intent intent = new Intent(this, MainActivity.class);
-                Bundle bundle = getIntent().getExtras();
-                if (bundle != null) {
-                    if (bundle.getString("NOTIFICATION_CONTENT") != null) {
-                        intent.putExtras(bundle);
+        if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
+            if(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length > 0) {
+                new Thread(() -> {
+                    if(serverAuthenticator.login(accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]))) {
+                        loadData();
+                        runOnUiThread(() -> {
+                            startActivity(new Intent(this, MainActivity.class));
+                            finish();
+                        });
                     }
-                }
-
-                startActivity(intent);
-                finish();
-            } else if (!loginManager.isError()) {
+                }).start();
+            } else {
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }
-        }).start();
+        } else {
+            // REMOVE all accounts!
+            for(Account account : accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)) {
+                accountManager.removeAccountExplicitly(account);
+            }
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
     }
 
     private void startUp() {
@@ -118,7 +109,7 @@ public class SplashActivity extends AppCompatActivity {
     private void loadData() {
         DataStackReader reader = new DataStackReader(this, this);
         AccountManager accountManager = AccountManager.get(this);
-        dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
+        dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
         while (dataStack == null) {
             Log.d("SPLASH", "Loading Data...");
             try {
