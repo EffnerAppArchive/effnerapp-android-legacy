@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_news"
+        android:name="de.effnerapp.effner.ui.news.NewsFragment"
+        android:label="@string/title_news"
+        tools:layout="@layout/fragment_news" />
+
+    <fragment
         android:id="@+id/navigation_substitutions"
         android:name="de.effnerapp.effner.ui.substitutions.SubstitutionsFragment"
         android:label="@string/title_substitutions"

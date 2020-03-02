@@ -118,8 +118,6 @@
         android:id="@+id/schooltests_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="25dp">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_marginTop="25dp" />
 
 </FrameLayout>

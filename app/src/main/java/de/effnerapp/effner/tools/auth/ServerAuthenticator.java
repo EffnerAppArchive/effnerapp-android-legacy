@@ -9,6 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.effnerapp.effner.tools.model.AuthError;
+import de.effnerapp.effner.tools.model.LoginResult;
 
 public class ServerAuthenticator {
     private Context context;
@@ -19,7 +20,8 @@ public class ServerAuthenticator {
         this.activity = activity;
     }
 
-    public boolean login(String token) {
+    public LoginResult login(String token) {
+        LoginResult result = new LoginResult(false, true);
         Timer timer = new Timer();
         LoginManager loginManager = new LoginManager(context);
 
@@ -36,14 +38,19 @@ public class ServerAuthenticator {
             }
         }, 0, 1000);
 
-        boolean result = loginManager.login(token);
+        result.setLogin(loginManager.login(token));
         timer.cancel();
 
         if(!loginManager.getError().isError()) {
             return result;
         } else {
-            showError(loginManager.getError(), true);
-            return false;
+            if(loginManager.getError().getMsg().equals("AUTHENTICATION_FAILED")) {
+                result = new LoginResult(false, true);
+            } else {
+                result = new LoginResult(false, false);
+                showError(loginManager.getError(), true);
+            }
+            return result;
         }
     }
 

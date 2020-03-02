@@ -47,4 +47,9 @@
     <string name="timetable_card_text">Stundenplan</string>
     <string name="schooltests_card_hj2">2. Halbjahr</string>
     <string name="schooltests_card_hj1">1. Halbjahr</string>
+
+    <string name="description_news_title">Title</string>
+    <string name="description_news_content">Content</string>
+    <string name="title_news">News (Beta)</string>
+    <string name="news_card_text">News (Beta)</string>
 </resources>

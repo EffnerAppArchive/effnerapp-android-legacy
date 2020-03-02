@@ -74,6 +74,8 @@
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
         android:inputType="text"
+        android:maxLength="16"
+        android:maxLines="1"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -21,6 +21,7 @@ import de.effnerapp.effner.data.dsbmobile.Vertretungen;
 import de.effnerapp.effner.data.utils.DataStackReader;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.auth.ServerAuthenticator;
+import de.effnerapp.effner.tools.model.LoginResult;
 import de.effnerapp.effner.ui.login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -47,15 +48,21 @@ public class SplashActivity extends AppCompatActivity {
         if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
             if(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length > 0) {
                 new Thread(() -> {
-                    if(serverAuthenticator.login(accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]))) {
+                    LoginResult result = serverAuthenticator.login(accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
+                    if(result.isLogin()) {
                         loadData();
                         runOnUiThread(() -> {
                             startActivity(new Intent(this, MainActivity.class));
                             finish();
                         });
+                    } else {
+                        if(result.showLoginScreen()) {
+                            runOnUiThread(() -> startActivity(new Intent(this, LoginActivity.class)));
+                        }
                     }
                 }).start();
             } else {
+                sharedPreferences.edit().clear().apply();
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
             }
@@ -64,6 +71,7 @@ public class SplashActivity extends AppCompatActivity {
             for(Account account : accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)) {
                 accountManager.removeAccountExplicitly(account);
             }
+            sharedPreferences.edit().clear().apply();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
@@ -110,14 +118,7 @@ public class SplashActivity extends AppCompatActivity {
         DataStackReader reader = new DataStackReader(this, this);
         AccountManager accountManager = AccountManager.get(this);
         dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
-        while (dataStack == null) {
-            Log.d("SPLASH", "Loading Data...");
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        sharedPreferences.edit().putString("APP_USER_USERNAME", dataStack.getUsername()).apply();
 
         //Authentication on DSB-SERVER
         boolean login = vertretungen.login(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
