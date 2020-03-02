@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
         CardView illnessDocCard = view.findViewById(R.id.illness_doc_card);
         CardView foodPlanCard = view.findViewById(R.id.food_plan_card);
         CardView substitutionCard = view.findViewById(R.id.subs_card);
+        CardView newsCard = view.findViewById(R.id.news_card);
 
         timetableCard.setOnClickListener(v -> startActivity(new Intent(getContext(), TimetableActivity.class)));
         illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_ILLNESS_DOC_" + ((sClass.startsWith("11") || sClass.startsWith("12")) ? 1 : 0)).getValue()))));
@@ -44,6 +45,11 @@ public class HomeFragment extends Fragment {
         substitutionCard.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
             navController.navigate(R.id.navigation_substitutions);
+        });
+
+        newsCard.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
+            navController.navigate(R.id.navigation_news);
         });
 
         return view;

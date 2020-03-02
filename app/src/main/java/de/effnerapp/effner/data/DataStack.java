@@ -3,6 +3,7 @@ package de.effnerapp.effner.data;
 import de.effnerapp.effner.data.model.AppColor;
 import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.Holidays;
+import de.effnerapp.effner.data.model.News;
 import de.effnerapp.effner.data.model.PHDay;
 import de.effnerapp.effner.data.model.Schooltest;
 import de.effnerapp.effner.data.model.TDay;
@@ -17,6 +18,8 @@ public class DataStack {
     private TDay[] timetable;
     private Content[] content;
     private AppColor[] colors;
+    private String username;
+    private News[] news;
 
 
     public DataStack() {
@@ -69,4 +72,11 @@ public class DataStack {
         return null;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public News[] getNews() {
+        return news;
+    }
 }

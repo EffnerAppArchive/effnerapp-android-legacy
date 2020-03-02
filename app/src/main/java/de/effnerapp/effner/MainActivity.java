@@ -17,10 +17,12 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    private static MainActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         SharedPreferences sharedPreferences = SplashActivity.sharedPreferences;
         if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
             Log.d("MAIN", "Nightmode: ON");
@@ -66,4 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static MainActivity getInstance() {
+        return instance;
+    }
 }
