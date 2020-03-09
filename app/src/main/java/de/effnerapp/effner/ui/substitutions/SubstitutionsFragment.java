@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -27,9 +28,9 @@ import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
-import de.effnerapp.effner.data.dsbmobile.model.Klasse;
-import de.effnerapp.effner.data.dsbmobile.model.Tag;
-import de.effnerapp.effner.data.dsbmobile.model.Vertretung;
+import de.effnerapp.effner.data.dsbmobile.model.Day;
+import de.effnerapp.effner.data.dsbmobile.model.SClass;
+import de.effnerapp.effner.data.dsbmobile.model.Substitution;
 import de.effnerapp.effner.ui.substitutions.sections.Head;
 import de.effnerapp.effner.ui.substitutions.sections.Item;
 import de.effnerapp.effner.ui.substitutions.sections.ItemAdapter;
@@ -38,7 +39,7 @@ public class SubstitutionsFragment extends Fragment {
     private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
     private List<Head> heads = new ArrayList<>();
     private RecyclerView recyclerView;
-    private List<Tag> table;
+    private List<Day> days;
 
 
     public SubstitutionsFragment() {
@@ -46,13 +47,12 @@ public class SubstitutionsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_substitutions, container, false);
         //Wait for DSBMobile
-        while (SplashActivity.getVertretungen() == null || SplashActivity.getVertretungen().getTable() == null) {
-            Log.d("VerFrag", "Wait...");
+        while (SplashActivity.getSubstitutions() == null || SplashActivity.getSubstitutions().getDays() == null) {
+            Log.d("SubstitutionsFragment", "Wait...");
             try {
                 Thread.sleep(250);
             } catch (InterruptedException e) {
@@ -65,12 +65,12 @@ public class SubstitutionsFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         //Set dates
-        String[] dates = {"today", "tomorrow"};
+        String[] dates = {"0", "1"};
 
-        table = SplashActivity.getVertretungen().getTable();
+        days = SplashActivity.getSubstitutions().getDays();
         int i = 0;
-        for (Tag tag : table) {
-            dates[i] = tag.getDatum();
+        for (Day day : days) {
+            dates[i] = day.getDate();
             i++;
         }
 
@@ -101,7 +101,7 @@ public class SubstitutionsFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
-                Log.d("VertretungsSpinner", "Item: " + parent.getItemAtPosition(position));
+                Log.d("SubstitutionSpinner", "Item: " + parent.getItemAtPosition(position));
 
                 //Clear list
                 heads.clear();
@@ -109,37 +109,35 @@ public class SubstitutionsFragment extends Fragment {
                 int size = 0;
 
                 //set data
-                for (Tag tag : table) {
-                    if (tag.getDatum().equals(parent.getItemAtPosition(position))) {
-                        for (Klasse klasse : tag.getKlassen()) {
+                for (Day day : days) {
+                    if (day.getDate().equals(parent.getItemAtPosition(position))) {
+                        for (SClass sClass : day.getSClasses()) {
 
-                            //Get Klasse from SharedPreferences
-                            String persoKlasse = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
-                            if (klasse.getName().contains(persoKlasse)) {
+                            //Get SchoolClass from SharedPreferences
+                            String userClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
+                            if (sClass.getName().contains(userClass)) {
                                 ImageView noSubs = container.findViewById(R.id.no_subs_image);
                                 noSubs.setVisibility(View.INVISIBLE);
 
-                                for (Vertretung vertretung : klasse.getVertretungen()) {
+                                for (Substitution substitution : sClass.getSubstitutions()) {
                                     size++;
                                     //set body
                                     List<Item> items = new ArrayList<>();
-                                    items.add(new Item("Ausfall: " + vertretung.getLehrkraft()));
-                                    if (!vertretung.getRaum().equals("")) {
-                                        items.add(new Item("Raum: " + vertretung.getRaum()));
+                                    items.add(new Item("Ausfall: " + substitution.getTeacher()));
+                                    if (!substitution.getRoom().isEmpty()) {
+                                        items.add(new Item("Raum: " + substitution.getRoom()));
                                     }
-                                    if (!vertretung.getInfo().equals("")) {
-                                        items.add(new Item("Info: " + vertretung.getInfo()));
+                                    if (!substitution.getInfo().isEmpty()) {
+                                        items.add(new Item("Info: " + substitution.getInfo()));
                                     }
 
                                     StringBuilder header = new StringBuilder();
-                                    header.append(vertretung.getStunde()).append(". Stunde");
-                                    if (!vertretung.getVertretung().equals("")) {
-                                        header.append(" vertreten durch ").append(vertretung.getVertretung());
+                                    header.append(substitution.getPeriod()).append(". Stunde");
+                                    if (!substitution.getSubTeacher().isEmpty()) {
+                                        header.append(" vertreten durch ").append(substitution.getSubTeacher());
                                     } else {
-                                        if (!vertretung.getInfo().equals("")) {
-                                            header.append(": ").append(vertretung.getInfo());
-                                        } else {
-                                            header.append(": keine Info");
+                                        if (!substitution.getInfo().isEmpty()) {
+                                            header.append(": ").append(substitution.getInfo());
                                         }
                                     }
                                     //set header
@@ -152,17 +150,12 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                if (SplashActivity.getVertretungen().getMainInformation().size() >= position + 1 && SplashActivity.getVertretungen().getMainInformation().get(position).size() > 0) {
-                    size++;
-                    List<Item> items = new ArrayList<>();
-                    StringBuilder sb = new StringBuilder();
-                    for (String info : SplashActivity.getVertretungen().getMainInformation().get(position)) {
-                        sb.append(info).append("\n");
-                    }
-                    items.add(new Item(sb.toString()));
-                    Head head = new Head("Informationen für die ganze Schule", items, Color.rgb(0, 150, 136));
+                if (SplashActivity.getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
+                    Item item = new Item(SplashActivity.getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
+                    Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136));
 
                     heads.add(head);
+                    size++;
                 }
 
                 ImageView noSubs = container.findViewById(R.id.no_subs_image);
@@ -180,7 +173,7 @@ public class SubstitutionsFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 // Useless?
-                Log.w("VertretungsSpinner", "Item: No Item 404");
+                Log.w("SubstitutionSpinner", "Nothing selected!");
             }
         });
 

@@ -74,8 +74,8 @@ public class TimetableActivity extends AppCompatActivity {
                         Schedule schedule = new Schedule();
                         schedule.setSubject(text);
                         schedule.setDay(dayI);
-                        schedule.setStartTime(new Time(i + 1, 0));
-                        schedule.setEndTime(new Time(i + 2, 0));
+                        schedule.setStartTime(new Time(i, 0));
+                        schedule.setEndTime(new Time(i + 1, 0));
                         schedules.add(schedule);
                     }
                 }
