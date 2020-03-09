@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import de.effnerapp.effner.data.DataStack;
-import de.effnerapp.effner.data.dsbmobile.Vertretungen;
+import de.effnerapp.effner.data.dsbmobile.Substitutions;
 import de.effnerapp.effner.data.utils.DataStackReader;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.auth.ServerAuthenticator;
@@ -27,15 +27,7 @@ import de.effnerapp.effner.ui.login.LoginActivity;
 public class SplashActivity extends AppCompatActivity {
     public static SharedPreferences sharedPreferences;
     private static DataStack dataStack;
-    private static Vertretungen vertretungen = new Vertretungen();
-
-    public static DataStack getDataStack() {
-        return dataStack;
-    }
-
-    public static Vertretungen getVertretungen() {
-        return vertretungen;
-    }
+    private static Substitutions substitutions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,12 +113,18 @@ public class SplashActivity extends AppCompatActivity {
         sharedPreferences.edit().putString("APP_USER_USERNAME", dataStack.getUsername()).apply();
 
         //Authentication on DSB-SERVER
-        boolean login = vertretungen.login(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
-        Log.d("SPLASH", "Login: " + login);
-        try {
-            vertretungen.load();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
+        boolean login = substitutions.login();
+        Log.d("SPLASH", "DSB-Auth: " + login);
+        //Load substitutions
+        substitutions.load();
+    }
+
+    public static DataStack getDataStack() {
+        return dataStack;
+    }
+
+    public static Substitutions getSubstitutions() {
+        return substitutions;
     }
 }
