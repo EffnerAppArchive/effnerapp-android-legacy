@@ -53,6 +53,8 @@ public class RegistrationManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //RESET SHARED PREFERENCES
+        SplashActivity.sharedPreferences.edit().clear().apply();
         OkHttpClient client = new OkHttpClient();
 
         RequestBody requestBody = createRequestBody(id, password, sClass, username);

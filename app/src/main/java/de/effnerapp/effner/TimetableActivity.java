@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import de.effnerapp.effner.data.model.TDay;
-import de.effnerapp.effner.data.utils.DigitsParser;
 import de.effnerapp.effner.ui.models.timetableview.Schedule;
 import de.effnerapp.effner.ui.models.timetableview.Time;
 import de.effnerapp.effner.ui.models.timetableview.TimetableView;
@@ -35,7 +34,6 @@ import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
 
 public class TimetableActivity extends AppCompatActivity {
     private TimetableView timetable;
-    private DigitsParser digitsParser = new DigitsParser();
     private Button backButton;
 
     @Override
@@ -64,10 +62,10 @@ public class TimetableActivity extends AppCompatActivity {
 
             for (TDay day : SplashActivity.getDataStack().getTimetable()) {
                 int dayI = day.getId() - 1;
-                for (int i = 0; i < 10; i++) {
+                for (int i = 1; i <= 10; i++) {
                     String text = null;
                     try {
-                        text = Objects.requireNonNull(day.getClass().getField(digitsParser.parse(i)).get(day)).toString();
+                        text = Objects.requireNonNull(day.getClass().getField("s" + i).get(day)).toString();
                     } catch (IllegalAccessException | NoSuchFieldException e) {
                         e.printStackTrace();
                     }
@@ -174,15 +172,14 @@ public class TimetableActivity extends AppCompatActivity {
 
     private boolean isEmpty(TDay[] timetable) {
         for (TDay day : timetable) {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 1; i <= 10; i++) {
                 String text = null;
                 try {
-                    text = Objects.requireNonNull(day.getClass().getField(digitsParser.parse(i)).get(day)).toString();
+                    text = Objects.requireNonNull(day.getClass().getField("s" + i).get(day)).toString();
                 } catch (IllegalAccessException | NoSuchFieldException e) {
                     e.printStackTrace();
                 }
-                assert text != null;
-                if (!text.isEmpty() && !text.equals("-")) {
+                if (text != null && !text.isEmpty() && !text.equals("-")) {
                     return false;
                 }
             }
