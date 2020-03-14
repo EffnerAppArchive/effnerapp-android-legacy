@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
@@ -44,32 +45,35 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
         final Item item = (Item) group.getItems().get(childIndex);
         holder.bind(item);
         holder.itemView.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getInstance());
-            Context dialogContext = builder.getContext();
-            LayoutInflater inflater = LayoutInflater.from(dialogContext);
-            View alertView = inflater.inflate(R.layout.news_attachments, null);
+            if(heads.get(item.id).getDocuments().size() > 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getInstance());
+                Context dialogContext = builder.getContext();
+                LayoutInflater inflater = LayoutInflater.from(dialogContext);
+                View alertView = inflater.inflate(R.layout.news_attachments, null);
 
-            builder.setTitle("Angehängte Dokumente");
-            builder.setView(alertView);
-            TableLayout tableLayout = alertView.findViewById(R.id.table);
-            for(String document : heads.get(flatPosition - 1).getDocuments()){
-                TableRow tableRow = new TableRow(dialogContext);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                tableRow.setLayoutParams(params);
-                tableRow.setPadding(50,20,0,0);
+                builder.setTitle("Angehängte Dokumente");
+                builder.setView(alertView);
+                TableLayout tableLayout = alertView.findViewById(R.id.table);
+                for(String document : heads.get(item.id).getDocuments()){
+                    TableRow tableRow = new TableRow(dialogContext);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    tableRow.setLayoutParams(params);
+                    tableRow.setPadding(50,20,0,0);
 
-                View cardView = inflater.inflate(R.layout.news_document, null);
-                TextView title = cardView.findViewById(R.id.doc_title);
+                    View cardView = inflater.inflate(R.layout.news_document, null);
+                    TextView title = cardView.findViewById(R.id.doc_title);
 
-                title.setText(getDocumentType(document));
-                tableRow.addView(cardView);
-                tableRow.setOnClickListener(v1 -> {
-                    MainActivity.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(document)));
-                });
-                tableLayout.addView(tableRow);
+                    title.setText(getDocumentType(document));
+                    tableRow.addView(cardView);
+                    tableRow.setOnClickListener(view -> MainActivity.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(document))));
+                    tableLayout.addView(tableRow);
+                }
+                builder.setPositiveButton("Schließen", null);
+                builder.show();
+            } else {
+                Toast.makeText(MainActivity.getInstance(), "An diesen Beitrag wurden keine Dokumente angehängt!", Toast.LENGTH_LONG).show();
             }
-            builder.setPositiveButton("Schließen", null);
-            builder.show();
+
         });
     }
 

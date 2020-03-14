@@ -17,13 +17,16 @@ public class Item implements Parcelable {
         }
     };
     public final String name;
+    public final int id;
 
-    public Item(String name) {
+    public Item(String name, int id) {
         this.name = name;
+        this.id = id;
     }
 
     protected Item(Parcel in) {
         name = in.readString();
+        id = in.readInt();
     }
 
     @Override

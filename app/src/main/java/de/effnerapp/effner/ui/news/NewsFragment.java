@@ -48,6 +48,7 @@ public class NewsFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         List<NewsItem> news = new NewsParser().parse(SplashActivity.getDataStack().getNews());
+        int i = 0;
         for(NewsItem newsItem : news) {
             String date = parseDate(newsItem.getDate());
             String title = null, content;
@@ -61,8 +62,9 @@ public class NewsFragment extends Fragment {
                 title = newsItem.getTitle();
             }
             content += "\n\nVeröffentlicht am " + date;
-            Item item = new Item(content);
+            Item item = new Item(content, i);
             heads.add(new Head(title, Collections.singletonList(item), newsItem.getUrls(), Color.BLACK));
+            i++;
         }
         ItemAdapter adapter = new ItemAdapter(heads);
         recyclerView.setAdapter(adapter);
