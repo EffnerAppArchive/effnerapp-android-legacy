@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
+import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
 import de.effnerapp.effner.data.dsbmobile.model.Day;
 import de.effnerapp.effner.data.dsbmobile.model.SClass;
 import de.effnerapp.effner.data.dsbmobile.model.Substitution;
@@ -153,9 +154,23 @@ public class SubstitutionsFragment extends Fragment {
                 if (SplashActivity.getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
                     Item item = new Item(SplashActivity.getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
                     Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136));
-
                     heads.add(head);
                     size++;
+                }
+
+                if (SplashActivity.getSubstitutions().getAbsentClasses().size() > 0) {
+                    List<Item> items = new ArrayList<>();
+                    for (AbsentClass absentClass : SplashActivity.getSubstitutions().getAbsentClasses()) {
+                        if (absentClass.getDate().equals(parent.getItemAtPosition(position).toString())) {
+                            Item item = new Item(absentClass.getSClass() + ": " + absentClass.getPeriod() + " Stunde");
+                            items.add(item);
+                        }
+                    }
+                    if(items.size() > 0) {
+                        Head head = new Head("Abwesende Klassen", items, Color.rgb(255, 93, 82));
+                        heads.add(head);
+                        size++;
+                    }
                 }
 
                 ImageView noSubs = container.findViewById(R.id.no_subs_image);

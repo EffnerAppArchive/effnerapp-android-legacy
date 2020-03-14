@@ -1,5 +1,7 @@
 package de.effnerapp.effner.data.dsbmobile;
 
+import android.util.Log;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
 import de.effnerapp.effner.data.dsbmobile.model.Day;
 import de.effnerapp.effner.data.dsbmobile.model.SClass;
 import de.effnerapp.effner.data.dsbmobile.model.Substitution;
@@ -23,6 +26,7 @@ public class Substitutions {
     private List<String> dates;
     private List<Day> days;
     private Map<String, String> information;
+    private List<AbsentClass> absentClasses;
 
     public Substitutions(String username, String password) {
         this.username = username;
@@ -30,6 +34,7 @@ public class Substitutions {
         dates = new ArrayList<>();
         days = new ArrayList<>();
         information = new HashMap<>();
+        absentClasses = new ArrayList<>();
     }
 
 
@@ -54,6 +59,8 @@ public class Substitutions {
         dates.clear();
         days.clear();
         information.clear();
+        absentClasses.clear();
+
         Document document = null;
         try {
             document = Jsoup.connect(url).get();
@@ -71,50 +78,69 @@ public class Substitutions {
                 }
             }
             for (Element table : doc.select("table")) {
-                if(table.attr("class").equals("F")) {
-                    StringBuilder sb = new StringBuilder();
-                    for(Element th : table.select("th")) {
-                        sb.append(th.text()).append("\n");
-                    }
-                    information.put(date, sb.toString());
-                } else if(table.attr("class").equals("K")) {
-                    //TODO: handle absent classes!
-
-                } else if (table.attr("class").equals("k")) {
-                    Day day = new Day(date);
-                    for (Element body : table.select("tbody")) {
-                        if (body.select("th").text().startsWith("Klasse")) continue;
-                        SClass sClass = new SClass(body.select("th").text());
-
-                        for (Element row : body.select("tr")) {
-                            Substitution substitution = new Substitution();
-
-                            int i = 0;
-                            for (Element column : row.select("td")) {
-                                i++;
-                                switch (i) {
-                                    case 1:
-                                        substitution.setTeacher(column.text());
-                                        break;
-                                    case 2:
-                                        substitution.setPeriod(column.text());
-                                        break;
-                                    case 3:
-                                        substitution.setSubTeacher(column.text());
-                                        break;
-                                    case 4:
-                                        substitution.setRoom(column.text());
-                                        break;
-                                    case 5:
-                                        substitution.setInfo(column.text());
-                                        break;
-                                }
-                            }
-                            sClass.addSubstitutions(substitution);
+                switch (table.attr("class")) {
+                    case "F":
+                        StringBuilder sb = new StringBuilder();
+                        for (Element th : table.select("th")) {
+                            sb.append(th.text()).append("\n");
                         }
-                        day.addSClasses(sClass);
-                    }
-                    days.add(day);
+                        if (!sb.toString().isEmpty()) {
+                            Log.d("Subs", "Adding general information for date " + date);
+                            information.put(date, sb.toString());
+                        }
+
+                        break;
+                    case "K":
+                        for (Element tr : table.select("tr")) {
+                            String sClass = "?", period = "?";
+                            for (Element th : tr.select("th")) {
+                                sClass = th.text();
+                            }
+
+                            for (Element td : tr.select("td")) {
+                                period = td.text();
+                            }
+
+                            absentClasses.add(new AbsentClass(date, sClass, period));
+                        }
+
+                        break;
+                    case "k":
+                        Day day = new Day(date);
+                        for (Element body : table.select("tbody")) {
+                            if (body.select("th").text().startsWith("Klasse")) continue;
+                            SClass sClass = new SClass(body.select("th").text());
+
+                            for (Element row : body.select("tr")) {
+                                Substitution substitution = new Substitution();
+
+                                int i = 0;
+                                for (Element column : row.select("td")) {
+                                    i++;
+                                    switch (i) {
+                                        case 1:
+                                            substitution.setTeacher(column.text());
+                                            break;
+                                        case 2:
+                                            substitution.setPeriod(column.text());
+                                            break;
+                                        case 3:
+                                            substitution.setSubTeacher(column.text());
+                                            break;
+                                        case 4:
+                                            substitution.setRoom(column.text());
+                                            break;
+                                        case 5:
+                                            substitution.setInfo(column.text());
+                                            break;
+                                    }
+                                }
+                                sClass.addSubstitutions(substitution);
+                            }
+                            day.addSClasses(sClass);
+                        }
+                        days.add(day);
+                        break;
                 }
             }
         }
@@ -153,5 +179,9 @@ public class Substitutions {
 
     public Map<String, String> getInformation() {
         return information;
+    }
+
+    public List<AbsentClass> getAbsentClasses() {
+        return absentClasses;
     }
 }
