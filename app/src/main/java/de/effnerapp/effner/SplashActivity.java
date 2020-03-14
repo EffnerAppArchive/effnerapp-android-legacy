@@ -120,6 +120,8 @@ public class SplashActivity extends AppCompatActivity {
         substitutions.load();
     }
 
+
+
     public static DataStack getDataStack() {
         return dataStack;
     }

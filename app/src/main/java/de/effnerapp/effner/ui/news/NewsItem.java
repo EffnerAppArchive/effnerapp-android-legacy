@@ -3,7 +3,7 @@ package de.effnerapp.effner.ui.news;
 import java.util.List;
 
 public class NewsItem {
-    private String title, content;
+    private String title, content, date;
     private List<String> urls;
 
     public NewsItem() {
@@ -32,5 +32,13 @@ public class NewsItem {
 
     public void setUrls(List<String> urls) {
         this.urls = urls;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

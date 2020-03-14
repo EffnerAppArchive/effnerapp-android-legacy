@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
@@ -33,6 +35,9 @@ public class HomeFragment extends Fragment {
 
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
 
+        NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
+        BottomNavigationView navView = view.findViewById(R.id.nav_view);
+
         CardView timetableCard = view.findViewById(R.id.timetable_card);
         CardView illnessDocCard = view.findViewById(R.id.illness_doc_card);
         CardView foodPlanCard = view.findViewById(R.id.food_plan_card);
@@ -43,12 +48,10 @@ public class HomeFragment extends Fragment {
         illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_ILLNESS_DOC_" + ((sClass.startsWith("11") || sClass.startsWith("12")) ? 1 : 0)).getValue()))));
         foodPlanCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_FOOD_PLAN").getValue()))));
         substitutionCard.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
             navController.navigate(R.id.navigation_substitutions);
         });
 
         newsCard.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
             navController.navigate(R.id.navigation_news);
         });
 

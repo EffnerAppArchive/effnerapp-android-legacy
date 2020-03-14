@@ -2,6 +2,7 @@ package de.effnerapp.effner.data.model;
 
 public class News {
     private Rendered title, content;
+    private String date;
 
     public Rendered getTitle() {
         return title;
@@ -13,6 +14,10 @@ public class News {
 
     public Rendered[] getRendered() {
         return new Rendered[] {title, content};
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public static class Rendered {

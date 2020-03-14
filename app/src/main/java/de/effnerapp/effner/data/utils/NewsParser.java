@@ -23,24 +23,32 @@ public class NewsParser {
 
         for(News jNews : news) {
             NewsItem newsItem = new NewsItem();
+            newsItem.setDate(jNews.getDate());
             newsItem.setUrls(parseUrls(jNews));
 
             if(!jNews.getTitle().getValue().isEmpty()) {
                 Document titleDoc = Jsoup.parse(jNews.getTitle().getValue());
                 titleDoc.outputSettings(new Document.OutputSettings().prettyPrint(false));
                 for(Element br : titleDoc.select("br")) {
-                    br.after(new TextNode("\n"));
+                    br.after(new TextNode("#NEW_LINE# "));
                 }
-                String title = Jsoup.clean(titleDoc.html(), "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false)).replace("&#8230;weiterlesen", "");
+                String title = Jsoup.clean(titleDoc.html(), "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false))
+                        .replace("&nbsp;", "")
+                        .replaceAll("\\s+", " ")
+                        .replace("#NEW_LINE# ", "\n\n").trim();
                 newsItem.setTitle(title);
             }
 
             if(!jNews.getContent().getValue().isEmpty()) {
                 Document contentDoc = Jsoup.parse(jNews.getContent().getValue());
+                contentDoc.outputSettings(new Document.OutputSettings().prettyPrint(false));
                 for(Element br : contentDoc.select("br")) {
-                    br.after(new TextNode("\n"));
+                    br.after(new TextNode("#NEW_LINE# "));
                 }
-                String content = Jsoup.clean(contentDoc.html(), "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false)).replace("&#8230;weiterlesen", "");
+                String content = Jsoup.clean(contentDoc.html(), "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false))
+                        .replace("&nbsp;", "")
+                        .replaceAll("\\s+", " ")
+                        .replace("#NEW_LINE# ", "\n\n").trim();
                 newsItem.setContent(content);
             }
 
@@ -56,9 +64,11 @@ public class NewsParser {
         for(News.Rendered rendered : jNews.getRendered()) {
             Document document = Jsoup.parse(rendered.getValue());
             for(Element a : document.select("a")) {
-                String url = buildURL(a.attr("href"));
-                if(!urls.contains(url)) {
-                    urls.add(url);
+                if(isUrlAllowed(a.attr("href"))) {
+                    String url = buildURL(a.attr("href"));
+                    if(!urls.contains(url)) {
+                        urls.add(url);
+                    }
                 }
             }
         }
@@ -66,6 +76,14 @@ public class NewsParser {
     }
 
     private String buildURL(String url) {
-        return (url.startsWith("http://") || url.startsWith("https://") ? url : "https://effner.de" + url);
+        if(url.startsWith("mailto:")) {
+            return url;
+        } else {
+            return (url.startsWith("http://") || url.startsWith("https://") ? url : "https://effner.de" + url);
+        }
+    }
+
+    private boolean isUrlAllowed(String url) {
+        return url.startsWith("https://") || url.startsWith("http://") || url.startsWith("mailto:") || url.startsWith("/");
     }
 }
