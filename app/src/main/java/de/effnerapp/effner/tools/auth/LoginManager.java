@@ -8,7 +8,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,8 +16,6 @@ import java.util.Objects;
 
 import de.effnerapp.effner.json.Login;
 import de.effnerapp.effner.tools.model.AuthError;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -57,34 +54,18 @@ public class LoginManager {
 
         Log.d("LoginMgr", "Logging in...");
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                res = Objects.requireNonNull(response.body()).string();
-                login = gson.fromJson(res, Login.class);
-                if (login.isLogin()) {
-                    ok = true;
-                } else {
-                    error = new AuthError(true, login.getMsg());
-                    ok = false;
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("LoginMgr", "Exception: " + e);
-                error = new AuthError(true, e.getMessage());
+        try {
+            Response response = client.newCall(request).execute();
+            res = Objects.requireNonNull(response.body()).string();
+            login = gson.fromJson(res, Login.class);
+            if (login.isLogin()) {
+                ok = true;
+            } else {
+                error = new AuthError(true, login.getMsg());
                 ok = false;
             }
-        });
-
-        while (login == null && error == null) {
-            Log.d("LoginMgr", "Waiting for Server...");
-            try {
-                Thread.sleep(250);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return ok;

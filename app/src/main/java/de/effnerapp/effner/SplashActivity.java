@@ -38,18 +38,17 @@ public class SplashActivity extends AppCompatActivity {
         AccountManager accountManager = AccountManager.get(this);
 
         if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
-            if(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length > 0) {
+            if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length > 0) {
                 new Thread(() -> {
                     LoginResult result = serverAuthenticator.login(accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
-                    if(result.isLogin()) {
+                    System.out.println("RES: " +result.isLogin());
+                    if (result.isLogin()) {
                         loadData();
-                        runOnUiThread(() -> {
-                            startActivity(new Intent(this, MainActivity.class));
-                            finish();
-                        });
+                        startActivity(new Intent(this, MainActivity.class));
+                        finish();
                     } else {
-                        if(result.showLoginScreen()) {
-                            runOnUiThread(() -> startActivity(new Intent(this, LoginActivity.class)));
+                        if (result.showLoginScreen()) {
+                            startActivity(new Intent(this, LoginActivity.class));
                         }
                     }
                 }).start();
@@ -60,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         } else {
             // REMOVE all accounts!
-            for(Account account : accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)) {
+            for (Account account : accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)) {
                 accountManager.removeAccountExplicitly(account);
             }
             sharedPreferences.edit().clear().apply();
@@ -106,20 +105,22 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    private void loadData() {
+    public void loadData() {
         DataStackReader reader = new DataStackReader(this, this);
         AccountManager accountManager = AccountManager.get(this);
         dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
         sharedPreferences.edit().putString("APP_USER_USERNAME", dataStack.getUsername()).apply();
 
         //Authentication on DSB-SERVER
-        substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
-        boolean login = substitutions.login();
-        Log.d("SPLASH", "DSB-Auth: " + login);
-        //Load substitutions
-        substitutions.load();
-    }
+        new Thread(() -> {
+            substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
+            boolean login = substitutions.login();
+            Log.d("SPLASH", "DSB-Auth: " + login);
+            //Load substitutions
+            substitutions.load();
+        }).start();
 
+    }
 
 
     public static DataStack getDataStack() {

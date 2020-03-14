@@ -11,7 +11,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,8 +24,6 @@ import de.effnerapp.effner.json.User;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.HashGenerator;
 import de.effnerapp.effner.tools.model.AuthError;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -68,37 +65,20 @@ public class RegistrationManager {
 
         Log.d("RegMgr", "Logging in...");
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String res = Objects.requireNonNull(response.body()).string();
-                Status status = gson.fromJson(res, Status.class);
+        try {
+            Response response = client.newCall(request).execute();
+            String res = Objects.requireNonNull(response.body()).string();
+            Status status = gson.fromJson(res, Status.class);
 
-                System.out.println(res);
-                if (status.getStatus() == null) {
-                    user = gson.fromJson(res, User.class);
-                    ok = user.getToken() != null;
-                } else {
-                    error = new AuthError(true, status.getMsg());
-                    ok = false;
-                }
-            }
-
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("RegMgr", "Exception: " + e);
-                error = new AuthError(true, e.getMessage());
+            if (status.getStatus() == null) {
+                user = gson.fromJson(res, User.class);
+                ok = user.getToken() != null;
+            } else {
+                error = new AuthError(true, status.getMsg());
                 ok = false;
             }
-        });
-
-        while (user == null && error == null) {
-            Log.d("RegMgr", "Waiting for Server...");
-            try {
-                Thread.sleep(250);
-            } catch (InterruptedException ignored) {
-
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         if (ok) {
@@ -110,14 +90,14 @@ public class RegistrationManager {
 
     private RequestBody createRequestBody(String id, String password, String sClass, String username) {
         String firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "NONE");
-        HashGenerator hashGenerator =  new HashGenerator("SHA-512", StandardCharsets.UTF_8);
+        HashGenerator hashGenerator = new HashGenerator("SHA-512", StandardCharsets.UTF_8);
         JSONObject postData = new JSONObject();
         try {
             postData.put("id", hashGenerator.generate(id));
             postData.put("password", hashGenerator.generate(password));
             postData.put("class", sClass);
             postData.put("firebase_token", firebaseToken);
-            if(!username.isEmpty()) {
+            if (!username.isEmpty()) {
                 postData.put("username", username);
             }
         } catch (JSONException e) {
@@ -143,7 +123,7 @@ public class RegistrationManager {
         //enable general notifications
         FirebaseMessaging.getInstance().subscribeToTopic("APP_GENERAL_NOTIFICATIONS");
 
-        for(Account account : accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)) {
+        for (Account account : accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)) {
             accountManager.removeAccountExplicitly(account);
         }
 
@@ -152,7 +132,7 @@ public class RegistrationManager {
     }
 
     public AuthError getError() {
-        if(error == null) {
+        if (error == null) {
             error = new AuthError(false, null);
         }
         return error;
