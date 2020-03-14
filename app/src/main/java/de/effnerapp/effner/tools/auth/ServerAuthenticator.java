@@ -14,8 +14,10 @@ import de.effnerapp.effner.tools.model.LoginResult;
 public class ServerAuthenticator {
     private Context context;
     private Activity activity;
+    private static ServerAuthenticator instance;
 
     public ServerAuthenticator(Context context, Activity activity) {
+        instance = this;
         this.context = context;
         this.activity = activity;
     }
@@ -39,6 +41,7 @@ public class ServerAuthenticator {
         }, 0, 1000);
 
         result.setLogin(loginManager.login(token));
+
         timer.cancel();
 
         if(!loginManager.getError().isError()) {
@@ -53,6 +56,7 @@ public class ServerAuthenticator {
             return result;
         }
     }
+
 
     public boolean register(String id, String password, String sClass, String username) {
         Timer timer = new Timer();
@@ -82,6 +86,7 @@ public class ServerAuthenticator {
         }
     }
 
+
     private void showError(AuthError error, boolean recreateOnRetry) {
         Log.e("ServerAuth", "Error!");
         AlertDialog.Builder alert = buildAlert("Anmeldevorgang fehlgeschlagen!", error.getMsg(), recreateOnRetry);
@@ -102,5 +107,9 @@ public class ServerAuthenticator {
                 .setCancelable(false)
                 .setNegativeButton("Neu Versuchen", recreateOnRetry ? (dialogInterface, i) -> activity.recreate() : null)
                 .setPositiveButton("Schießen", (dialogInterface, i) -> activity.finish());
+    }
+
+    public static ServerAuthenticator getInstance() {
+        return instance;
     }
 }
