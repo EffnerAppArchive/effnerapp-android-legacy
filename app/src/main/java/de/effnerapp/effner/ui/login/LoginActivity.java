@@ -130,7 +130,6 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     String res = Objects.requireNonNull(response.body()).string();
-                    System.out.println(res);
                     classes = gson.fromJson(res, Classes.class);
                 }
 
@@ -144,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         while (classes == null) {
-            System.out.println("Getting classes");
+            Log.d("LA", "Getting classes");
             try {
                 Thread.sleep(250);
             } catch (InterruptedException e) {

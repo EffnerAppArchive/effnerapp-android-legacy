@@ -8,8 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import de.effnerapp.effner.data.model.DayInformation;
 import de.effnerapp.effner.data.model.Holidays;
-import de.effnerapp.effner.data.model.PHDay;
 
 public class HeaderTextParser {
     private GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Berlin"));
@@ -19,11 +19,11 @@ public class HeaderTextParser {
 
     }
 
-    public String parse(Holidays[] holidays, PHDay phDay, String username) {
+    public String parse(Holidays[] holidays, DayInformation dayInformation, String username) {
         String headerText = "Parse Error! D:";
         boolean currentlyHolidays = false;
-        if(phDay.isPhDay()) {
-            headerText = "Es ist " + phDay.getTitle();
+        if(dayInformation.isHoliday()) {
+            headerText = "Es ist " + dayInformation.getTitle();
         } else {
             for (Holidays holiday : holidays) {
                 String name = holiday.getName();

@@ -16,8 +16,6 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
-
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.TimetableActivity;
@@ -30,12 +28,12 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView headerTextView = view.findViewById(R.id.headerTextView);
         DataStack dataStack = SplashActivity.getDataStack();
-        String headerText = new HeaderTextParser().parse(dataStack.getHolidays(), dataStack.getPhday(), SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", ""));
+        String headerText = new HeaderTextParser().parse(dataStack.getHolidays(), dataStack.getDayInformation(), SplashActivity.sharedPreferences.getString("APP_USER_USERNAME", ""));
         headerTextView.setText(headerText);
 
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
 
-        NavController navController = Navigation.findNavController(Objects.requireNonNull(getActivity()), R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         BottomNavigationView navView = view.findViewById(R.id.nav_view);
 
         CardView timetableCard = view.findViewById(R.id.timetable_card);

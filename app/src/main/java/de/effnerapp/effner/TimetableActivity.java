@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.gson.Gson;
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
@@ -54,13 +55,13 @@ public class TimetableActivity extends AppCompatActivity {
         }
 
         timetable = findViewById(R.id.timetable);
-        if (SplashActivity.getDataStack().getTimetable() != null && SplashActivity.getDataStack().getTimetable().length != 0 && !isEmpty(SplashActivity.getDataStack().getTimetable())) {
+        TDay[] timetableDays = new Gson().fromJson(SplashActivity.getDataStack().getTimetable().getValue(), TDay[].class);
+        if (timetableDays != null && timetableDays.length != 0 && !isEmpty(timetableDays)) {
             Log.d("TA", "Generating timetable!");
 
             ArrayList<Schedule> schedules = new ArrayList<>();
 
-
-            for (TDay day : SplashActivity.getDataStack().getTimetable()) {
+            for (TDay day : timetableDays) {
                 int dayI = day.getId() - 1;
                 for (int i = 1; i <= 10; i++) {
                     String text = null;
@@ -162,7 +163,6 @@ public class TimetableActivity extends AppCompatActivity {
         float blue = (color & 0xFF) / 255.0F;
 
         double brightness = (0.21 * red) + (0.72 * green) + (0.07 * blue);
-        System.out.println(brightness);
         if (brightness >= 0.9) {
             return Color.BLACK;
         } else {

@@ -11,32 +11,26 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import de.effnerapp.effner.SplashActivity;
-import de.effnerapp.effner.json.Status;
-import de.effnerapp.effner.json.User;
+import de.effnerapp.effner.json.Auth;
+import de.effnerapp.effner.json.AuthResponse;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.HashGenerator;
 import de.effnerapp.effner.tools.model.AuthError;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RegistrationManager {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String url = "https://login.effnerapp.de/register";
-    private static final MediaType JSON = MediaType.parse("application/json");
+    private static final String BASE_URL = "https://api.effnerapp.de:45890/auth/register";
     private Context context;
-    private User user;
-    private Boolean ok;
+    private Auth auth;
+    private boolean ok;
     private AuthError error;
 
     public RegistrationManager(Context context) {
@@ -54,13 +48,9 @@ public class RegistrationManager {
         SplashActivity.sharedPreferences.edit().clear().apply();
         OkHttpClient client = new OkHttpClient();
 
-        RequestBody requestBody = createRequestBody(id, password, sClass, username);
 
         Request request = new Request.Builder()
-                .url(url)
-                .post(requestBody)
-                .header("Accept", "application/json")
-                .header("Content-Type", "application/json")
+                .url(createUrl(id, password, sClass, username))
                 .build();
 
         Log.d("RegMgr", "Logging in...");
@@ -68,13 +58,13 @@ public class RegistrationManager {
         try {
             Response response = client.newCall(request).execute();
             String res = Objects.requireNonNull(response.body()).string();
-            Status status = gson.fromJson(res, Status.class);
+            AuthResponse authResponse = gson.fromJson(res, AuthResponse.class);
 
-            if (status.getStatus() == null) {
-                user = gson.fromJson(res, User.class);
-                ok = user.getToken() != null;
+            if (authResponse.getStatus().getStatus() == 200) {
+                auth = authResponse.getAuth();
+                ok = auth.getToken() != null;
             } else {
-                error = new AuthError(true, status.getMsg());
+                error = new AuthError(true, authResponse.getStatus().getMsg());
                 ok = false;
             }
         } catch (IOException e) {
@@ -88,24 +78,21 @@ public class RegistrationManager {
         return ok;
     }
 
-    private RequestBody createRequestBody(String id, String password, String sClass, String username) {
+    private String createUrl(String id, String password, String sClass, String username) {
         String firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "NONE");
         HashGenerator hashGenerator = new HashGenerator("SHA-512", StandardCharsets.UTF_8);
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("id", hashGenerator.generate(id));
-            postData.put("password", hashGenerator.generate(password));
-            postData.put("class", sClass);
-            postData.put("firebase_token", firebaseToken);
-            if (!username.isEmpty()) {
-                postData.put("username", username);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        StringBuilder sb = new StringBuilder(BASE_URL);
+        sb.append("?id=").append(hashGenerator.generate(id));
+        sb.append("&password=").append(hashGenerator.generate(password));
+        sb.append("&class=").append(sClass);
+        sb.append("&firebase_token=").append(firebaseToken);
+        if (!username.isEmpty()) {
+            sb.append("&username=").append(username);
         }
 
-        return RequestBody.create(postData.toString(), JSON);
+        return sb.toString();
     }
+
 
     private void addAccount(String id, String password) {
         AccountManager accountManager = AccountManager.get(context);
@@ -114,10 +101,10 @@ public class RegistrationManager {
         editor.putBoolean("APP_REGISTERED", true);
         editor.putString("APP_DSB_LOGIN_ID", id);
         editor.putString("APP_DSB_LOGIN_PASSWORD", password);
-        editor.putString("APP_USER_CLASS", user.getsClass());
+        editor.putString("APP_USER_CLASS", auth.getsClass());
 
-        if (user.getUsername() != null && !user.getUsername().isEmpty()) {
-            editor.putString("APP_USER_USERNAME", user.getUsername());
+        if (auth.getUsername() != null && !auth.getUsername().isEmpty()) {
+            editor.putString("APP_USER_USERNAME", auth.getUsername());
         }
         editor.apply();
         //enable general notifications
@@ -128,10 +115,10 @@ public class RegistrationManager {
         }
 
         Account account = new Account(Authenticator.ACCOUNT_NAME, Authenticator.ACCOUNT_TYPE);
-        accountManager.addAccountExplicitly(account, user.getToken(), null);
+        accountManager.addAccountExplicitly(account, auth.getToken(), null);
     }
 
-    public AuthError getError() {
+    AuthError getError() {
         if (error == null) {
             error = new AuthError(false, null);
         }
