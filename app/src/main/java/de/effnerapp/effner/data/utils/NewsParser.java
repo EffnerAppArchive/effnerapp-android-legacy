@@ -26,8 +26,8 @@ public class NewsParser {
             newsItem.setDate(jNews.getDate());
             newsItem.setUrls(parseUrls(jNews));
 
-            if(!jNews.getTitle().getValue().isEmpty()) {
-                Document titleDoc = Jsoup.parse(jNews.getTitle().getValue());
+            if(!jNews.getTitle().isEmpty()) {
+                Document titleDoc = Jsoup.parse(jNews.getTitle());
                 titleDoc.outputSettings(new Document.OutputSettings().prettyPrint(false));
                 for(Element br : titleDoc.select("br")) {
                     br.after(new TextNode("#NEW_LINE# "));
@@ -39,8 +39,8 @@ public class NewsParser {
                 newsItem.setTitle(title);
             }
 
-            if(!jNews.getContent().getValue().isEmpty()) {
-                Document contentDoc = Jsoup.parse(jNews.getContent().getValue());
+            if(!jNews.getContent().isEmpty()) {
+                Document contentDoc = Jsoup.parse(jNews.getContent());
                 contentDoc.outputSettings(new Document.OutputSettings().prettyPrint(false));
                 for(Element br : contentDoc.select("br")) {
                     br.after(new TextNode("#NEW_LINE# "));
@@ -61,8 +61,8 @@ public class NewsParser {
 
     private List<String> parseUrls(News jNews) {
         List<String> urls = new ArrayList<>();
-        for(News.Rendered rendered : jNews.getRendered()) {
-            Document document = Jsoup.parse(rendered.getValue());
+        for(String data : jNews.getData()) {
+            Document document = Jsoup.parse(data);
             for(Element a : document.select("a")) {
                 if(isUrlAllowed(a.attr("href"))) {
                     String url = buildURL(a.attr("href"));

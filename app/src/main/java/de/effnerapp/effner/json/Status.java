@@ -1,14 +1,24 @@
 package de.effnerapp.effner.json;
 
 public class Status {
-    private Integer status;
+    private int status;
     private String msg;
+    private long processingTime;
+    private String apiVersion;
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
     public String getMsg() {
         return msg;
+    }
+
+    public long getProcessingTime() {
+        return processingTime;
+    }
+
+    public String getApiVersion() {
+        return apiVersion;
     }
 }

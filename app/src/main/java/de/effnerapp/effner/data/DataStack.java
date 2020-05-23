@@ -2,52 +2,69 @@ package de.effnerapp.effner.data;
 
 import de.effnerapp.effner.data.model.AppColor;
 import de.effnerapp.effner.data.model.Content;
+import de.effnerapp.effner.data.model.DayInformation;
 import de.effnerapp.effner.data.model.Holidays;
 import de.effnerapp.effner.data.model.News;
-import de.effnerapp.effner.data.model.PHDay;
 import de.effnerapp.effner.data.model.Schooltest;
-import de.effnerapp.effner.data.model.TDay;
 import de.effnerapp.effner.data.model.Term;
+import de.effnerapp.effner.data.model.Timetable;
+import de.effnerapp.effner.json.LoginStatus;
 
 public class DataStack {
 
-    private Schooltest[] schooltests;
+    private LoginStatus status;
+    private String username;
     private Term[] terms;
+    private Schooltest[] schooltests;
     private Holidays[] holidays;
-    private PHDay phday;
-    private TDay[] timetable;
+    private News[] news;
+    private DayInformation dayInformation;
+    private Timetable timetable;
     private Content[] content;
     private AppColor[] colors;
-    private String username;
-    private News[] news;
-
 
     public DataStack() {
         // requires empty constructor
     }
 
-    public Schooltest[] getSchooltests() {
-        return schooltests;
+    public LoginStatus getStatus() {
+        return status;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public Term[] getTerms() {
         return terms;
     }
 
+    public Schooltest[] getSchooltests() {
+        return schooltests;
+    }
+
     public Holidays[] getHolidays() {
         return holidays;
     }
 
-    public PHDay getPhday() {
-        return phday;
+    public News[] getNews() {
+        return news;
     }
 
-    public TDay[] getTimetable() {
+    public DayInformation getDayInformation() {
+        return dayInformation;
+    }
+
+    public Timetable getTimetable() {
         return timetable;
     }
 
     public Content[] getContent() {
         return content;
+    }
+
+    public AppColor[] getColors() {
+        return colors;
     }
 
     public Content getContentByKey(String key) {
@@ -59,10 +76,6 @@ public class DataStack {
         return null;
     }
 
-    public AppColor[] getColors() {
-        return colors;
-    }
-
     public AppColor getColorByKey(String key) {
         for (AppColor color : colors) {
             if (color.getName().equals(key)) {
@@ -70,13 +83,5 @@ public class DataStack {
             }
         }
         return null;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public News[] getNews() {
-        return news;
     }
 }

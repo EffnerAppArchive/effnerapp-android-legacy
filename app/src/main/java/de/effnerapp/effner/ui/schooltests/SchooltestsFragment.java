@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
@@ -51,7 +50,7 @@ public class SchooltestsFragment extends Fragment {
 
         if (!sClass.startsWith("11") && !sClass.startsWith("12")) {
             String[] items = {"Neuste zuerst", "Älteste zuerst"};
-            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, items);
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, items);
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(spinnerAdapter);
 

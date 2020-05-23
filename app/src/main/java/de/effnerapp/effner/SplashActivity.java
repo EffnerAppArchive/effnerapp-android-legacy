@@ -20,8 +20,7 @@ import de.effnerapp.effner.data.DataStack;
 import de.effnerapp.effner.data.dsbmobile.Substitutions;
 import de.effnerapp.effner.data.utils.DataStackReader;
 import de.effnerapp.effner.services.Authenticator;
-import de.effnerapp.effner.tools.auth.ServerAuthenticator;
-import de.effnerapp.effner.tools.model.LoginResult;
+import de.effnerapp.effner.tools.error.ErrorUtils;
 import de.effnerapp.effner.ui.login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -34,22 +33,25 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         startUp();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this, this);
         AccountManager accountManager = AccountManager.get(this);
 
         if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
             if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length > 0) {
                 new Thread(() -> {
-                    LoginResult result = serverAuthenticator.login(accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
-                    System.out.println("RES: " +result.isLogin());
-                    if (result.isLogin()) {
+                    DataStackReader reader = new DataStackReader(this, this);
+                    dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
+                    if(dataStack.getStatus().isLogin()) {
+                        sharedPreferences.edit().putString("APP_USER_USERNAME", dataStack.getUsername()).apply();
                         loadData();
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
                     } else {
-                        if (result.showLoginScreen()) {
+                        if(dataStack.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
                             startActivity(new Intent(this, LoginActivity.class));
+                        } else {
+                            new ErrorUtils(this, this).showError(dataStack.getStatus().getMsg(), false);
                         }
+
                     }
                 }).start();
             } else {
@@ -106,11 +108,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        DataStackReader reader = new DataStackReader(this, this);
-        AccountManager accountManager = AccountManager.get(this);
-        dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
-        sharedPreferences.edit().putString("APP_USER_USERNAME", dataStack.getUsername()).apply();
-
         //Authentication on DSB-SERVER
         new Thread(() -> {
             substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));

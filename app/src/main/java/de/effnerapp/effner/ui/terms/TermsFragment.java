@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
@@ -39,7 +38,7 @@ public class TermsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.terms_recycler_view);
         Spinner spinner = view.findViewById(R.id.spinner);
         String[] items = {"Neuste zuerst", "Älteste zuerst"};
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_item, items);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, items);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

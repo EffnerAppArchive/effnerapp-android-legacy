@@ -25,8 +25,6 @@ import androidx.preference.SwitchPreference;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.Objects;
-
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 
@@ -190,7 +188,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
             tokenPreference.setOnPreferenceClickListener(preference -> {
                 Toast.makeText(context, "Der Token wurde kopiert!", Toast.LENGTH_LONG).show();
-                ClipboardManager clipboardManager = (ClipboardManager) Objects.requireNonNull(getActivity()).getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clipData = ClipData.newPlainText("Effner_APP_TOKEN", accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
                 assert clipboardManager != null;
                 clipboardManager.setPrimaryClip(clipData);
@@ -256,7 +254,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                         firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
                         firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
                         startActivity(new Intent(getContext(), SplashActivity.class));
-                        Objects.requireNonNull(getActivity()).finish();
+                        requireActivity().finish();
                     })
                     .setNegativeButton("Abbrechen", null);
             dialog.show();
@@ -299,7 +297,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 }
                 break;
             case KEY_PREF_NIGHT_MODE:
-                Objects.requireNonNull(getActivity()).recreate();
+                requireActivity().recreate();
                 break;
             case KEY_PREF_LOGOUT:
 
@@ -330,7 +328,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onResume() {
         super.onResume();
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-//        MainActivity.pageTextView.setText(R.string.title_settings);
     }
 
     @Override
