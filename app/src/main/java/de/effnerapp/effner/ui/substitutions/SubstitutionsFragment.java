@@ -65,13 +65,10 @@ public class SubstitutionsFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         //Set dates
-        String[] dates = {"0", "1"};
-
+        List<String> dates = new ArrayList<>();
         days = SplashActivity.getSubstitutions().getDays();
-        int i = 0;
         for (Day day : days) {
-            dates[i] = day.getDate();
-            i++;
+            dates.add(day.getDate());
         }
 
         // Spinner

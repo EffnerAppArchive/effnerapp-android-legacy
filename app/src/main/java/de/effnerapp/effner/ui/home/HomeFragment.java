@@ -41,17 +41,20 @@ public class HomeFragment extends Fragment {
         CardView foodPlanCard = view.findViewById(R.id.food_plan_card);
         CardView substitutionCard = view.findViewById(R.id.subs_card);
         CardView newsCard = view.findViewById(R.id.news_card);
+        CardView customCard = view.findViewById(R.id.custom_card);
 
         timetableCard.setOnClickListener(v -> startActivity(new Intent(getContext(), TimetableActivity.class)));
         illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_ILLNESS_DOC_" + ((sClass.startsWith("11") || sClass.startsWith("12")) ? 1 : 0)).getValue()))));
         foodPlanCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_FOOD_PLAN").getValue()))));
-        substitutionCard.setOnClickListener(v -> {
-            navController.navigate(R.id.navigation_substitutions);
-        });
+        substitutionCard.setOnClickListener(v -> navController.navigate(R.id.navigation_substitutions));
+        if(SplashActivity.getDataStack().getContentByKey("DATA_CUSTOM") != null) {
+            customCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_CUSTOM").getValue()))));
+        } else {
+            customCard.setVisibility(View.GONE);
+        }
 
-        newsCard.setOnClickListener(v -> {
-            navController.navigate(R.id.navigation_news);
-        });
+
+        newsCard.setOnClickListener(v -> navController.navigate(R.id.navigation_news));
 
         return view;
     }
