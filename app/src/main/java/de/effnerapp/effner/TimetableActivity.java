@@ -147,9 +147,7 @@ public class TimetableActivity extends AppCompatActivity {
                     .setTitle("Neuer Stundenplan!")
                     .setMessage("Du kannst einen neuen Stundenplan hochladen, wenn es Änderungen oder Fehler in der aktuellen Version gibt!")
                     .setCancelable(false)
-                    .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.effnerapp.de")));
-                    })
+                    .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.effnerapp.de"))))
                     .setNegativeButton("Abbrechen", null);
             dialog.show();
         }

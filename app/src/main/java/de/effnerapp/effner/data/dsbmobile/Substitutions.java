@@ -52,7 +52,7 @@ public class Substitutions {
             login();
         }
         for (DSBMobile.TimeTable timeTable : dsbMobile.getTimeTables()) {
-            url = timeTable.getDetail();
+            url = timeTable.getDetail(); // TimeTable#getDetail() contains url.
             break;
         }
 
