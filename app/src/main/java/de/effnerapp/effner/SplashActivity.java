@@ -40,13 +40,15 @@ public class SplashActivity extends AppCompatActivity {
                 new Thread(() -> {
                     DataStackReader reader = new DataStackReader(this, this);
                     dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
-                    if(dataStack.getStatus().isLogin()) {
+                    if(dataStack != null && dataStack.getStatus() != null && dataStack.getStatus().isLogin()) {
                         sharedPreferences.edit().putString("APP_USER_USERNAME", dataStack.getUsername()).apply();
                         loadData();
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
                     } else {
-                        if(dataStack.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
+                        if(dataStack == null || dataStack.getStatus() == null) {
+                            new ErrorUtils(this, this).showError("Could not connect to server.", false);
+                        } else if(dataStack.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
                             startActivity(new Intent(this, LoginActivity.class));
                         } else {
                             new ErrorUtils(this, this).showError(dataStack.getStatus().getMsg(), false);
