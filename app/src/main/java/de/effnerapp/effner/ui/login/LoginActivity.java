@@ -30,6 +30,7 @@ import java.util.Objects;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.json.Classes;
+import de.effnerapp.effner.tools.ClassUtils;
 import de.effnerapp.effner.tools.auth.ServerAuthenticator;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -49,13 +50,13 @@ public class LoginActivity extends AppCompatActivity {
 
         EditText effnerappID = findViewById(R.id.effnerapp_id);
         EditText password = findViewById(R.id.password);
-        Spinner sClass = findViewById(R.id.sClass);
+        Spinner classSelector = findViewById(R.id.sClass);
         EditText course = findViewById(R.id.course);
         EditText username = findViewById(R.id.username);
         Button loginButton = findViewById(R.id.login);
         List<String> items = new ArrayList<>(getClasses());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        sClass.setAdapter(adapter);
+        classSelector.setAdapter(adapter);
         AccountManager accountManager = AccountManager.get(this);
         if (accountManager.getAccountsByType("de.effnerapp").length == 1) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
@@ -73,10 +74,10 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show();
         }
 
-        sClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        classSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (sClass.getItemAtPosition(position).equals("11") || sClass.getItemAtPosition(position).equals("12")) {
+                if (ClassUtils.isAdvancedClass(classSelector.getItemAtPosition(position).toString())) {
                     course.setVisibility(View.VISIBLE);
                 } else {
                     course.setVisibility(View.INVISIBLE);
@@ -90,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            if (!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty() && ((sClass.getSelectedItem().toString().equals("11") || sClass.getSelectedItem().toString().equals("12")) && !course.getText().toString().isEmpty()) || (!sClass.getSelectedItem().toString().equals("11") && !sClass.getSelectedItem().toString().equals("12"))) {
+            if (!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty() && (ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) && !course.getText().toString().isEmpty()) || (!ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()))) {
                 dialog = new ProgressDialog(this);
                 dialog.setTitle("Prüfe Daten...");
                 dialog.setMessage("Die Anmeldedaten werden überprüft!");
@@ -99,8 +100,8 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.show();
                 new Thread(() -> {
                     ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this, this);
-                    String classS = sClass.getSelectedItem().toString().equals("11") || sClass.getSelectedItem().toString().equals("12") ? sClass.getSelectedItem().toString() + "Q" + course.getText().toString() : sClass.getSelectedItem().toString();
-                    boolean login = serverAuthenticator.register(effnerappID.getText().toString(), password.getText().toString(), classS, username.getText().toString());
+                    String sClass = ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) ? classSelector.getSelectedItem().toString() + "Q" + course.getText().toString() : classSelector.getSelectedItem().toString();
+                    boolean login = serverAuthenticator.register(effnerappID.getText().toString(), password.getText().toString(), sClass, username.getText().toString());
                     runOnUiThread(dialog::cancel);
                     if (login) {
                         runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show());

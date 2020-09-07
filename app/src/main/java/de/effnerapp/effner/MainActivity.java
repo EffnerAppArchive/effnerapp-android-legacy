@@ -16,6 +16,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import de.effnerapp.effner.tools.ClassUtils;
+
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
 
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> pageHeader.setText(destination.getLabel()));
 
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
-        if (sClass.startsWith("11") || sClass.startsWith("12")) {
+        if (ClassUtils.isAdvancedClass(sClass)) {
             navView.getMenu().findItem(R.id.navigation_terms).setVisible(false);
         }
 
