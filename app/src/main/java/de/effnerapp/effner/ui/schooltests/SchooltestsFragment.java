@@ -28,6 +28,7 @@ import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.Schooltest;
+import de.effnerapp.effner.tools.ClassUtils;
 
 public class SchooltestsFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -47,8 +48,7 @@ public class SchooltestsFragment extends Fragment {
 
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
 
-
-        if (!sClass.startsWith("11") && !sClass.startsWith("12")) {
+        if (!ClassUtils.isAdvancedClass(sClass)) {
             String[] items = {"Neuste zuerst", "Älteste zuerst"};
             ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, items);
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -68,11 +68,10 @@ public class SchooltestsFragment extends Fragment {
                         List<Schooltest> list = new ArrayList<>(schooltests);
                         Collections.reverse(list);
                         adapter = new SchooltestItemAdapter(list);
-                        recyclerView.setAdapter(adapter);
                     } else {
                         adapter = new SchooltestItemAdapter(schooltests);
-                        recyclerView.setAdapter(adapter);
                     }
+                    recyclerView.setAdapter(adapter);
                 }
 
                 @Override
@@ -87,11 +86,11 @@ public class SchooltestsFragment extends Fragment {
             GridLayout gridLayout = view.findViewById(R.id.grid_layout);
             gridLayout.setVisibility(View.VISIBLE);
 
-            CardView h1_card = view.findViewById(R.id.h1_card);
-            CardView h2_card = view.findViewById(R.id.h2_card);
-            String key = "DATA_TOP_LEVEL_SA_DOC_" + (sClass.startsWith("11") ? 11 : 12) + "_";
+            CardView h1Card = view.findViewById(R.id.h1_card);
+            CardView h2Card = view.findViewById(R.id.h2_card);
+            String key = "DATA_TOP_LEVEL_SA_DOC_" + ClassUtils.getFirstDigits(sClass) + "_";
 
-            h1_card.setOnClickListener(v -> {
+            h1Card.setOnClickListener(v -> {
                 Content content = SplashActivity.getDataStack().getContentByKey(key + 1);
                 if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
@@ -99,7 +98,8 @@ public class SchooltestsFragment extends Fragment {
                     Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_LONG).show();
                 }
             });
-            h2_card.setOnClickListener(v -> {
+
+            h2Card.setOnClickListener(v -> {
                 Content content = SplashActivity.getDataStack().getContentByKey(key + 2);
                 if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));

@@ -31,6 +31,8 @@ import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
 import de.effnerapp.effner.data.dsbmobile.model.Day;
 import de.effnerapp.effner.data.dsbmobile.model.SClass;
 import de.effnerapp.effner.data.dsbmobile.model.Substitution;
+import de.effnerapp.effner.tools.ClassUtils;
+import de.effnerapp.effner.ui.substitutions.sections.Badge;
 import de.effnerapp.effner.ui.substitutions.sections.Head;
 import de.effnerapp.effner.ui.substitutions.sections.Item;
 import de.effnerapp.effner.ui.substitutions.sections.ItemAdapter;
@@ -79,20 +81,20 @@ public class SubstitutionsFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
-        int a = 0;
+        int i = 0;
         for (String date : dates) {
             if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 13) {
                 if (date.equals(format.format(new Date()))) {
-                    spinner.setSelection(a);
+                    spinner.setSelection(i);
                     break;
                 }
             } else {
                 if (date.equals(format.format(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(24))))) {
-                    spinner.setSelection(a);
+                    spinner.setSelection(i);
                     break;
                 }
             }
-            a++;
+            i++;
         }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -112,7 +114,8 @@ public class SubstitutionsFragment extends Fragment {
 
                             //Get SchoolClass from SharedPreferences
                             String userClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
-                            if (sClass.getName().contains(userClass)) {
+                            assert userClass != null;
+                            if (ClassUtils.validateClass(sClass.getName(), userClass)) {
                                 ImageView noSubs = container.findViewById(R.id.no_subs_image);
                                 noSubs.setVisibility(View.INVISIBLE);
 
@@ -140,6 +143,10 @@ public class SubstitutionsFragment extends Fragment {
                                     //set header
                                     Head head = new Head(header.toString(), items, Color.BLACK);
 
+                                    if(!userClass.equals(sClass.getName())) {
+                                        head.addBadge(new Badge(0, sClass.getName()));
+                                    }
+
                                     heads.add(head);
                                 }
                             }
@@ -149,7 +156,7 @@ public class SubstitutionsFragment extends Fragment {
 
                 if (SplashActivity.getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
                     Item item = new Item(SplashActivity.getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
-                    Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136));
+                    Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "All", Color.rgb(255, 93, 82))));
                     heads.add(head);
                     size++;
                 }
@@ -163,7 +170,7 @@ public class SubstitutionsFragment extends Fragment {
                         }
                     }
                     if(items.size() > 0) {
-                        Head head = new Head("Abwesende Klassen", items, Color.rgb(255, 93, 82));
+                        Head head = new Head("Abwesende Klassen", items, Color.rgb(255, 93, 82), Collections.singletonList(new Badge(0, "All", Color.rgb(255, 93, 82))));
                         heads.add(head);
                         size++;
                     }
@@ -190,5 +197,4 @@ public class SubstitutionsFragment extends Fragment {
 
         return view;
     }
-
 }
