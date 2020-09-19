@@ -82,6 +82,6 @@ public class DataStack {
                 return color;
             }
         }
-        return null;
+        return AppColor.WHITE;
     }
 }

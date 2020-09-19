@@ -16,6 +16,6 @@
     <color name="colorHeaderText">#7d7d7d</color>
     <color name="colorTableItem">#efefef</color>
 
-    <color name="navBackground">#FFFFFE</color>
-    <color name="navForeground">#5168EC</color>
+    <color name="navBackground">#242127</color>
+    <color name="navForeground">#FFFFFF</color>
 </resources>

@@ -46,6 +46,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
         String text = schooltests.get(i).getName();
         String date = schooltests.get(i).getDate();
+        System.out.println("type -> " + schooltests.get(i).getType().toUpperCase());
         holder.itemLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_ITEMS_" + schooltests.get(i).getType().toUpperCase()).getColorValue());
         Date sDate = null;
         try {
