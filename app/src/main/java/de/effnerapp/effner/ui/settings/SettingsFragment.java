@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
@@ -298,7 +299,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 }
                 break;
             case KEY_PREF_NIGHT_MODE:
-                requireActivity().recreate();
+                if(sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
                 break;
             case KEY_PREF_LOGOUT:
 

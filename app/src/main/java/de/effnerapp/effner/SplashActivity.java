@@ -43,6 +43,7 @@ public class SplashActivity extends AppCompatActivity {
                     if(dataStack != null && dataStack.getStatus() != null && dataStack.getStatus().isLogin()) {
                         sharedPreferences.edit().putString("APP_USER_USERNAME", dataStack.getUsername()).apply();
                         loadData();
+                        System.out.println("Hello there you goooo");
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
                     } else {

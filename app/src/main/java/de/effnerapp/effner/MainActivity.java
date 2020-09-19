@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = SplashActivity.sharedPreferences;
         if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
             Log.d("MAIN", "Nightmode: ON");
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             Log.d("MAIN", "Nightmode: OFF");
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         setContentView(R.layout.activity_main);

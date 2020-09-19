@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.card.MaterialCardView;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
@@ -37,12 +37,12 @@ public class HomeFragment extends Fragment {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         BottomNavigationView navView = view.findViewById(R.id.nav_view);
 
-        CardView timetableCard = view.findViewById(R.id.timetable_card);
-        CardView illnessDocCard = view.findViewById(R.id.illness_doc_card);
-        CardView foodPlanCard = view.findViewById(R.id.food_plan_card);
-        CardView substitutionCard = view.findViewById(R.id.subs_card);
-        CardView newsCard = view.findViewById(R.id.news_card);
-        CardView customCard = view.findViewById(R.id.custom_card);
+        MaterialCardView timetableCard = view.findViewById(R.id.timetable_card);
+        MaterialCardView illnessDocCard = view.findViewById(R.id.illness_doc_card);
+        MaterialCardView foodPlanCard = view.findViewById(R.id.food_plan_card);
+        MaterialCardView substitutionCard = view.findViewById(R.id.subs_card);
+        MaterialCardView newsCard = view.findViewById(R.id.news_card);
+        MaterialCardView customCard = view.findViewById(R.id.custom_card);
 
         timetableCard.setOnClickListener(v -> startActivity(new Intent(getContext(), TimetableActivity.class)));
         illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getDataStack().getContentByKey("DATA_ILLNESS_DOC_" + (ClassUtils.isAdvancedClass(sClass) ? 1 : 0)).getValue()))));

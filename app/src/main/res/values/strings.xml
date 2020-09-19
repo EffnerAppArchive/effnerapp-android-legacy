@@ -51,6 +51,6 @@
     <string name="description_news_title">Title</string>
     <string name="description_news_content">Content</string>
     <string name="title_news">News</string>
-    <string name="news_card_text">News</string>
+    <string name="news_card_text">Neuigkeiten</string>
     <string name="hygiene_concept_corona">Hygienekonzept Corona</string>
 </resources>
