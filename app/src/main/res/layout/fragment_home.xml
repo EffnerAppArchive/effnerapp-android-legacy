@@ -38,6 +38,7 @@
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/cardBackground"
             app:cardCornerRadius="6dp"
             app:cardElevation="5dp">
 
@@ -49,7 +50,7 @@
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:drawableTint="#41d855"
+                app:drawableTint="#86F672"
                 android:drawablePadding="10dp"
                 app:drawableTopCompat="@drawable/ic_today_black_24dp" />
 
@@ -60,6 +61,7 @@
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/cardBackground"
             app:cardCornerRadius="6dp"
             app:cardElevation="5dp">
 
@@ -71,7 +73,7 @@
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                app:drawableTint="#efb523"
+                app:drawableTint="#FFDA6B"
                 android:drawablePadding="10dp"
                 app:drawableTopCompat="@drawable/ic_insert_drive_file_black_24dp" />
 
@@ -82,6 +84,7 @@
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/cardBackground"
             app:cardCornerRadius="6dp"
             app:cardElevation="5dp">
 
@@ -104,6 +107,7 @@
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/cardBackground"
             app:cardCornerRadius="6dp"
             app:cardElevation="5dp">
 
@@ -126,6 +130,7 @@
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/cardBackground"
             app:cardCornerRadius="6dp"
             app:cardElevation="5dp">
 
@@ -148,6 +153,7 @@
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/cardBackground"
             app:cardCornerRadius="6dp"
             app:cardElevation="5dp">
 

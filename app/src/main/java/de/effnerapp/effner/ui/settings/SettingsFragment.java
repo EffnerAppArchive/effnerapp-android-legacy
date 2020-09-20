@@ -220,13 +220,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         buildPreference.setOnPreferenceClickListener(preference -> {
             if (SplashActivity.sharedPreferences.getBoolean("APP_DEV_MODE_ENABLE", false)) {
-                Toast.makeText(context, "Der Entwicklermodus ist schon aktiviert!", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Der Entwicklermodus ist schon aktiviert!", Toast.LENGTH_SHORT).show();
             } else {
                 DEV_MODE_ENABLE_COUNT++;
                 if (DEV_MODE_ENABLE_COUNT > 5 && DEV_MODE_ENABLE_COUNT < 10) {
-                    Toast.makeText(context, "Sie sind in " + (10 - DEV_MODE_ENABLE_COUNT) + " Schritten ein Entwickler!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Sie sind in " + (10 - DEV_MODE_ENABLE_COUNT) + " Schritten ein Entwickler!", Toast.LENGTH_SHORT).show();
                 } else if (DEV_MODE_ENABLE_COUNT >= 10) {
-                    Toast.makeText(context, "Der Entwicklermodus ist jetzt aktiviert!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Der Entwicklermodus ist jetzt aktiviert!", Toast.LENGTH_SHORT).show();
                     SplashActivity.sharedPreferences.edit().putBoolean("APP_DEV_MODE_ENABLE", true).apply();
                 }
             }

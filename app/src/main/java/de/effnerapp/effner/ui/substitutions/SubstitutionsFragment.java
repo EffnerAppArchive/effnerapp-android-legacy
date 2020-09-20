@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
@@ -81,20 +80,11 @@ public class SubstitutionsFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
-        int i = 0;
-        for (String date : dates) {
-            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 13) {
-                if (date.equals(format.format(new Date()))) {
-                    spinner.setSelection(i);
-                    break;
-                }
-            } else {
-                if (date.equals(format.format(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(24))))) {
-                    spinner.setSelection(i);
-                    break;
-                }
+        // Select next date if time is after 14:00
+        if(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > 14 || !dates.get(0).equals(format.format(new Date()))) {
+            if(dates.size() >= 2) {
+                spinner.setSelection(1);
             }
-            i++;
         }
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
