@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:padding="6dip"
         android:paddingStart="60dp"
-        android:text="detail"
+        android:paddingEnd="6dp"
+        android:text="@string/default_text_view_placeholder"
         android:textColor="#000"
         android:textSize="13sp" />
 

@@ -1,7 +1,9 @@
 package de.effnerapp.effner.json;
 
 public class Auth {
-    private String token, sClass, username;
+    private final String token;
+    private final String sClass;
+    private final String username;
 
     public Auth(String token, String sClass, String username) {
         this.token = token;

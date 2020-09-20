@@ -1,6 +1,5 @@
 package de.effnerapp.effner.ui.models.timetableview;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,6 +27,7 @@ import java.util.Objects;
 
 import de.effnerapp.effner.R;
 
+@SuppressWarnings("deprecation")
 public class TimetableView extends LinearLayout {
     private static final int DEFAULT_ROW_COUNT = 12;
     private static final int DEFAULT_COLUMN_COUNT = 6;
@@ -51,14 +51,11 @@ public class TimetableView extends LinearLayout {
     private TableLayout tableHeader;
     private TableLayout tableBox;
 
-    private Context context;
+    private final Context context;
 
-    @SuppressLint("UseSparseArrays")
-    private Map<Integer, Sticker> stickers = new HashMap<>();
-    private List<TextView> items = new ArrayList<>();
+    private final Map<Integer, Sticker> stickers = new HashMap<>();
+    private final List<TextView> items = new ArrayList<>();
     private int stickerCount = -1;
-
-    private OnStickerSelectedListener stickerSelectedListener = null;
 
     public TimetableView(Context context) {
         super(context, null);
@@ -103,12 +100,10 @@ public class TimetableView extends LinearLayout {
         createTable();
     }
 
-    public void add(ArrayList<Schedule> schedules) {
-        add(schedules, -1);
-    }
 
-    private void add(final ArrayList<Schedule> schedules, int specIdx) {
-        final int count = specIdx < 0 ? ++stickerCount : specIdx;
+    public void add(ArrayList<Schedule> schedules) {
+        stickerCount++;
+
         Sticker sticker = new Sticker();
         for (Schedule schedule : schedules) {
             TextView tv = new TextView(context);
@@ -122,14 +117,11 @@ public class TimetableView extends LinearLayout {
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_STICKER_FONT_SIZE_DP);
             tv.setTypeface(null, Typeface.BOLD);
 
-            tv.setOnClickListener(v -> {
-                if (stickerSelectedListener != null)
-                    stickerSelectedListener.OnStickerSelected(count, schedules);
-            });
+            //  tv#setOnClickListener() here
 
             sticker.addTextView(tv);
             sticker.addSchedule(schedule);
-            stickers.put(count, sticker);
+            stickers.put(stickerCount, sticker);
             items.add(tv);
             stickerBox.addView(tv);
         }
@@ -290,7 +282,7 @@ public class TimetableView extends LinearLayout {
     }
 
     static class Builder {
-        private Context context;
+        private final Context context;
         private int rowCount;
         private int columnCount;
         private int cellHeight;

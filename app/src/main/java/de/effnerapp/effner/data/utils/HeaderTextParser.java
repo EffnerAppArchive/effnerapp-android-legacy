@@ -12,8 +12,8 @@ import de.effnerapp.effner.data.model.DayInformation;
 import de.effnerapp.effner.data.model.Holidays;
 
 public class HeaderTextParser {
-    private GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Berlin"));
-    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN);
+    private final GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("Europe/Berlin"));
+    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMAN);
 
     public HeaderTextParser() {
 

@@ -22,7 +22,7 @@ import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 
 public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, ItemViewHandler> {
-    private List<Head> heads;
+    private final List<Head> heads;
     public ItemAdapter(List<Head> groups) {
         super(groups);
         heads = groups;

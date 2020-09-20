@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Day {
 
-    private List<SClass> sClasses = new ArrayList<>();
-    private String date;
+    private final List<SClass> sClasses = new ArrayList<>();
+    private final String date;
 
     public Day(String date) {
         this.date = date;

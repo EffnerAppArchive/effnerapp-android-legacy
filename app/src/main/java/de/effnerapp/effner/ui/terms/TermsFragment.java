@@ -55,11 +55,10 @@ public class TermsFragment extends Fragment {
                     List<Term> list = new ArrayList<>(terms);
                     Collections.reverse(list);
                     adapter = new TermItemAdapter(list);
-                    recyclerView.setAdapter(adapter);
                 } else {
                     adapter = new TermItemAdapter(terms);
-                    recyclerView.setAdapter(adapter);
                 }
+                recyclerView.setAdapter(adapter);
             }
 
             @Override

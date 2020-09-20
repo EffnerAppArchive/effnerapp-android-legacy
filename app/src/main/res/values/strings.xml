@@ -1,15 +1,9 @@
 <resources>
     <string name="app_name">Effner</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_activity_register">Registrieren</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password_deprecated">Password</string>
 
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+
+
     <string name="title_activity_login">Anmelden</string>
 
     <!-- EffnerApp Strings !-->
@@ -33,7 +27,6 @@
 
     <string name="description_no_subs_image">No Subs!</string>
     <string name="description_effnerapp_logo_image">EffnerApp</string>
-    <string name="description_term_icon_image">Term</string>
     <string name="description_term_text">Term</string>
     <string name="description_date_text">Date</string>
 
@@ -53,4 +46,6 @@
     <string name="title_news">News</string>
     <string name="news_card_text">Neuigkeiten</string>
     <string name="hygiene_concept_corona">Hygienekonzept Corona</string>
+    <string name="substitution_head_text_placeholder"><![CDATA[<?>. Stunde verteten durch <?>]]></string>
+    <string name="default_text_view_placeholder"><![CDATA[<?>]]></string>
 </resources>

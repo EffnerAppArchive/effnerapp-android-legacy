@@ -6,8 +6,8 @@ import android.content.Context;
 import android.util.Log;
 
 public class ErrorUtils {
-    private Context context;
-    private Activity activity;
+    private final Context context;
+    private final Activity activity;
 
     public ErrorUtils(Context context, Activity activity) {
         this.context = context;

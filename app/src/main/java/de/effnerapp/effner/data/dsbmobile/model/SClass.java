@@ -5,8 +5,8 @@ import java.util.List;
 
 public class SClass {
 
-    private String name;
-    private List<Substitution> substitutions = new ArrayList<>();
+    private final String name;
+    private final List<Substitution> substitutions = new ArrayList<>();
 
     public SClass(String name) {
         this.name = name;

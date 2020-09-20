@@ -11,7 +11,7 @@ import de.effnerapp.effner.SplashActivity;
 
 public class ItemViewHandler extends ChildViewHolder {
 
-    private TextView mTextView;
+    private final TextView mTextView;
 
     public ItemViewHandler(View itemView) {
         super(itemView);

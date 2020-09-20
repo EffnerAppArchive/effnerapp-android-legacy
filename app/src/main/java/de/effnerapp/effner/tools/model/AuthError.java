@@ -1,8 +1,8 @@
 package de.effnerapp.effner.tools.model;
 
 public class AuthError {
-    private boolean isError;
-    private String msg;
+    private final boolean isError;
+    private final String msg;
 
     public AuthError(boolean isError, String msg) {
         this.isError = isError;
