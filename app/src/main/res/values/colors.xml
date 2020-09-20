@@ -18,4 +18,6 @@
 
     <color name="navBackground">#FFFFFE</color>
     <color name="navForeground">#5168EC</color>
+
+    <color name="cardBackground">#FFF</color>
 </resources>

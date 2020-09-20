@@ -83,7 +83,7 @@ public class SchooltestsFragment extends Fragment {
         } else {
             recyclerView.setVisibility(View.INVISIBLE);
             spinner.setVisibility(View.INVISIBLE);
-            GridLayout gridLayout = view.findViewById(R.id.grid_layout);
+            GridLayout gridLayout = view.findViewById(R.id.schooltests_card_layout);
             gridLayout.setVisibility(View.VISIBLE);
 
             CardView h1Card = view.findViewById(R.id.h1_card);
