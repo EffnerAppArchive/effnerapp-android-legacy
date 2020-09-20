@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Sticker implements Serializable {
-    private ArrayList<TextView> view;
-    private ArrayList<Schedule> schedules;
+    private final ArrayList<TextView> view;
+    private final ArrayList<Schedule> schedules;
 
     public Sticker() {
         this.view = new ArrayList<>();

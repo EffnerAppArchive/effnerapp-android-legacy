@@ -9,8 +9,8 @@ import java.util.TimerTask;
 import de.effnerapp.effner.tools.error.ErrorUtils;
 
 public class ServerAuthenticator {
-    private Context context;
-    private Activity activity;
+    private final Context context;
+    private final Activity activity;
 
     public ServerAuthenticator(Context context, Activity activity) {
         this.context = context;

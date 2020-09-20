@@ -23,8 +23,8 @@ import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Schooltest;
 
 public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAdapter.ItemViewHolder> {
-    private List<Schooltest> schooltests;
-    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
+    private final List<Schooltest> schooltests;
+    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
     SchooltestItemAdapter(List<Schooltest> schooltests) {
         this.schooltests = schooltests;
@@ -72,12 +72,12 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-        CardView dateCard;
-        LinearLayout dateLayout;
-        TextView dateText;
-        CardView itemCard;
-        LinearLayout itemLayout;
-        TextView itemText;
+        final CardView dateCard;
+        final LinearLayout dateLayout;
+        final TextView dateText;
+        final CardView itemCard;
+        final LinearLayout itemLayout;
+        final TextView itemText;
 
         ItemViewHolder(View view) {
             super(view);

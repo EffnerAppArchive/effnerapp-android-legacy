@@ -19,14 +19,14 @@ import de.effnerapp.effner.data.dsbmobile.model.Substitution;
 import de.sematre.dsbmobile.DSBMobile;
 
 public class Substitutions {
-    private String username;
-    private String password;
+    private final String username;
+    private final String password;
     private DSBMobile dsbMobile;
     private String url;
-    private List<String> dates;
-    private List<Day> days;
-    private Map<String, String> information;
-    private List<AbsentClass> absentClasses;
+    private final List<String> dates;
+    private final List<Day> days;
+    private final Map<String, String> information;
+    private final List<AbsentClass> absentClasses;
 
     public Substitutions(String username, String password) {
         this.username = username;

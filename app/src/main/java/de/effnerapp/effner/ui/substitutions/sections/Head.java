@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Head extends ExpandableGroup<Item> {
-    private int color;
-    private List<Badge> badges;
+    private final int color;
+    private final List<Badge> badges;
 
     public Head(String title, List<Item> items, int color) {
         this(title, items, color, new ArrayList<>());

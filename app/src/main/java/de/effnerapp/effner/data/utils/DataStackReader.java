@@ -24,9 +24,9 @@ public class DataStackReader {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String BASE_URL = "https://api.effnerapp.de:45890/rest";
     private DataStack dataStack;
-    private Context context;
+    private final Context context;
     private PackageInfo info;
-    private Activity activity;
+    private final Activity activity;
 
     public DataStackReader(Context context, Activity activity) {
         this.context = context;

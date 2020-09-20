@@ -6,8 +6,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashGenerator {
-    private String algorithm;
-    private Charset charset;
+    private final String algorithm;
+    private final Charset charset;
 
     public HashGenerator(String algorithm, Charset charset) {
         this.algorithm = algorithm;

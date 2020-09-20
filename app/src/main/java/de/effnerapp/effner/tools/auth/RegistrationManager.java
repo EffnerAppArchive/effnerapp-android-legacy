@@ -28,7 +28,7 @@ import okhttp3.Response;
 public class RegistrationManager {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final String BASE_URL = "https://api.effnerapp.de:45890/auth/register";
-    private Context context;
+    private final Context context;
     private Auth auth;
     private boolean ok;
     private AuthError error;

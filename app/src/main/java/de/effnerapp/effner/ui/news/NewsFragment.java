@@ -29,8 +29,8 @@ import de.effnerapp.effner.ui.news.sections.ItemAdapter;
  * A simple {@link Fragment} subclass.
  */
 public class NewsFragment extends Fragment {
-    private SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-    private SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+    private final SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+    private final SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
 
     public NewsFragment() {
         // Required empty public constructor

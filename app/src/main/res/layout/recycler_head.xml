@@ -23,7 +23,7 @@
             android:id="@+id/recycler_head_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="STUNDE verteten durch LEHRER"
+            android:text="@string/substitution_head_text_placeholder"
             android:textColor="#000"
             android:textSize="16sp" />
 
@@ -34,7 +34,7 @@
             android:layout_marginStart="8dp"
             android:background="@drawable/badge_shape"
             android:backgroundTint="#009688"
-            android:text="10A"
+            android:text="@string/default_text_view_placeholder"
             android:textAlignment="center"
             android:textColor="#FFF"
             android:textSize="16sp"
@@ -48,7 +48,7 @@
             android:layout_marginStart="5dp"
             android:background="@drawable/badge_shape"
             android:backgroundTint="#3F51B5"
-            android:text="WR"
+            android:text="@string/default_text_view_placeholder"
             android:textAlignment="center"
             android:textColor="#FFF"
             android:textSize="16sp"

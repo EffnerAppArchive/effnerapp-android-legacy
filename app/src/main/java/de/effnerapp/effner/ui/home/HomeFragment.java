@@ -11,10 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.card.MaterialCardView;
+
+import java.util.Objects;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
@@ -34,7 +36,8 @@ public class HomeFragment extends Fragment {
 
         String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
 
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         BottomNavigationView navView = view.findViewById(R.id.nav_view);
 
         MaterialCardView timetableCard = view.findViewById(R.id.timetable_card);

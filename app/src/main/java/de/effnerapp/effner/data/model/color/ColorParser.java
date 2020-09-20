@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class ColorParser {
-    private Gson gson;
+    private final Gson gson;
 
     public ColorParser() {
         gson = new GsonBuilder().setPrettyPrinting().create();

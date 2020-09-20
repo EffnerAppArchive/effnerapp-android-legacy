@@ -23,8 +23,8 @@ import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Term;
 
 public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemViewHolder> {
-    private List<Term> terms;
-    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
+    private final List<Term> terms;
+    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
     TermItemAdapter(List<Term> terms) {
         this.terms = terms;
@@ -71,12 +71,12 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-        CardView dateCard;
-        LinearLayout dateLayout;
-        TextView dateText;
-        CardView itemCard;
-        LinearLayout itemLayout;
-        TextView itemText;
+        final CardView dateCard;
+        final LinearLayout dateLayout;
+        final TextView dateText;
+        final CardView itemCard;
+        final LinearLayout itemLayout;
+        final TextView itemText;
 
         ItemViewHolder(View view) {
             super(view);

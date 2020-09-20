@@ -1,7 +1,9 @@
 package de.effnerapp.effner.data.dsbmobile.model;
 
 public class AbsentClass {
-    private String date, sClass, period;
+    private final String date;
+    private final String sClass;
+    private final String period;
 
     public AbsentClass(String date, String sClass, String period) {
         this.date = date;

@@ -16,8 +16,8 @@ import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
 public class HeadViewHandler extends GroupViewHolder {
 
-    private TextView mTextView;
-    private ImageView arrow;
+    private final TextView mTextView;
+    private final ImageView arrow;
 
     public HeadViewHandler(View itemView) {
         super(itemView);

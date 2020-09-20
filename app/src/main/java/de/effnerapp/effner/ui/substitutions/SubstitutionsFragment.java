@@ -37,8 +37,8 @@ import de.effnerapp.effner.ui.substitutions.sections.Item;
 import de.effnerapp.effner.ui.substitutions.sections.ItemAdapter;
 
 public class SubstitutionsFragment extends Fragment {
-    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
-    private List<Head> heads = new ArrayList<>();
+    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
+    private final List<Head> heads = new ArrayList<>();
     private RecyclerView recyclerView;
     private List<Day> days;
 

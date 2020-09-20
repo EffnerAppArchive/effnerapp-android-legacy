@@ -13,4 +13,7 @@
     <style name="AppTheme.Default" parent="AppTheme.Base">
 
     </style>
+
+    <!-- Splash Screen theme -->
+    <style name="AppTheme.SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar" />
 </resources>
