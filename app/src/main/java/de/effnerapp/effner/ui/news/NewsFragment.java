@@ -47,7 +47,7 @@ public class NewsFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        List<NewsItem> news = new NewsParser().parse(SplashActivity.getDataStack().getNews());
+        List<NewsItem> news = new NewsParser().parse(SplashActivity.getData().getNews());
         int i = 0;
         for(NewsItem newsItem : news) {
             String date = parseDate(newsItem.getDate());

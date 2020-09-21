@@ -47,7 +47,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
         String text = schooltests.get(i).getName();
         String date = schooltests.get(i).getDate();
         System.out.println("type -> " + schooltests.get(i).getType().toUpperCase());
-        holder.itemLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_ITEMS_" + schooltests.get(i).getType().toUpperCase()).getColorValue());
+        holder.itemLayout.setBackgroundColor(SplashActivity.getData().getColorByKey("COLOR_ITEMS_" + schooltests.get(i).getType().toUpperCase()).getColorValue());
         Date sDate = null;
         try {
             sDate = format.parse(date);
@@ -56,10 +56,10 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
         }
         assert sDate != null;
         if (sDate.after(new Date())) {
-            holder.dateLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
+            holder.dateLayout.setBackgroundColor(SplashActivity.getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
         } else {
             holder.itemLayout.getBackground().setAlpha(100);
-            holder.dateLayout.setBackgroundColor(SplashActivity.getDataStack().getColorByKey("COLOR_STATIC_RED").getColorValue());
+            holder.dateLayout.setBackgroundColor(SplashActivity.getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
         }
         holder.dateText.setText(date);
         holder.itemText.setText(text);

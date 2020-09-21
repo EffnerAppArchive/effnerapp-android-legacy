@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
@@ -51,15 +52,6 @@ public class SubstitutionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_substitutions, container, false);
-        //Wait for DSBMobile
-        while (SplashActivity.getSubstitutions() == null || SplashActivity.getSubstitutions().getDays() == null) {
-            Log.d("SubstitutionsFragment", "Wait...");
-            try {
-                Thread.sleep(250);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
         recyclerView = view.findViewById(R.id.subs_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -67,7 +59,7 @@ public class SubstitutionsFragment extends Fragment {
 
         //Set dates
         List<String> dates = new ArrayList<>();
-        days = SplashActivity.getSubstitutions().getDays();
+        days = MainActivity.getInstance().getSubstitutions().getDays();
         for (Day day : days) {
             dates.add(day.getDate());
         }
@@ -80,12 +72,15 @@ public class SubstitutionsFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
-        // Select next date if time is after 14:00
-        if(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > 14 || !dates.get(0).equals(format.format(new Date()))) {
-            if(dates.size() >= 2) {
-                spinner.setSelection(1);
+        if(!dates.isEmpty()) {
+            // Select next date if time is after 14:00
+            if(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > 14 || !dates.get(0).equals(format.format(new Date()))) {
+                if(dates.size() >= 2) {
+                    spinner.setSelection(1);
+                }
             }
         }
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -144,16 +139,16 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                if (SplashActivity.getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
-                    Item item = new Item(SplashActivity.getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
+                if (MainActivity.getInstance().getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
+                    Item item = new Item(MainActivity.getInstance().getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
                     Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "All", Color.rgb(255, 93, 82))));
                     heads.add(head);
                     size++;
                 }
 
-                if (SplashActivity.getSubstitutions().getAbsentClasses().size() > 0) {
+                if (MainActivity.getInstance().getSubstitutions().getAbsentClasses().size() > 0) {
                     List<Item> items = new ArrayList<>();
-                    for (AbsentClass absentClass : SplashActivity.getSubstitutions().getAbsentClasses()) {
+                    for (AbsentClass absentClass : MainActivity.getInstance().getSubstitutions().getAbsentClasses()) {
                         if (absentClass.getDate().equals(parent.getItemAtPosition(position).toString())) {
                             Item item = new Item(absentClass.getSClass() + ": " + absentClass.getPeriod() + " Stunde");
                             items.add(item);
