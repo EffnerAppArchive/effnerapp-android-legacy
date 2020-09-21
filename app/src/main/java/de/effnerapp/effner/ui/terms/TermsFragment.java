@@ -43,7 +43,7 @@ public class TermsFragment extends Fragment {
         spinner.setAdapter(spinnerAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        List<Term> terms = new ArrayList<>(Arrays.asList(SplashActivity.getDataStack().getTerms()));
+        List<Term> terms = new ArrayList<>(Arrays.asList(SplashActivity.getData().getTerms()));
         adapter = new TermItemAdapter(terms);
         recyclerView.setAdapter(adapter);
 

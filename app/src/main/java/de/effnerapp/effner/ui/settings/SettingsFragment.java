@@ -35,10 +35,12 @@ import de.effnerapp.effner.SplashActivity;
  */
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String KEY_PREF_NOTIFICATION_SWITCH = "notifications";
-    private static final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
-    private static final String KEY_PREF_LOGOUT = "logout";
-    private static final String KEY_PREF_DEV_NOTIFICATIONS = "DEV_NOTIFICATIONS";
+    private final String KEY_PREF_NOTIFICATION_SWITCH = "notifications";
+    private final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
+    private final String KEY_PREF_LOGOUT = "logout";
+    private final String KEY_PREF_DEV_NOTIFICATIONS = "DEV_NOTIFICATIONS";
+
+
     private Context context;
     private AccountManager accountManager;
     private SwitchPreference notificationPreference;

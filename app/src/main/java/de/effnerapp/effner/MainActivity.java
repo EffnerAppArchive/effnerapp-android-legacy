@@ -2,6 +2,7 @@ package de.effnerapp.effner;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,7 +76,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        System.out.println("Started");
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//
+//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+//    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        System.out.println("reenter");
+    }
+
     public static MainActivity getInstance() {
         return instance;
     }
+
 }
