@@ -1,5 +1,6 @@
 package de.effnerapp.effner.ui.substitutions;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +56,8 @@ public class SubstitutionsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         instance = this;
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_substitutions, container, false);
@@ -100,7 +104,7 @@ public class SubstitutionsFragment extends Fragment {
                         for (SClass sClass : day.getSClasses()) {
 
                             //Get SchoolClass from SharedPreferences
-                            String userClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
+                            String userClass = sharedPreferences.getString("APP_USER_CLASS", "");
                             assert userClass != null;
                             if (ClassUtils.validateClass(sClass.getName(), userClass)) {
                                 ImageView noSubs = container.findViewById(R.id.no_subs_image);
