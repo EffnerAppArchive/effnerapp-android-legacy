@@ -56,7 +56,7 @@ public class SchooltestsFragment extends Fragment {
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            List<Schooltest> schooltests = new ArrayList<>(Arrays.asList(SplashActivity.getDataStack().getSchooltests()));
+            List<Schooltest> schooltests = new ArrayList<>(Arrays.asList(SplashActivity.getData().getSchooltests()));
             adapter = new SchooltestItemAdapter(schooltests);
             recyclerView.setAdapter(adapter);
 
@@ -91,7 +91,7 @@ public class SchooltestsFragment extends Fragment {
             String key = "DATA_TOP_LEVEL_SA_DOC_" + ClassUtils.getFirstDigits(sClass) + "_";
 
             h1Card.setOnClickListener(v -> {
-                Content content = SplashActivity.getDataStack().getContentByKey(key + 1);
+                Content content = SplashActivity.getData().getContentByKey(key + 1);
                 if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
                 } else {
@@ -100,7 +100,7 @@ public class SchooltestsFragment extends Fragment {
             });
 
             h2Card.setOnClickListener(v -> {
-                Content content = SplashActivity.getDataStack().getContentByKey(key + 2);
+                Content content = SplashActivity.getData().getContentByKey(key + 2);
                 if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
                 } else {

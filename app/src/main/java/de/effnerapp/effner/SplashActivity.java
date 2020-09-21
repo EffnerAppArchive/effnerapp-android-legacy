@@ -8,7 +8,6 @@ import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -16,17 +15,15 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import de.effnerapp.effner.data.DataStack;
-import de.effnerapp.effner.data.dsbmobile.Substitutions;
-import de.effnerapp.effner.data.utils.DataStackReader;
+import de.effnerapp.effner.data.DataResponse;
+import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.error.ErrorUtils;
 import de.effnerapp.effner.ui.login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
     public static SharedPreferences sharedPreferences;
-    private static DataStack dataStack;
-    private static Substitutions substitutions;
+    private static DataResponse data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +34,31 @@ public class SplashActivity extends AppCompatActivity {
 
         if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
             if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length > 0) {
-                new Thread(() -> {
-                    DataStackReader reader = new DataStackReader(this, this);
-                    dataStack = reader.read(sharedPreferences.getString("APP_USER_CLASS", ""), accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
-                    if(dataStack != null && dataStack.getStatus() != null && dataStack.getStatus().isLogin()) {
-                        sharedPreferences.edit().putString("APP_USER_USERNAME", dataStack.getUsername()).apply();
-                        loadData();
+
+                String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
+                ApiClient api = new ApiClient(this, token);
+
+                api.loadData((isSuccess, data) -> {
+                    if(isSuccess && data.getStatus().isLogin()) {
+                        sharedPreferences.edit().putString("APP_USER_USERNAME", data.getUsername()).apply();
+                        SplashActivity.data = data;
+
+
+                        // TODO: passt des so lol?
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
+
                     } else {
-                        if(dataStack == null || dataStack.getStatus() == null) {
+                        if(!isSuccess) {
                             new ErrorUtils(this, this).showError("Could not connect to server.", false);
-                        } else if(dataStack.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
+                        } else if(data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
                             startActivity(new Intent(this, LoginActivity.class));
                         } else {
-                            new ErrorUtils(this, this).showError(dataStack.getStatus().getMsg(), false);
+                            new ErrorUtils(this, this).showError(data.getStatus().getMsg(), false);
                         }
-
                     }
-                }).start();
+                });
+
             } else {
                 sharedPreferences.edit().clear().apply();
                 startActivity(new Intent(this, LoginActivity.class));
@@ -109,24 +112,7 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    public void loadData() {
-        //Authentication on DSB-SERVER
-        new Thread(() -> {
-            substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
-            boolean login = substitutions.login();
-            Log.d("SPLASH", "DSB-Auth: " + login);
-            //Load substitutions
-            substitutions.load();
-        }).start();
-
-    }
-
-
-    public static DataStack getDataStack() {
-        return dataStack;
-    }
-
-    public static Substitutions getSubstitutions() {
-        return substitutions;
+    public static DataResponse getData() {
+        return data;
     }
 }
