@@ -20,4 +20,6 @@
     <color name="navForeground">#5168EC</color>
 
     <color name="cardBackground">#FFF</color>
+
+    <color name="recycler_item_color">#000</color>
 </resources>

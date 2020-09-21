@@ -11,7 +11,7 @@
         android:paddingStart="60dp"
         android:paddingEnd="6dp"
         android:text="@string/default_text_view_placeholder"
-        android:textColor="#000"
+        android:textColor="@color/recycler_item_color"
         android:textSize="13sp" />
 
 </FrameLayout>

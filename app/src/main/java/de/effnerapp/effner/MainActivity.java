@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance = this;
-        SharedPreferences sharedPreferences = SplashActivity.sharedPreferences;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
             Log.d("MAIN", "Nightmode: ON");
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         TextView pageHeader = findViewById(R.id.page_text);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> pageHeader.setText(destination.getLabel()));
 
-        String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
+        String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
         if (ClassUtils.isAdvancedClass(sClass)) {
             navView.getMenu().findItem(R.id.navigation_terms).setVisible(false);
         }
