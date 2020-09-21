@@ -55,7 +55,7 @@ public class TimetableActivity extends AppCompatActivity {
         }
 
         timetable = findViewById(R.id.timetable);
-        TDay[] timetableDays = new Gson().fromJson(SplashActivity.getDataStack().getTimetable().getValue(), TDay[].class);
+        TDay[] timetableDays = new Gson().fromJson(SplashActivity.getData().getTimetable().getValue(), TDay[].class);
         if (timetableDays != null && timetableDays.length != 0 && !isEmpty(timetableDays)) {
             Log.d("TA", "Generating timetable!");
 

@@ -1,3 +1,9 @@
+/*
+ *  Created by SpyderScript on 21.09.2020, 10:20.
+ *  Project: Effner.
+ *  Copyright (c) 2020.
+ */
+
 package de.effnerapp.effner.data;
 
 import de.effnerapp.effner.data.model.AppColor;
@@ -10,8 +16,7 @@ import de.effnerapp.effner.data.model.Term;
 import de.effnerapp.effner.data.model.Timetable;
 import de.effnerapp.effner.json.LoginStatus;
 
-public class DataStack {
-
+public class DataResponse {
     private LoginStatus status;
     private String username;
     private Term[] terms;

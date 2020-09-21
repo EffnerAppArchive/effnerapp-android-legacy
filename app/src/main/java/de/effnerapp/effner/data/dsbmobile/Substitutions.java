@@ -19,8 +19,6 @@ import de.effnerapp.effner.data.dsbmobile.model.Substitution;
 import de.sematre.dsbmobile.DSBMobile;
 
 public class Substitutions {
-    private final String username;
-    private final String password;
     private DSBMobile dsbMobile;
     private String url;
     private final List<String> dates;
@@ -29,8 +27,8 @@ public class Substitutions {
     private final List<AbsentClass> absentClasses;
 
     public Substitutions(String username, String password) {
-        this.username = username;
-        this.password = password;
+        dsbMobile = new DSBMobile(username, password);
+
         dates = new ArrayList<>();
         days = new ArrayList<>();
         information = new HashMap<>();
@@ -38,20 +36,20 @@ public class Substitutions {
     }
 
 
-    public boolean login() {
+    public void load(ResultCallback resultCallback) {
+        List<DSBMobile.TimeTable> timeTables = null;
         try {
-            dsbMobile = new DSBMobile(username, password);
-            return true;
-        } catch (IllegalArgumentException ignored) {
-            return false;
+            timeTables = dsbMobile.getTimeTables();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
         }
-    }
 
-    public void load() {
-        if(dsbMobile == null) {
-            login();
+        if(timeTables == null) {
+            // TODO: HANDLE LOGIN FAILURE
+            return;
         }
-        for (DSBMobile.TimeTable timeTable : dsbMobile.getTimeTables()) {
+
+        for (DSBMobile.TimeTable timeTable : timeTables) {
             url = timeTable.getDetail(); // TimeTable#getDetail() contains url.
             break;
         }
@@ -144,6 +142,7 @@ public class Substitutions {
                 }
             }
         }
+        resultCallback.onFinish();
     }
 
     private List<Document> splitDocument(Document document) {
