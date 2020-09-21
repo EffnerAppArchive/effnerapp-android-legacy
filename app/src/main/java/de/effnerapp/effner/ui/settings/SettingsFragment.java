@@ -39,6 +39,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     private final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
     private final String KEY_PREF_LOGOUT = "logout";
     private final String KEY_PREF_DEV_NOTIFICATIONS = "DEV_NOTIFICATIONS";
+
+
     private Context context;
     private AccountManager accountManager;
     private SwitchPreference notificationPreference;

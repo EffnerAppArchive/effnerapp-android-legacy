@@ -39,7 +39,6 @@ public class Substitutions {
     public void load(ResultCallback resultCallback) {
         List<DSBMobile.TimeTable> timeTables = null;
         try {
-
             timeTables = dsbMobile.getTimeTables();
         } catch (RuntimeException e) {
             e.printStackTrace();

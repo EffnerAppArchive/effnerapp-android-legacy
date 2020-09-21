@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
@@ -38,9 +38,12 @@ import de.effnerapp.effner.ui.substitutions.sections.Item;
 import de.effnerapp.effner.ui.substitutions.sections.ItemAdapter;
 
 public class SubstitutionsFragment extends Fragment {
+    private static SubstitutionsFragment instance;
+
     private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
     private final List<Head> heads = new ArrayList<>();
     private RecyclerView recyclerView;
+    private final List<String> dates = new ArrayList<>();
     private List<Day> days;
 
 
@@ -50,6 +53,8 @@ public class SubstitutionsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        instance = this;
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_substitutions, container, false);
 
@@ -57,30 +62,27 @@ public class SubstitutionsFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        //Set dates
-        List<String> dates = new ArrayList<>();
-        days = MainActivity.getInstance().getSubstitutions().getDays();
-        for (Day day : days) {
-            dates.add(day.getDate());
+        Spinner spinner = view.findViewById(R.id.spinner);
+
+        // get days from substitutions
+        days = SplashActivity.getSubstitutions().getDays();
+
+        // hide progressbar container if the data has already been loaded
+        if(!days.isEmpty()) {
+            RelativeLayout relativeLayout = view.findViewById(R.id.loadingPanel);
+            relativeLayout.setVisibility(View.GONE);
         }
 
-        // Spinner
-        Spinner spinner = view.findViewById(R.id.spinner);
+        // update the spinner items
+        updateSpinnerItems();
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dates);
 
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
 
-        if(!dates.isEmpty()) {
-            // Select next date if time is after 14:00
-            if(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) > 14 || !dates.get(0).equals(format.format(new Date()))) {
-                if(dates.size() >= 2) {
-                    spinner.setSelection(1);
-                }
-            }
-        }
-
+        // select the default spinner item
+        selectDefaultItem(spinner);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -139,16 +141,16 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                if (MainActivity.getInstance().getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
-                    Item item = new Item(MainActivity.getInstance().getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
+                if (SplashActivity.getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
+                    Item item = new Item(SplashActivity.getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
                     Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "All", Color.rgb(255, 93, 82))));
                     heads.add(head);
                     size++;
                 }
 
-                if (MainActivity.getInstance().getSubstitutions().getAbsentClasses().size() > 0) {
+                if (SplashActivity.getSubstitutions().getAbsentClasses().size() > 0) {
                     List<Item> items = new ArrayList<>();
-                    for (AbsentClass absentClass : MainActivity.getInstance().getSubstitutions().getAbsentClasses()) {
+                    for (AbsentClass absentClass : SplashActivity.getSubstitutions().getAbsentClasses()) {
                         if (absentClass.getDate().equals(parent.getItemAtPosition(position).toString())) {
                             Item item = new Item(absentClass.getSClass() + ": " + absentClass.getPeriod() + " Stunde");
                             items.add(item);
@@ -181,5 +183,54 @@ public class SubstitutionsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void updateSpinnerItems() {
+        dates.clear();
+        for (Day day : days) {
+            dates.add(day.getDate());
+        }
+    }
+
+    private void selectDefaultItem(Spinner spinner) {
+        if(!dates.isEmpty()) {
+            // Select next date if time is after 14:00
+            if(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 14 || !dates.get(0).equals(format.format(new Date()))) {
+                if(dates.size() >= 2) {
+                    spinner.setSelection(1);
+                } else {
+                    spinner.setSelection(0);
+                }
+            } else {
+                spinner.setSelection(0);
+            }
+        }
+    }
+
+    public void onDataLoadFinished() {
+        View root = this.getView();
+
+        // just in case
+        if(root == null) return;
+
+        Spinner spinner = root.findViewById(R.id.spinner);
+
+        // update the spinner items
+        updateSpinnerItems();
+
+        // notify the adapter that the data set has updated
+        ArrayAdapter<?> adapter = ((ArrayAdapter<?>) spinner.getAdapter());
+        adapter.notifyDataSetChanged();
+
+        // select the default spinner item
+        selectDefaultItem(spinner);
+
+        // hide progressbar container
+        RelativeLayout relativeLayout = root.findViewById(R.id.loadingPanel);
+        relativeLayout.setVisibility(View.GONE);
+    }
+
+    public static SubstitutionsFragment getInstance() {
+        return instance;
     }
 }

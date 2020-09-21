@@ -14,18 +14,15 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
-import de.effnerapp.effner.data.dsbmobile.Substitutions;
 import de.effnerapp.effner.tools.ClassUtils;
 
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
-    private Substitutions substitutions;
 
     public BottomNavigationView navView;
 
@@ -79,36 +76,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        System.out.println("Started");
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-
-        //Authentication on DSB-SERVER
-        new Thread(() -> {
-            substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
-            //Load substitutions
-
-            // TODO: remove sleep
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            // TODO: check
-            substitutions.load(() -> {
-                System.out.println("Load finished!");
-                if(Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.navigation_substitutions) {
-                    runOnUiThread(() -> navController.navigate(R.id.navigation_substitutions));
-                }
-            });
-        }).start();
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        System.out.println("Started");
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//
+//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
+//    }
 
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
@@ -120,7 +96,4 @@ public class MainActivity extends AppCompatActivity {
         return instance;
     }
 
-    public Substitutions getSubstitutions() {
-        return substitutions;
-    }
 }
