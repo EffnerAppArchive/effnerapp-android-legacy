@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.SplashActivity;
 
 import static android.view.animation.Animation.RELATIVE_TO_SELF;
 
@@ -34,14 +33,6 @@ public class HeadViewHandler extends GroupViewHolder {
         mTextView.setText(head.getTitle());
         if (head.getColor() != Color.BLACK) {
             mTextView.setTextColor(head.getColor());
-            if (SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
-                arrow.setColorFilter(Color.WHITE);
-            }
-        } else {
-            if (SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
-                mTextView.setTextColor(Color.WHITE);
-                arrow.setColorFilter(Color.WHITE);
-            }
         }
 
         for(Badge badge : head.getBadges()) {

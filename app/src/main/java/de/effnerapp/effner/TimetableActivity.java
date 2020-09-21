@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.skydoves.colorpickerview.ColorPickerDialog;
@@ -42,11 +43,13 @@ public class TimetableActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         backButton = findViewById(R.id.back);
         backButton.setOnClickListener(v -> finish());
-        if (SplashActivity.sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
+        if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
             Log.d("TA", "Nightmode: ON");
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -82,13 +85,13 @@ public class TimetableActivity extends AppCompatActivity {
                 }
             }
             timetable.add(schedules);
-            if (SplashActivity.sharedPreferences.contains("APP_TIMETABLE_COLOR")) {
-                backButton.getBackground().setColorFilter(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620), PorterDuff.Mode.SRC_ATOP);
-                backButton.setTextColor(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_TEXTCOLOR", Color.WHITE));
+            if (sharedPreferences.contains("APP_TIMETABLE_COLOR")) {
+                backButton.getBackground().setColorFilter(sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620), PorterDuff.Mode.SRC_ATOP);
+                backButton.setTextColor(sharedPreferences.getInt("APP_TIMETABLE_TEXTCOLOR", Color.WHITE));
                 for (int i = 0; i < timetable.getStickerViewSize(); i++) {
-                    timetable.setColor(i, SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620));
+                    timetable.setColor(i, sharedPreferences.getInt("APP_TIMETABLE_COLOR", -14200620));
                 }
-                timetable.setTextColor(SplashActivity.sharedPreferences.getInt("APP_TIMETABLE_TEXTCOLOR", Color.WHITE));
+                timetable.setTextColor(sharedPreferences.getInt("APP_TIMETABLE_TEXTCOLOR", Color.WHITE));
             }
         } else {
             Log.d("TA", "Timetable empty!");
@@ -114,6 +117,8 @@ public class TimetableActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         int id = item.getItemId();
 
         if (id == R.id.navigation_timetable_color) {
@@ -122,7 +127,7 @@ public class TimetableActivity extends AppCompatActivity {
                     .setNegativeButton("Abbrechen", null)
                     .setPositiveButton("OK", (ColorEnvelopeListener) (envelope, fromUser) -> {
                         int textColor = getTextColor(envelope.getColor());
-                        SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("APP_TIMETABLE_COLOR", envelope.getColor());
                         editor.putInt("APP_TIMETABLE_TEXTCOLOR", textColor);
                         editor.apply();
@@ -135,7 +140,7 @@ public class TimetableActivity extends AppCompatActivity {
                     });
             dialog.show();
         } else if (id == R.id.navigation_timetable_settings_reset) {
-            SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove("APP_TIMETABLE_COLOR").apply();
             timetable.updateStickerColor();
             backButton.getBackground().setColorFilter(-14200620, PorterDuff.Mode.SRC_ATOP);
