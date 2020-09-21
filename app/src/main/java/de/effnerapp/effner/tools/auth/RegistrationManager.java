@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import androidx.preference.PreferenceManager;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -15,7 +17,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.json.Auth;
 import de.effnerapp.effner.json.AuthResponse;
 import de.effnerapp.effner.services.Authenticator;
@@ -38,6 +39,8 @@ public class RegistrationManager {
     }
 
     public boolean register(String id, String password, String sClass, String username) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
         // RESET FIREBASE INSTANCE (Reset Topics)
         try {
             FirebaseInstanceId.getInstance().deleteInstanceId();
@@ -45,7 +48,7 @@ public class RegistrationManager {
             e.printStackTrace();
         }
         //RESET SHARED PREFERENCES
-        SplashActivity.sharedPreferences.edit().clear().apply();
+        sharedPreferences.edit().clear().apply();
         OkHttpClient client = new OkHttpClient();
 
 
@@ -79,7 +82,9 @@ public class RegistrationManager {
     }
 
     private String createUrl(String id, String password, String sClass, String username) {
-        String firebaseToken = SplashActivity.sharedPreferences.getString("APP_FIREBASE_TOKEN", "NONE");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String firebaseToken = sharedPreferences.getString("APP_FIREBASE_TOKEN", "NONE");
         HashGenerator hashGenerator = new HashGenerator("SHA-512", StandardCharsets.UTF_8);
         StringBuilder sb = new StringBuilder(BASE_URL);
         sb.append("?id=").append(hashGenerator.generate(id));
@@ -95,9 +100,11 @@ public class RegistrationManager {
 
 
     private void addAccount(String id, String password) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
         AccountManager accountManager = AccountManager.get(context);
 
-        SharedPreferences.Editor editor = SplashActivity.sharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("APP_REGISTERED", true);
         editor.putString("APP_DSB_LOGIN_ID", id);
         editor.putString("APP_DSB_LOGIN_PASSWORD", password);

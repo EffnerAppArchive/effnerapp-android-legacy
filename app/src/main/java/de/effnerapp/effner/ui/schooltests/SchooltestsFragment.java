@@ -2,6 +2,7 @@ package de.effnerapp.effner.ui.schooltests;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,12 +43,14 @@ public class SchooltestsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_schooltests, container, false);
         recyclerView = view.findViewById(R.id.schooltests_recycler_view);
         Spinner spinner = view.findViewById(R.id.spinner);
 
-        String sClass = SplashActivity.sharedPreferences.getString("APP_USER_CLASS", "");
+        String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
 
         if (!ClassUtils.isAdvancedClass(sClass)) {
             String[] items = {"Neuste zuerst", "Älteste zuerst"};

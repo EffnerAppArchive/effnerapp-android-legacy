@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="0dp">
@@ -11,7 +12,8 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
         android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
-        android:contentDescription="@string/base_description" />
+        android:contentDescription="@string/base_description"
+        app:tint="@color/recycler_item_color" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -24,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/substitution_head_text_placeholder"
-            android:textColor="#000"
+            android:textColor="@color/recycler_item_color"
             android:textSize="16sp" />
 
         <TextView
@@ -55,7 +57,4 @@
             android:textStyle="bold"
             android:visibility="gone"/>
     </LinearLayout>
-
-
-
 </FrameLayout>
