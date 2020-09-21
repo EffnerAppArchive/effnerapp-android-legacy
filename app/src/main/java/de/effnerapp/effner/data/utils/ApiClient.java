@@ -28,7 +28,6 @@ import okhttp3.Response;
 
 public class ApiClient {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final String BASE_URL = "https://api.effnerapp.de:45890/rest";
     private final String token;
     private PackageInfo info;
 
@@ -42,7 +41,7 @@ public class ApiClient {
     }
 
     public void loadData(ApiCallback callback) {
-        String url = BASE_URL + "?token=" + token + "&app_version=" + info.versionName;
+        String url = "https://api.effnerapp.de:45890/rest?token=" + token + "&app_version=" + info.versionName;
 
         OkHttpClient client = new OkHttpClient();
 

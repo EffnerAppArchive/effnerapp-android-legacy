@@ -36,10 +36,10 @@ import de.effnerapp.effner.SplashActivity;
  */
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String KEY_PREF_NOTIFICATION_SWITCH = "APP_NOTIFICATIONS";
-    private static final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
-    private static final String KEY_PREF_LOGOUT = "APP_LOGOUT";
-    private static final String KEY_PREF_DEV_NOTIFICATIONS = "APP_DEV_NOTIFICATIONS";
+    private final String KEY_PREF_NOTIFICATION_SWITCH = "APP_NOTIFICATIONS";
+    private final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
+    private final String KEY_PREF_LOGOUT = "APP_LOGOUT";
+    private final String KEY_PREF_DEV_NOTIFICATIONS = "APP_DEV_NOTIFICATIONS";
 
 
     private Context context;
@@ -62,7 +62,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         screen.addPreference(notificationCategory);
 
         notificationPreference = new SwitchPreference(context);
-        notificationPreference.setKey("notifications");
+        notificationPreference.setKey(KEY_PREF_NOTIFICATION_SWITCH);
         notificationPreference.setTitle("Erhalte Nachrichten über neue Vertretungen");
         notificationPreference.setDefaultValue(false);
         notificationPreference.setIcon(R.drawable.ic_notifications_active_black_24dp);
@@ -158,7 +158,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         accountCategory.addPreference(usernamePreference);
 
         Preference logoutPreference = new Preference(context);
-        logoutPreference.setKey("logout");
+        logoutPreference.setKey(KEY_PREF_LOGOUT);
         logoutPreference.setTitle("Abmelden");
         logoutPreference.setSummary("Melde dich ab!");
         logoutPreference.setIcon(R.drawable.ic_cancel_black_24dp);
