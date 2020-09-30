@@ -6,6 +6,9 @@
 
 package de.effnerapp.effner.data;
 
+import android.accounts.AccountManager;
+
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.data.model.AppColor;
 import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.DayInformation;
@@ -71,6 +74,11 @@ public class DataResponse {
     public Content getContentByKey(String key) {
         for (Content c : content) {
             if (c.getName().equals(key)) {
+                if (c.getValue().contains("{APP_TOKEN}")) {
+                    AccountManager accountManager = AccountManager.get(MainActivity.getInstance());
+                    String token = accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]);
+                    c.setValue(c.getValue().replace("{APP_TOKEN}", token));
+                }
                 return c;
             }
         }
