@@ -1,17 +1,17 @@
-package de.effnerapp.effner.data;
+/*
+ *  Created by SpyderScript on 21.09.2020, 10:20.
+ *  Project: Effner.
+ *  Copyright (c) 2020.
+ */
 
-import de.effnerapp.effner.data.model.AppColor;
-import de.effnerapp.effner.data.model.Content;
-import de.effnerapp.effner.data.model.DayInformation;
-import de.effnerapp.effner.data.model.Holidays;
-import de.effnerapp.effner.data.model.News;
-import de.effnerapp.effner.data.model.Schooltest;
-import de.effnerapp.effner.data.model.Term;
-import de.effnerapp.effner.data.model.Timetable;
+package de.effnerapp.effner.data.model;
+
+import android.accounts.AccountManager;
+
+import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.json.LoginStatus;
 
-public class DataStack {
-
+public class DataResponse {
     private LoginStatus status;
     private String username;
     private Term[] terms;
@@ -66,6 +66,11 @@ public class DataStack {
     public Content getContentByKey(String key) {
         for (Content c : content) {
             if (c.getName().equals(key)) {
+                if (c.getValue().contains("{APP_TOKEN}")) {
+                    AccountManager accountManager = AccountManager.get(MainActivity.getInstance());
+                    String token = accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]);
+                    c.setValue(c.getValue().replace("{APP_TOKEN}", token));
+                }
                 return c;
             }
         }

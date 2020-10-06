@@ -6,7 +6,7 @@
 
 package de.effnerapp.effner.data.utils;
 
-import de.effnerapp.effner.data.DataResponse;
+import de.effnerapp.effner.data.model.DataResponse;
 
 public interface ApiCallback {
     void onFinish(boolean isSuccess, DataResponse data);
