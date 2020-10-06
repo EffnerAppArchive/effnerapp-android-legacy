@@ -23,7 +23,7 @@ import java.util.Objects;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.TimetableActivity;
-import de.effnerapp.effner.data.DataResponse;
+import de.effnerapp.effner.data.model.DataResponse;
 import de.effnerapp.effner.data.utils.HeaderTextParser;
 import de.effnerapp.effner.tools.ClassUtils;
 

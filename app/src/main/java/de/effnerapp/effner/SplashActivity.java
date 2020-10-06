@@ -10,8 +10,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import de.effnerapp.effner.data.DataResponse;
 import de.effnerapp.effner.data.dsbmobile.Substitutions;
+import de.effnerapp.effner.data.model.DataResponse;
 import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.error.ErrorUtils;
