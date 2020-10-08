@@ -29,6 +29,15 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         AccountManager accountManager = AccountManager.get(this);
 
+        Log.d("splishsplah", String.valueOf(sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false)));
+
+        if (!sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false)) {
+            Log.d("splishsplah", "sollte screen zeigen");
+            startActivity(new Intent(this, IntroActivity.class));
+            finish();
+            return;
+        }
+
         if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
             if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length > 0) {
 

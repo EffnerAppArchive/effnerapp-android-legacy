@@ -27,6 +27,7 @@ import androidx.preference.SwitchPreference;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import de.effnerapp.effner.IntroActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 
@@ -78,7 +79,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         SwitchPreference nightModePreference = new SwitchPreference(context);
         nightModePreference.setKey("APP_DESIGN_DARK");
-        nightModePreference.setTitle("Night-Mode :D");
+        nightModePreference.setTitle("Night-Mode");
         nightModePreference.setSummary("Aktiviere den Nachtmodus!");
         nightModePreference.setDefaultValue(false);
         nightModePreference.setIcon(R.drawable.ic_lightbulb_outline_black_24dp);
@@ -87,6 +88,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
         miscCategory.addPreference(nightModePreference);
 
+        Preference introPreference = new Preference(context);
+        introPreference.setKey("intro");
+        introPreference.setTitle("Einführung");
+        introPreference.setSummary("Schaue dir nochmal die Einführung an.");
+        introPreference.setIcon(R.drawable.ic_baseline_emoji_people_24);
+        if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            introPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
+        miscCategory.addPreference(introPreference);
+
         PreferenceCategory aboutCategory = new PreferenceCategory(context);
         aboutCategory.setKey("about");
         aboutCategory.setTitle("Über");
@@ -94,7 +105,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         Preference feedbackPreference = new Preference(context);
         feedbackPreference.setKey("feedback");
-        feedbackPreference.setTitle("Ein kleines Feedback? ❤");
+        feedbackPreference.setTitle("Fehler gefundend?");
         feedbackPreference.setSummary("Was findest du gut und was sollen wir besser machen?");
         feedbackPreference.setIcon(R.drawable.ic_mail_black_24dp);
         if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
@@ -206,7 +217,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
                     .setCancelable(false)
                     .setTitle("Feedback")
-                    .setMessage("Melde dich bei uns in der Klasse 10B oder schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊👌")
+                    .setMessage(R.string.feedbackDialog)
                     .setPositiveButton("E-Mail senden", (dialogInterface, i) -> {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:info@effnerapp.de"));
                         startActivity(browserIntent);
@@ -274,6 +285,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                     .setMessage("EffnerApp - by Luis & Sebi!\n\n\n\n© 2020 EffnerApp - Danke an alle Mitwirkenden ❤")
                     .setPositiveButton("Schließen", null);
             dialog.show();
+            return true;
+        });
+
+        introPreference.setOnPreferenceClickListener(preference -> {
+            startActivity(new Intent(context, IntroActivity.class));
             return true;
         });
 

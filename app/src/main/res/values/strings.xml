@@ -48,4 +48,5 @@
     <string name="hygiene_concept_corona">Hygienekonzept Corona</string>
     <string name="substitution_head_text_placeholder"><![CDATA[<?>. Stunde verteten durch <?>]]></string>
     <string name="default_text_view_placeholder"><![CDATA[<?>]]></string>
+    <string name="feedbackDialog">Schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊</string>
 </resources>
