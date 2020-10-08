@@ -68,10 +68,10 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     })
-                    .setNegativeButton("Neu Anmelden", (dialogInterface, i) -> Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show());
+                    .setNegativeButton("Neu Anmelden", (dialogInterface, i) -> Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_SHORT).show());
             dialog.show();
         } else {
-            Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_SHORT).show();
         }
 
         classSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 dialog.show();
                 new Thread(() -> {
-                    ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this, this);
+                    ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this);
                     String sClass = ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) ? classSelector.getSelectedItem().toString() + "Q" + course.getText().toString() : classSelector.getSelectedItem().toString();
                     boolean login = serverAuthenticator.register(effnerappID.getText().toString(), password.getText().toString(), sClass, username.getText().toString());
                     runOnUiThread(dialog::cancel);

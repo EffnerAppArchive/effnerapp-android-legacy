@@ -10,6 +10,7 @@ import android.accounts.AccountManager;
 
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.json.LoginStatus;
+import de.effnerapp.effner.services.Authenticator;
 
 public class DataResponse {
     private LoginStatus status;
@@ -68,7 +69,7 @@ public class DataResponse {
             if (c.getName().equals(key)) {
                 if (c.getValue().contains("{APP_TOKEN}")) {
                     AccountManager accountManager = AccountManager.get(MainActivity.getInstance());
-                    String token = accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]);
+                    String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
                     c.setValue(c.getValue().replace("{APP_TOKEN}", token));
                 }
                 return c;

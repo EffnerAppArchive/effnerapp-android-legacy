@@ -18,7 +18,7 @@ import de.effnerapp.effner.ui.login.LoginActivity;
 
 public class IntroActivity extends AppIntro {
 
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,8 +26,8 @@ public class IntroActivity extends AppIntro {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        addSlide(AppIntroFragment.newInstance("title", "description", 0, Color.BLUE, Color.RED));
-        addSlide(AppIntroFragment.newInstance("title2", "description2"));
+        addSlide(AppIntroFragment.newInstance("Willkommen bei EffnerApp", "Hier könnte ihre Werbung stehen!", 0, Color.rgb(20, 200, 0), Color.rgb(100, 50, 25)));
+        addSlide(AppIntroFragment.newInstance("Dies und das", "Hier stehen so erklärungen und so"));
 
         setTransformer(AppIntroPageTransformerType.Zoom.INSTANCE);
         setColorTransitionsEnabled(true);
@@ -35,18 +35,17 @@ public class IntroActivity extends AppIntro {
         setIndicatorEnabled(true);
         setIndicatorColor(Color.RED, Color.GRAY);
         setProgressIndicator();
-
     }
 
     @Override
-    protected void onSkipPressed(@org.jetbrains.annotations.Nullable Fragment currentFragment) {
+    protected void onSkipPressed(@Nullable Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
 
         end();
     }
 
     @Override
-    protected void onDonePressed(@org.jetbrains.annotations.Nullable Fragment currentFragment) {
+    protected void onDonePressed(@Nullable Fragment currentFragment) {
         super.onDonePressed(currentFragment);
 
         end();
@@ -58,12 +57,12 @@ public class IntroActivity extends AppIntro {
 
     public void setOnboarding() {
         sharedPreferences.edit().putBoolean("IntroActivity.COMPLETED_ON_BOARDING", true).apply();
-        Log.d("splishsplash", "COMPLETED_ON_BOARDING set to " + sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false));
+        Log.d("Intro", "COMPLETED_ON_BOARDING set to " + sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false));
     }
 
 
     /**
-     * ends the onboadring process and returns either to the login activity or to the activity before.
+     * ends the onboarding process and returns either to the login activity or to the activity before.
      * also updates the preference
      */
     public void end() {

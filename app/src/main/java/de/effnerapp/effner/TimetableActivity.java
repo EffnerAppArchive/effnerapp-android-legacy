@@ -1,11 +1,17 @@
 package de.effnerapp.effner;
 
+import android.Manifest;
+import android.accounts.AccountManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,28 +19,50 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.skydoves.colorpickerview.ColorPickerDialog;
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import de.effnerapp.effner.data.model.TDay;
+import de.effnerapp.effner.json.Status;
+import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.ui.models.timetableview.Schedule;
 import de.effnerapp.effner.ui.models.timetableview.Time;
 import de.effnerapp.effner.ui.models.timetableview.TimetableView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
 
 
 public class TimetableActivity extends AppCompatActivity {
+    private final int APP_CAMERA_PERMISSION_REQUEST_CODE = 10;
+    private final int APP_CAMERA_PICTURE_ID = 11;
+    private final Gson gson = new Gson();
+
     private TimetableView timetable;
     private Button backButton;
 
@@ -50,10 +78,8 @@ public class TimetableActivity extends AppCompatActivity {
         backButton = findViewById(R.id.back);
         backButton.setOnClickListener(v -> finish());
         if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
-            Log.d("TA", "Nightmode: ON");
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            Log.d("TA", "Nightmode: OFF");
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
@@ -99,14 +125,97 @@ public class TimetableActivity extends AppCompatActivity {
                     .setTitle("Kein Stundenplan!")
                     .setMessage("Für deine Klasse wurde noch kein Stundenplan eingereicht!\nMöchtest du einen Stundenplan hochlanden?")
                     .setCancelable(false)
-                    .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.effnerapp.de")));
-                        finish();
-                    })
+                    .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> uploadTimetable())
                     .setNegativeButton("Abbrechen", (dialogInterface, i) -> finish());
             dialog.show();
         }
 
+    }
+
+    private void uploadTimetable() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, APP_CAMERA_PERMISSION_REQUEST_CODE);
+        } else {
+            Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(camera_intent, APP_CAMERA_PICTURE_ID);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == APP_CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(camera_intent, APP_CAMERA_PICTURE_ID);
+            } else {
+                Toast.makeText(this, "Um diese Funktion zu nutzen, musst du der App Berechtigungen auf die Kamera geben.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == APP_CAMERA_PICTURE_ID) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+
+            AccountManager accountManager = AccountManager.get(this);
+            String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+            byte[] bitmapData = stream.toByteArray();
+
+            OkHttpClient client = new OkHttpClient();
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addPart(Headers.of("Content-Disposition", "form-data;"), RequestBody.create(bitmapData, MediaType.parse("image/png")))
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url("https://api.effnerapp.de:45890/data/timetable/upload?token=" + token)
+                    .post(requestBody)
+                    .build();
+
+            ProgressDialog dialog = new ProgressDialog(this);
+            dialog.setTitle("Lade hoch...");
+            dialog.setMessage("Der Stundenplan wird hochgeladen...");
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setCancelable(false);
+            dialog.show();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    Status status = gson.fromJson(response.body().string(), Status.class);
+                    String message = status.getMsg();
+                    System.out.println(message);
+                    if (message.equals("UPLOAD_SUCCESS")) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(TimetableActivity.this, "Stundenplan erfolgreich hochgeladen", Toast.LENGTH_LONG).show();
+                            dialog.hide();
+                            finish();
+                        });
+                    } else {
+                        runOnUiThread(() -> {
+                            Toast.makeText(TimetableActivity.this, "Fehler beim Hochladen", Toast.LENGTH_LONG).show();
+                            dialog.hide();
+                            finish();
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(TimetableActivity.this, "Fehler beim Hochladen", Toast.LENGTH_LONG).show();
+                        dialog.hide();
+                        finish();
+                    });
+                }
+            });
+        }
     }
 
     @Override
