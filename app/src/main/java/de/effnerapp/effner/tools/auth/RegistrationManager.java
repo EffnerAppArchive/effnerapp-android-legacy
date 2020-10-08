@@ -47,8 +47,9 @@ public class RegistrationManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //RESET SHARED PREFERENCES
-        sharedPreferences.edit().clear().apply();
+        //RESET SHARED PREFERENCES (WTF WHY WOULD YOU DO THIS SEBI???)
+        //sharedPreferences.edit().clear().apply();
+
         OkHttpClient client = new OkHttpClient();
 
 

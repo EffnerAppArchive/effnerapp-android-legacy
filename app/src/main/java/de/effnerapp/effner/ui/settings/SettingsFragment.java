@@ -27,6 +27,7 @@ import androidx.preference.SwitchPreference;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import de.effnerapp.effner.IntroActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 
@@ -78,7 +79,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         SwitchPreference nightModePreference = new SwitchPreference(context);
         nightModePreference.setKey("APP_DESIGN_DARK");
-        nightModePreference.setTitle("Night-Mode :D");
+        nightModePreference.setTitle("Night-Mode");
         nightModePreference.setSummary("Aktiviere den Nachtmodus!");
         nightModePreference.setDefaultValue(false);
         nightModePreference.setIcon(R.drawable.ic_lightbulb_outline_black_24dp);
@@ -91,6 +92,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         aboutCategory.setKey("about");
         aboutCategory.setTitle("Über");
         screen.addPreference(aboutCategory);
+
+        Preference introPreference = new Preference(context);
+        introPreference.setKey("intro");
+        introPreference.setTitle("Einführung");
+        introPreference.setSummary("Schaue dir nochmal die Einführung an bei Fragen.");
+        introPreference.setIcon(R.drawable.ic_mail_black_24dp);
+        if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            introPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
+        aboutCategory.addPreference(introPreference);
 
         Preference feedbackPreference = new Preference(context);
         feedbackPreference.setKey("feedback");
@@ -274,6 +285,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                     .setMessage("EffnerApp - by Luis & Sebi!\n\n\n\n© 2020 EffnerApp - Danke an alle Mitwirkenden ❤")
                     .setPositiveButton("Schließen", null);
             dialog.show();
+            return true;
+        });
+
+        introPreference.setOnPreferenceClickListener(preference -> {
+            startActivity(new Intent(context, IntroActivity.class));
             return true;
         });
 
