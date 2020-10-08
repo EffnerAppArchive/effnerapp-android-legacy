@@ -39,7 +39,6 @@ public class RegistrationManager {
     }
 
     public boolean register(String id, String password, String sClass, String username) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         // RESET FIREBASE INSTANCE (Reset Topics)
         try {
@@ -47,8 +46,6 @@ public class RegistrationManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //RESET SHARED PREFERENCES (WTF WHY WOULD YOU DO THIS SEBI???)
-        //sharedPreferences.edit().clear().apply();
 
         OkHttpClient client = new OkHttpClient();
 
