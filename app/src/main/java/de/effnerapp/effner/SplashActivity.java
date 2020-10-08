@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -22,17 +23,20 @@ public class SplashActivity extends AppCompatActivity {
     private static DataResponse data;
     private static Substitutions substitutions;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         AccountManager accountManager = AccountManager.get(this);
 
-        Log.d("splishsplah", String.valueOf(sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false)));
-
         if (!sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false)) {
-            Log.d("splishsplah", "sollte screen zeigen");
+            // set APP_DESIGN_DARK preference based on system dark mode
+            setSystemDesign();
+
+            // start intro activity
             startActivity(new Intent(this, IntroActivity.class));
             finish();
             return;
@@ -86,6 +90,14 @@ public class SplashActivity extends AppCompatActivity {
             sharedPreferences.edit().clear().apply();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
+        }
+    }
+
+    public void setSystemDesign() {
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
+            sharedPreferences.edit().putBoolean("APP_DESIGN_DARK", true).apply();
         }
     }
 

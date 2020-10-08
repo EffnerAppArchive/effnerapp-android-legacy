@@ -219,7 +219,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                     .setTitle("Feedback")
                     .setMessage(R.string.feedbackDialog)
                     .setPositiveButton("E-Mail senden", (dialogInterface, i) -> {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:info@effnerapp.de"));
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:app@effnerapp.de"));
                         startActivity(browserIntent);
                     })
                     .setNegativeButton("App bewerten", (dialogInterface, i) -> {
