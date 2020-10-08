@@ -28,11 +28,16 @@ public class ErrorUtils {
     }
 
     private AlertDialog.Builder buildAlert(String title, String message, boolean recreateOnRetry) {
-        return new AlertDialog.Builder(context)
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(false)
-                .setNegativeButton("Neu Versuchen", recreateOnRetry ? (dialogInterface, i) -> activity.recreate() : null)
                 .setPositiveButton("Schießen", (dialogInterface, i) -> activity.finish());
+
+        if (recreateOnRetry) {
+            builder.setNegativeButton("Neu Versuchen", (dialogInterface, i) -> activity.recreate());
+        }
+
+        return builder;
     }
 }

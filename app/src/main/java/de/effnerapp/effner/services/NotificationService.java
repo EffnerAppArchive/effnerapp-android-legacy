@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -37,12 +36,8 @@ public class NotificationService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "Message Body: " + Objects.requireNonNull(remoteMessage.getNotification()).getBody() + " : " + remoteMessage.getMessageId());
-        Bundle bundle = new Bundle();
-        bundle.putString("NOTIFICATION_TITLE", remoteMessage.getNotification().getTitle());
-        bundle.putString("NOTIFICATION_CONTENT", remoteMessage.getNotification().getBody());
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtras(bundle);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.app_logo)

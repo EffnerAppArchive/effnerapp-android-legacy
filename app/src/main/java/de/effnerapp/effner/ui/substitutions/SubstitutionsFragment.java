@@ -147,7 +147,7 @@ public class SubstitutionsFragment extends Fragment {
 
                 if (SplashActivity.getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
                     Item item = new Item(SplashActivity.getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
-                    Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "All", Color.rgb(255, 93, 82))));
+                    Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
                     heads.add(head);
                     size++;
                 }
@@ -161,7 +161,7 @@ public class SubstitutionsFragment extends Fragment {
                         }
                     }
                     if(items.size() > 0) {
-                        Head head = new Head("Abwesende Klassen", items, Color.rgb(255, 93, 82), Collections.singletonList(new Badge(0, "All", Color.rgb(255, 93, 82))));
+                        Head head = new Head("Abwesende Klassen", items, Color.rgb(255, 93, 82), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
                         heads.add(head);
                         size++;
                     }

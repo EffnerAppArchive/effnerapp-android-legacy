@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
@@ -32,18 +30,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         instance = this;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
-            Log.d("MAIN", "Nightmode: ON");
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            Log.d("MAIN", "Nightmode: OFF");
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+
+        setDarkMode(sharedPreferences.getBoolean("APP_DESIGN_DARK", false));
 
         setContentView(R.layout.activity_main);
 
         navView = findViewById(R.id.nav_view);
 
+        // setup navView
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         NavigationUI.setupWithNavController(navView, navController);
@@ -56,36 +50,16 @@ public class MainActivity extends AppCompatActivity {
             navView.getMenu().findItem(R.id.navigation_terms).setVisible(false);
         }
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            if (bundle.getString("NOTIFICATION_CONTENT") != null) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                        .setTitle(bundle.getString("NOTIFICATION_TITLE"))
-                        .setMessage(bundle.getString("NOTIFICATION_CONTENT"))
-                        .setCancelable(false)
-                        .setPositiveButton("OK", null);
-                dialog.show();
-
-                bundle.remove("NOTIFICATION_TITLE");
-                bundle.remove("NOTIFICATION_CONTENT");
-            }
-        }
-
+        // cancel all notifications
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager != null;
         notificationManager.cancelAll();
 
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        System.out.println("Started");
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//
-//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-//        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-//    }
+    private void setDarkMode(boolean enable) {
+        AppCompatDelegate.setDefaultNightMode(enable ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+    }
 
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
