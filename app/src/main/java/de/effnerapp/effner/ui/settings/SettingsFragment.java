@@ -88,24 +88,24 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         }
         miscCategory.addPreference(nightModePreference);
 
+        Preference introPreference = new Preference(context);
+        introPreference.setKey("intro");
+        introPreference.setTitle("Einführung");
+        introPreference.setSummary("Schaue dir nochmal die Einführung an.");
+        introPreference.setIcon(R.drawable.ic_baseline_emoji_people_24);
+        if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            introPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
+        miscCategory.addPreference(introPreference);
+
         PreferenceCategory aboutCategory = new PreferenceCategory(context);
         aboutCategory.setKey("about");
         aboutCategory.setTitle("Über");
         screen.addPreference(aboutCategory);
 
-        Preference introPreference = new Preference(context);
-        introPreference.setKey("intro");
-        introPreference.setTitle("Einführung");
-        introPreference.setSummary("Schaue dir nochmal die Einführung an bei Fragen.");
-        introPreference.setIcon(R.drawable.ic_mail_black_24dp);
-        if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
-            introPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
-        }
-        aboutCategory.addPreference(introPreference);
-
         Preference feedbackPreference = new Preference(context);
         feedbackPreference.setKey("feedback");
-        feedbackPreference.setTitle("Ein kleines Feedback? ❤");
+        feedbackPreference.setTitle("Fehler gefundend?");
         feedbackPreference.setSummary("Was findest du gut und was sollen wir besser machen?");
         feedbackPreference.setIcon(R.drawable.ic_mail_black_24dp);
         if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
@@ -217,7 +217,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
                     .setCancelable(false)
                     .setTitle("Feedback")
-                    .setMessage("Melde dich bei uns in der Klasse 10B oder schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊👌")
+                    .setMessage(R.string.feedbackDialog)
                     .setPositiveButton("E-Mail senden", (dialogInterface, i) -> {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:info@effnerapp.de"));
                         startActivity(browserIntent);

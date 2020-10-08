@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme.Default" parent="AppTheme.Base">
-<!--        <item name="colorSurface">#131313</item>-->
+        <!--        <item name="colorSurface">#131313</item>-->
         <item name="colorSurface">#020202</item>
         <item name="android:colorBackground">#000</item>
+    </style>
+
+    <!-- Splash Screen theme -->
+    <style name="AppTheme.SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background_dark</item>
     </style>
 </resources>
