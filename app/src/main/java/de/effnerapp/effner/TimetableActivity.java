@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -261,7 +260,7 @@ public class TimetableActivity extends AppCompatActivity {
                     .setTitle("Neuer Stundenplan!")
                     .setMessage("Du kannst einen neuen Stundenplan hochladen, wenn es Änderungen oder Fehler in der aktuellen Version gibt!")
                     .setCancelable(false)
-                    .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://portal.effnerapp.de"))))
+                    .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> uploadTimetable())
                     .setNegativeButton("Abbrechen", null);
             dialog.show();
         }
