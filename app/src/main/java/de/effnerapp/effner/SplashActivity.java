@@ -68,7 +68,7 @@ public class SplashActivity extends AppCompatActivity {
                         finish();
                     } else {
                         if (!isSuccess) {
-                            new ErrorUtils(this, this).showError("Could not connect to server.", false);
+                            new ErrorUtils(this, this).showError("Could not connect to server.", true);
                         } else if (data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
                             startActivity(new Intent(this, LoginActivity.class));
                         } else {

@@ -53,6 +53,7 @@ public class ApiClient {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
+                callback.onFinish(false, null);
             }
 
             @Override
