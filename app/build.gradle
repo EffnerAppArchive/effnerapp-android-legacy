@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "de.effnerapp.effner"
         minSdkVersion 22
@@ -21,13 +21,16 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'androidx.navigation:navigation-fragment:2.3.0'
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -47,10 +50,13 @@ dependencies {
     implementation 'com.applandeo:material-calendar-view:1.4.0'
     implementation 'com.github.skydoves:colorpickerview:2.1.6'
 
-    implementation 'com.google.firebase:firebase-core:17.5.0'
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
-    implementation 'com.google.firebase:firebase-messaging:20.2.4'
+    implementation 'com.google.firebase:firebase-core:17.5.1'
+    implementation 'com.google.firebase:firebase-analytics:17.6.0'
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation 'com.google.firebase:firebase-messaging:20.3.0'
+
+    // https://github.com/AppIntro/AppIntro
+    implementation 'com.github.AppIntro:AppIntro:6.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
