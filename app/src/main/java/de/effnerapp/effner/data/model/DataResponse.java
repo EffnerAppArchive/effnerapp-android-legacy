@@ -8,6 +8,8 @@ package de.effnerapp.effner.data.model;
 
 import android.accounts.AccountManager;
 
+import java.util.Arrays;
+
 import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.json.LoginStatus;
 import de.effnerapp.effner.services.Authenticator;
@@ -85,5 +87,21 @@ public class DataResponse {
             }
         }
         return AppColor.WHITE;
+    }
+
+    @Override
+    public String toString() {
+        return "DataResponse{" +
+                "status=" + status +
+                ", username='" + username + '\'' +
+                ", terms=" + Arrays.toString(terms) +
+                ", schooltests=" + Arrays.toString(schooltests) +
+                ", holidays=" + Arrays.toString(holidays) +
+                ", news=" + Arrays.toString(news) +
+                ", dayInformation=" + dayInformation +
+                ", timetable=" + timetable +
+                ", content=" + Arrays.toString(content) +
+                ", colors=" + Arrays.toString(colors) +
+                '}';
     }
 }

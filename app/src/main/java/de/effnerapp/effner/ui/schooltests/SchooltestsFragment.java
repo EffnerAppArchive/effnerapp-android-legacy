@@ -27,9 +27,9 @@ import java.util.Collections;
 import java.util.List;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.Schooltest;
+import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.tools.ClassUtils;
 
 public class SchooltestsFragment extends Fragment {
@@ -60,7 +60,7 @@ public class SchooltestsFragment extends Fragment {
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            List<Schooltest> schooltests = new ArrayList<>(Arrays.asList(SplashActivity.getData().getSchooltests()));
+            List<Schooltest> schooltests = new ArrayList<>(Arrays.asList(ApiClient.getInstance().getData().getSchooltests()));
             adapter = new SchooltestItemAdapter(schooltests);
             recyclerView.setAdapter(adapter);
 
@@ -95,20 +95,20 @@ public class SchooltestsFragment extends Fragment {
             String key = "DATA_TOP_LEVEL_SA_DOC_" + ClassUtils.getFirstDigits(sClass) + "_";
 
             h1Card.setOnClickListener(v -> {
-                Content content = SplashActivity.getData().getContentByKey(key + 1);
+                Content content = ApiClient.getInstance().getData().getContentByKey(key + 1);
                 if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
                 } else {
-                    Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_SHORT).show();
                 }
             });
 
             h2Card.setOnClickListener(v -> {
-                Content content = SplashActivity.getData().getContentByKey(key + 2);
+                Content content = ApiClient.getInstance().getData().getContentByKey(key + 2);
                 if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
                 } else {
-                    Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_SHORT).show();
                 }
             });
         }

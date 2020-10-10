@@ -30,6 +30,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import de.effnerapp.effner.IntroActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
+import de.effnerapp.effner.services.Authenticator;
 
 
 /**
@@ -64,7 +65,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         notificationPreference = new SwitchPreference(context);
         notificationPreference.setKey(KEY_PREF_NOTIFICATION_SWITCH);
-        notificationPreference.setTitle("Erhalte Nachrichten über neue Vertretungen");
+        notificationPreference.setTitle("Benachrichtigungen");
+        notificationPreference.setSummary("Erhalte Nachrichten über neue Vertretungen");
         notificationPreference.setDefaultValue(false);
         notificationPreference.setIcon(R.drawable.ic_notifications_active_black_24dp);
         if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
@@ -100,7 +102,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         PreferenceCategory aboutCategory = new PreferenceCategory(context);
         aboutCategory.setKey("about");
-        aboutCategory.setTitle("Über");
+        aboutCategory.setTitle("Über EffnerApp");
         screen.addPreference(aboutCategory);
 
         Preference feedbackPreference = new Preference(context);
@@ -133,6 +135,26 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             buildPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         aboutCategory.addPreference(buildPreference);
+
+        Preference privacyPolicyPreference = new Preference(context);
+        privacyPolicyPreference.setKey("privacyPolicy");
+        privacyPolicyPreference.setTitle("Datenschutz-Bestimmungen");
+        privacyPolicyPreference.setSummary("Klicke, um mehr zu erfahren.");
+        privacyPolicyPreference.setIcon(R.drawable.ic_baseline_policy_24);
+        if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            privacyPolicyPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
+        aboutCategory.addPreference(privacyPolicyPreference);
+
+        Preference imprintPreference = new Preference(context);
+        imprintPreference.setKey("privacyPolicy");
+        imprintPreference.setTitle("Impressum");
+        imprintPreference.setSummary("Klicke, um mehr zu erfahren.");
+        imprintPreference.setIcon(R.drawable.ic_baseline_book_24);
+        if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            imprintPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
+        aboutCategory.addPreference(imprintPreference);
 
         Preference creditsPreference = new Preference(context);
         creditsPreference.setKey("credits");
@@ -181,7 +203,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 tokenPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
             }
             tokenPreference.setTitle("App-Token");
-            tokenPreference.setSummary(accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
+            tokenPreference.setSummary(accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
             developerCategory.addPreference(tokenPreference);
 
             SwitchPreference devNotifications = new SwitchPreference(context);
@@ -194,9 +216,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             developerCategory.addPreference(devNotifications);
 
             tokenPreference.setOnPreferenceClickListener(preference -> {
-                Toast.makeText(context, "Der Token wurde kopiert!", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Der Token wurde kopiert!", Toast.LENGTH_SHORT).show();
                 ClipboardManager clipboardManager = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = ClipData.newPlainText("Effner_APP_TOKEN", accountManager.getPassword(accountManager.getAccountsByType("de.effnerapp")[0]));
+                ClipData clipData = ClipData.newPlainText("Effner_APP_TOKEN", accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]));
                 assert clipboardManager != null;
                 clipboardManager.setPrimaryClip(clipData);
                 return true;
@@ -205,17 +227,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         feedbackPreference.setOnPreferenceClickListener(preference -> {
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
-                    .setCancelable(false)
                     .setTitle("Feedback")
                     .setMessage(R.string.feedbackDialog)
-                    .setPositiveButton("E-Mail senden", (dialogInterface, i) -> {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:app@effnerapp.de"));
-                        startActivity(browserIntent);
-                    })
-                    .setNegativeButton("App bewerten", (dialogInterface, i) -> {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=de.effnerapp.effner"));
-                        startActivity(browserIntent);
-                    })
+                    .setPositiveButton("E-Mail senden", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:app@effnerapp.de"))))
+                    .setNegativeButton("App bewerten", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=de.effnerapp.effner"))))
                     .setNeutralButton("Ok", null);
 
             dialog.show();
@@ -240,7 +255,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         classPreference.setOnPreferenceClickListener(preference -> {
-            Toast.makeText(context, "Um deine Klasse zu ändern, melde dich zuerst ab!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Um deine Klasse zu ändern, melde dich zuerst ab!", Toast.LENGTH_SHORT).show();
             return true;
         });
 
@@ -248,14 +263,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
                     .setTitle("Abmelden?")
                     .setMessage("Willst du dich wirklich abmelden?")
-                    .setCancelable(false)
                     .setPositiveButton("Abmelden", (dialogInterface, i) -> {
                         Log.i("LOGOUT_PREF", "Logging out!");
                         //clear sharedPreferences
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.clear().apply();
+                        sharedPreferences.edit().clear().apply();
                         //remove account
-                        accountManager.removeAccountExplicitly(accountManager.getAccountsByType("de.effnerapp")[0]);
+                        accountManager.removeAccountExplicitly(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
                         //disable Firebase Notifications
                         FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
                         firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
@@ -270,7 +283,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         creditsPreference.setOnPreferenceClickListener(preference -> {
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
-                    .setCancelable(false)
                     .setTitle("Über die App")
                     .setMessage("EffnerApp - by Luis & Sebi!\n\n\n\n© 2020 EffnerApp - Danke an alle Mitwirkenden ❤")
                     .setPositiveButton("Schließen", null);
@@ -280,6 +292,16 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         introPreference.setOnPreferenceClickListener(preference -> {
             startActivity(new Intent(context, IntroActivity.class));
+            return true;
+        });
+
+        privacyPolicyPreference.setOnPreferenceClickListener(preference -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://go.effnerapp.de/privacy")));
+            return true;
+        });
+
+        imprintPreference.setOnPreferenceClickListener(preference -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://go.effnerapp.de/imprint")));
             return true;
         });
 

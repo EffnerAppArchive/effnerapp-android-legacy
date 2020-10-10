@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Locale;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Term;
+import de.effnerapp.effner.data.utils.ApiClient;
 
 public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemViewHolder> {
     private final List<Term> terms;
@@ -48,7 +48,7 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
         String date = terms.get(i).getDate();
         holder.dateText.setText(date);
         holder.itemText.setText(text);
-        holder.itemLayout.setBackgroundColor(SplashActivity.getData().getColorByKey("COLOR_ITEMS_TERM").getColorValue());
+        holder.itemLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_ITEMS_TERM").getColorValue());
 
         Date sDate = null;
         try {
@@ -58,10 +58,10 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
         }
         assert sDate != null;
         if (sDate.after(new Date())) {
-            holder.dateLayout.setBackgroundColor(SplashActivity.getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
+            holder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
         } else {
             holder.itemLayout.getBackground().setAlpha(100);
-            holder.dateLayout.setBackgroundColor(SplashActivity.getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
+            holder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
         }
     }
 

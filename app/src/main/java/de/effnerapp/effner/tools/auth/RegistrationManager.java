@@ -38,6 +38,7 @@ public class RegistrationManager {
         this.context = context;
     }
 
+    // TODO: async
     public boolean register(String id, String password, String sClass) {
 
         // RESET FIREBASE INSTANCE (Reset Topics)
@@ -115,7 +116,7 @@ public class RegistrationManager {
         accountManager.addAccountExplicitly(account, auth.getToken(), null);
     }
 
-    AuthError getError() {
+    public AuthError getError() {
         if (error == null) {
             error = new AuthError(false, null);
         }

@@ -71,7 +71,7 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
                 builder.setPositiveButton("Schließen", null);
                 builder.show();
             } else {
-                Toast.makeText(MainActivity.getInstance(), "An diesen Beitrag wurden keine Dokumente angehängt!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.getInstance(), "An diesen Beitrag wurden keine Dokumente angehängt!", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -86,9 +86,9 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
     private String getDocumentType(String url) {
         if(url.endsWith(".pdf")) {
             return "PDF-Dokument";
-        } else if(url.startsWith("mailto:")) {
+        } else if (url.startsWith("mailto:")) {
             return "Email-Adresse";
-        } else if(url.startsWith("https://effner.de")) {
+        } else if (url.startsWith("https://effner.de") || url.startsWith("http://effner.de")) {
             return "Effner.de-Seite";
         } else {
             return "Externe Internet-Adresse";

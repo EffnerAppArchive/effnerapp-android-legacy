@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -15,27 +16,33 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.tools.ClassUtils;
 
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
+    private long activityCreatedTime;
 
-    public BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance = this;
+        activityCreatedTime = System.currentTimeMillis();
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         setDarkMode(sharedPreferences.getBoolean("APP_DESIGN_DARK", false));
 
         setContentView(R.layout.activity_main);
 
-        navView = findViewById(R.id.nav_view);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
 
         // setup navView
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
@@ -62,9 +69,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityReenter(int resultCode, Intent data) {
-        super.onActivityReenter(resultCode, data);
-        System.out.println("reenter");
+    protected void onPostResume() {
+        super.onPostResume();
+        if (System.currentTimeMillis() - activityCreatedTime >= TimeUnit.MINUTES.toMillis(0)) {
+            reloadData();
+        }
+    }
+
+    private void reloadData() {
+        ApiClient.getInstance().loadData((isSuccess, data) -> {
+            if (isSuccess && data.getStatus().isLogin()) {
+                // success
+                runOnUiThread(() -> Toast.makeText(this, "Daten wurden aktualisiert.", Toast.LENGTH_SHORT).show());
+            } else {
+                System.out.println(isSuccess);
+                // TODO: indicate error (snackbar?)
+                if (!isSuccess) {
+                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), "Verbindung mit dem Server fehlgeschlagen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> reloadData()).show());
+                } else if (data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
+                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), "Authentifizierung mit dem Server fehlgeschlagen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> reloadData()).show());
+                } else {
+                    startActivity(new Intent(this, SplashActivity.class));
+                    finish();
+                }
+            }
+        });
+
+        // TODO: reload substitutions
+//            // load substitutions
+//            substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
+//            new Thread(() -> substitutions.load(() -> {
+//                Log.d("Splash", "DSB data load finished!");
+//                if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
+//                    Log.d("Splash", "Substitution fragment currently visible, notifying due to data load finished.");
+//                    runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
+//                }
+//            })).start();
     }
 
     public static MainActivity getInstance() {
