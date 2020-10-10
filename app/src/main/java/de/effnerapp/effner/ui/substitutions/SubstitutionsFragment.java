@@ -93,19 +93,19 @@ public class SubstitutionsFragment extends Fragment {
             public void onItemSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
                 Log.d("SubstitutionSpinner", "Item: " + parent.getItemAtPosition(position));
 
-                //Clear list
+                // clear list
                 heads.clear();
 
                 int size = 0;
 
-                //set data
+                // set data
                 for (Day day : days) {
                     if (day.getDate().equals(parent.getItemAtPosition(position))) {
                         for (SClass sClass : day.getSClasses()) {
 
-                            //Get SchoolClass from SharedPreferences
+                            // get SchoolClass from SharedPreferences
                             String userClass = sharedPreferences.getString("APP_USER_CLASS", "");
-                            assert userClass != null;
+
                             if (ClassUtils.validateClass(sClass.getName(), userClass)) {
                                 ImageView noSubs = container.findViewById(R.id.no_subs_image);
                                 noSubs.setVisibility(View.INVISIBLE);
@@ -198,7 +198,7 @@ public class SubstitutionsFragment extends Fragment {
 
     private void selectDefaultItem(Spinner spinner) {
         if(!dates.isEmpty()) {
-            // Select next date if time is after 14:00
+            // select next date if time is after 14:00
             if(Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 14 || !dates.get(0).equals(format.format(new Date()))) {
                 if(dates.size() >= 2) {
                     spinner.setSelection(1);

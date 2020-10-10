@@ -38,7 +38,7 @@ public class RegistrationManager {
         this.context = context;
     }
 
-    public boolean register(String id, String password, String sClass, String username) {
+    public boolean register(String id, String password, String sClass) {
 
         // RESET FIREBASE INSTANCE (Reset Topics)
         try {
@@ -51,7 +51,7 @@ public class RegistrationManager {
 
 
         Request request = new Request.Builder()
-                .url(createUrl(id, password, sClass, username))
+                .url(createUrl(id, password, sClass))
                 .build();
 
         Log.d("RegMgr", "Logging in...");
@@ -79,21 +79,16 @@ public class RegistrationManager {
         return ok;
     }
 
-    private String createUrl(String id, String password, String sClass, String username) {
+    private String createUrl(String id, String password, String sClass) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         String firebaseToken = sharedPreferences.getString("APP_FIREBASE_TOKEN", "NONE");
         HashGenerator hashGenerator = new HashGenerator("SHA-512", StandardCharsets.UTF_8);
-        StringBuilder sb = new StringBuilder(BASE_URL);
-        sb.append("?id=").append(hashGenerator.generate(id));
-        sb.append("&password=").append(hashGenerator.generate(password));
-        sb.append("&class=").append(sClass);
-        sb.append("&firebase_token=").append(firebaseToken);
-        if (!username.isEmpty()) {
-            sb.append("&username=").append(username);
-        }
 
-        return sb.toString();
+        return BASE_URL + "?id=" + hashGenerator.generate(id) +
+                "&password=" + hashGenerator.generate(password) +
+                "&class=" + sClass +
+                "&firebase_token=" + firebaseToken;
     }
 
 
@@ -107,11 +102,8 @@ public class RegistrationManager {
         editor.putString("APP_DSB_LOGIN_ID", id);
         editor.putString("APP_DSB_LOGIN_PASSWORD", password);
         editor.putString("APP_USER_CLASS", auth.getsClass());
-
-        if (auth.getUsername() != null && !auth.getUsername().isEmpty()) {
-            editor.putString("APP_USER_USERNAME", auth.getUsername());
-        }
         editor.apply();
+
         //enable general notifications
         FirebaseMessaging.getInstance().subscribeToTopic("APP_GENERAL_NOTIFICATIONS");
 

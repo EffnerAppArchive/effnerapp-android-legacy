@@ -11,9 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.github.appintro.AppIntro;
-import com.github.appintro.AppIntroFragment;
 import com.github.appintro.AppIntroPageTransformerType;
 
+import de.effnerapp.effner.ui.intro.IntroPageFactory;
 import de.effnerapp.effner.ui.login.LoginActivity;
 
 public class IntroActivity extends AppIntro {
@@ -26,11 +26,23 @@ public class IntroActivity extends AppIntro {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        addSlide(AppIntroFragment.newInstance("Willkommen bei EffnerApp", "Hier könnte ihre Werbung stehen!", 0, Color.rgb(20, 200, 0), Color.rgb(100, 50, 25)));
-        addSlide(AppIntroFragment.newInstance("Dies und das", "Hier stehen so erklärungen und so"));
+        addSlide(new IntroPageFactory.Builder("Willkommen bei EffnerApp", "Ich hab doch selber keine Ahnung was ich da hin schreiben soll!")
+                .imageDrawable(R.drawable.intro_logo)
+                .backgroundDrawable(R.drawable.background_gradient)
+                .build());
+
+        addSlide(new IntroPageFactory.Builder("Immer up-to-date", "Mit der EffnerApp hast du immer den Überblick über deine Schulaufgaben, Vertretungen und vieles mehr!")
+                .imageDrawable(R.drawable.intro_logo)
+                .backgroundDrawable(R.drawable.background_gradient2)
+                .build());
+
+        addSlide(new IntroPageFactory.Builder("Los geht's", "Viel Spaß und so kp")
+                .imageDrawable(R.drawable.intro_logo)
+                .backgroundDrawable(R.drawable.background_gradient3)
+                .build());
 
         setTransformer(AppIntroPageTransformerType.Zoom.INSTANCE);
-        setColorTransitionsEnabled(true);
+//        setColorTransitionsEnabled(true);
 
         setIndicatorEnabled(true);
         setIndicatorColor(Color.RED, Color.GRAY);
@@ -55,19 +67,19 @@ public class IntroActivity extends AppIntro {
      * set COMPLETED_ON_BOARDING to true so you see the intro only once
      */
 
-    public void setOnboarding() {
+    public void setOnBoarding() {
         sharedPreferences.edit().putBoolean("IntroActivity.COMPLETED_ON_BOARDING", true).apply();
         Log.d("Intro", "COMPLETED_ON_BOARDING set to " + sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false));
     }
 
 
     /**
-     * ends the onboarding process and returns either to the login activity or to the activity before.
+     * ends the onBoarding process and returns either to the login activity or to the activity before.
      * also updates the preference
      */
     public void end() {
         boolean COMPLETED_ON_BOARDING = sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false);
-        setOnboarding();
+        setOnBoarding();
         if (!COMPLETED_ON_BOARDING) {
             startActivity(new Intent(this, LoginActivity.class));
         }

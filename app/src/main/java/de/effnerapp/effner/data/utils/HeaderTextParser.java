@@ -19,10 +19,10 @@ public class HeaderTextParser {
 
     }
 
-    public String parse(Holidays[] holidays, DayInformation dayInformation, String username) {
+    public String parse(Holidays[] holidays, DayInformation dayInformation) {
         String headerText = "Parse Error! D:";
         boolean currentlyHolidays = false;
-        if(dayInformation.isHoliday()) {
+        if (dayInformation.isHoliday()) {
             headerText = "Es ist " + dayInformation.getTitle();
         } else {
             for (Holidays holiday : holidays) {
@@ -66,13 +66,6 @@ public class HeaderTextParser {
             }
         }
 
-        return buildHeaderText(headerText, username);
-    }
-
-    private String buildHeaderText(String headerText, String username) {
-        if (username != null && !username.isEmpty()) {
-            headerText = "Hallo " + username + "!\n" + headerText;
-        }
         return headerText;
     }
 

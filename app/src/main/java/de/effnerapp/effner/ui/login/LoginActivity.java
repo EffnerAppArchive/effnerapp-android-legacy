@@ -48,12 +48,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText effnerappID = findViewById(R.id.effnerapp_id);
+        EditText id = findViewById(R.id.effnerapp_id);
         EditText password = findViewById(R.id.password);
         Spinner classSelector = findViewById(R.id.sClass);
         EditText course = findViewById(R.id.course);
-        EditText username = findViewById(R.id.username);
         Button loginButton = findViewById(R.id.login);
+
+
         List<String> items = new ArrayList<>(getClasses());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         classSelector.setAdapter(adapter);
@@ -91,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            if (!effnerappID.getText().toString().isEmpty() && !password.getText().toString().isEmpty() && (ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) && !course.getText().toString().isEmpty()) || (!ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()))) {
+            if (!id.getText().toString().isEmpty() && !password.getText().toString().isEmpty() && (ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) && !course.getText().toString().isEmpty()) || (!ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()))) {
                 dialog = new ProgressDialog(this);
                 dialog.setTitle("Prüfe Daten...");
                 dialog.setMessage("Die Anmeldedaten werden überprüft!");
@@ -101,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 new Thread(() -> {
                     ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this);
                     String sClass = ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) ? classSelector.getSelectedItem().toString() + "Q" + course.getText().toString() : classSelector.getSelectedItem().toString();
-                    boolean login = serverAuthenticator.register(effnerappID.getText().toString(), password.getText().toString(), sClass, username.getText().toString());
+                    boolean login = serverAuthenticator.register(id.getText().toString(), password.getText().toString(), sClass);
                     runOnUiThread(dialog::cancel);
                     if (login) {
                         runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show());
@@ -117,6 +118,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+    // TODO: make this shit cool lol
     private List<String> getClasses() {
         new Thread(() -> {
             OkHttpClient client = new OkHttpClient();

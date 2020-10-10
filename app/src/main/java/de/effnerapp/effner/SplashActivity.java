@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (!sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false)) {
             // set APP_DESIGN_DARK preference based on system dark mode
-            setSystemDesign();
+            detectSystemTheme();
 
             // start intro activity
             startActivity(new Intent(this, IntroActivity.class));
@@ -48,10 +48,9 @@ public class SplashActivity extends AppCompatActivity {
                 String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
                 ApiClient api = new ApiClient(this, token);
 
-                api.loadData((isSuccess, data) -> {
-                    if (isSuccess && data.getStatus().isLogin()) {
-                        sharedPreferences.edit().putString("APP_USER_USERNAME", data.getUsername()).apply();
-                        SplashActivity.data = data;
+                api.loadData((isSuccess, _data) -> {
+                    if (isSuccess && _data.getStatus().isLogin()) {
+                        data = _data;
 
                         // load substitutions
                         substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
@@ -84,7 +83,7 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         } else {
-            // REMOVE all accounts!
+            // remove all accounts
             for (Account account : accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)) {
                 accountManager.removeAccountExplicitly(account);
             }
@@ -94,7 +93,7 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    public void setSystemDesign() {
+    public void detectSystemTheme() {
         int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
 
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {

@@ -12,14 +12,14 @@ public class ServerAuthenticator {
         this.activity = activity;
     }
 
-    public boolean register(String id, String password, String sClass, String username) {
+    public boolean register(String id, String password, String sClass) {
         ErrorUtils errorUtils = new ErrorUtils(activity);
 
         RegistrationManager registrationManager = new RegistrationManager(activity);
 
-        boolean result = registrationManager.register(id, password, sClass, username);
+        boolean result = registrationManager.register(id, password, sClass);
 
-        if(!registrationManager.getError().isError()) {
+        if (!registrationManager.getError().isError()) {
             return result;
         } else {
             if (registrationManager.getError().getMsg().equals("AUTHENTICATION_FAILED")) {

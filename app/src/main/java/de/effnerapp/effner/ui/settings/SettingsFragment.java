@@ -105,7 +105,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         Preference feedbackPreference = new Preference(context);
         feedbackPreference.setKey("feedback");
-        feedbackPreference.setTitle("Fehler gefundend?");
+        feedbackPreference.setTitle("Fehler gefunden?");
         feedbackPreference.setSummary("Was findest du gut und was sollen wir besser machen?");
         feedbackPreference.setIcon(R.drawable.ic_mail_black_24dp);
         if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
@@ -151,22 +151,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Preference classPreference = new Preference(context);
         classPreference.setKey("class");
         classPreference.setTitle("Deine Klasse");
-        classPreference.setSummary(sharedPreferences.getString("APP_USER_CLASS", "NONE"));
+        classPreference.setSummary(sharedPreferences.getString("APP_USER_CLASS", ""));
         classPreference.setIcon(R.drawable.ic_group_black_24dp);
         if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
             classPreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
         }
         accountCategory.addPreference(classPreference);
-
-        Preference usernamePreference = new Preference(context);
-        usernamePreference.setKey("username");
-        usernamePreference.setTitle("Dein Benutzername");
-        usernamePreference.setSummary(sharedPreferences.getString("APP_USER_USERNAME", "Du besitzt keinen Benutzernamen"));
-        usernamePreference.setIcon(R.drawable.ic_account_circle_black_24dp);
-        if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
-            usernamePreference.getIcon().setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_IN);
-        }
-        accountCategory.addPreference(usernamePreference);
 
         Preference logoutPreference = new Preference(context);
         logoutPreference.setKey(KEY_PREF_LOGOUT);
