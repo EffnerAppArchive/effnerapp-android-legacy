@@ -21,9 +21,9 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.TimetableActivity;
 import de.effnerapp.effner.data.model.DataResponse;
+import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.data.utils.HeaderTextParser;
 import de.effnerapp.effner.tools.ClassUtils;
 
@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView headerTextView = view.findViewById(R.id.headerTextView);
-        DataResponse data = SplashActivity.getData();
+        DataResponse data = ApiClient.getInstance().getData();
         String headerText = new HeaderTextParser().parse(data.getHolidays(), data.getDayInformation());
         headerTextView.setText(headerText);
 
@@ -52,11 +52,11 @@ public class HomeFragment extends Fragment {
         MaterialCardView customCard = view.findViewById(R.id.custom_card);
 
         timetableCard.setOnClickListener(v -> startActivity(new Intent(getContext(), TimetableActivity.class)));
-        illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getData().getContentByKey("DATA_ILLNESS_DOC_" + (ClassUtils.isAdvancedClass(sClass) ? 1 : 0)).getValue()))));
-        foodPlanCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getData().getContentByKey("DATA_FOOD_PLAN").getValue()))));
+        illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_ILLNESS_DOC_" + (ClassUtils.isAdvancedClass(sClass) ? 1 : 0)).getValue()))));
+        foodPlanCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_FOOD_PLAN").getValue()))));
         substitutionCard.setOnClickListener(v -> navController.navigate(R.id.navigation_substitutions));
-        if(SplashActivity.getData().getContentByKey("DATA_CUSTOM") != null) {
-            customCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SplashActivity.getData().getContentByKey("DATA_CUSTOM").getValue()))));
+        if (ApiClient.getInstance().getData().getContentByKey("DATA_CUSTOM") != null) {
+            customCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_CUSTOM").getValue()))));
         } else {
             customCard.setVisibility(View.GONE);
         }

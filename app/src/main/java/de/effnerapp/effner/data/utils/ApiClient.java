@@ -27,11 +27,15 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ApiClient {
+    private static ApiClient instance;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final String token;
     private PackageInfo info;
 
+    private DataResponse data;
+
     public ApiClient(Context context, String token) {
+        instance = this;
         this.token = token;
         try {
             info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -59,14 +63,22 @@ public class ApiClient {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String res = Objects.requireNonNull(response.body()).string();
-
                 try {
                     DataResponse dataResponse = gson.fromJson(res, DataResponse.class);
+                    data = dataResponse;
                     callback.onFinish(true, dataResponse);
                 } catch (JsonSyntaxException e) {
                     callback.onFinish(false, null);
                 }
             }
         });
+    }
+
+    public DataResponse getData() {
+        return data;
+    }
+
+    public static ApiClient getInstance() {
+        return instance;
     }
 }

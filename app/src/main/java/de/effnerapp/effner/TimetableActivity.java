@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import de.effnerapp.effner.data.model.TDay;
+import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.json.Status;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.ui.models.timetableview.Schedule;
@@ -83,7 +84,7 @@ public class TimetableActivity extends AppCompatActivity {
         }
 
         timetable = findViewById(R.id.timetable);
-        TDay[] timetableDays = new Gson().fromJson(SplashActivity.getData().getTimetable().getValue(), TDay[].class);
+        TDay[] timetableDays = new Gson().fromJson(ApiClient.getInstance().getData().getTimetable().getValue(), TDay[].class);
         if (timetableDays != null && timetableDays.length != 0 && !isEmpty(timetableDays)) {
             Log.d("TA", "Generating timetable!");
 
@@ -148,7 +149,7 @@ public class TimetableActivity extends AppCompatActivity {
                 Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(camera_intent, APP_CAMERA_PICTURE_ID);
             } else {
-                Toast.makeText(this, "Um diese Funktion zu nutzen, musst du der App Berechtigungen auf die Kamera geben.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Um diese Funktion zu nutzen, musst du der App Berechtigungen auf die Kamera geben.", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -189,16 +190,15 @@ public class TimetableActivity extends AppCompatActivity {
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     Status status = gson.fromJson(response.body().string(), Status.class);
                     String message = status.getMsg();
-                    System.out.println(message);
                     if (message.equals("UPLOAD_SUCCESS")) {
                         runOnUiThread(() -> {
-                            Toast.makeText(TimetableActivity.this, "Stundenplan erfolgreich hochgeladen", Toast.LENGTH_LONG).show();
+                            Toast.makeText(TimetableActivity.this, "Stundenplan erfolgreich hochgeladen", Toast.LENGTH_SHORT).show();
                             dialog.hide();
                             finish();
                         });
                     } else {
                         runOnUiThread(() -> {
-                            Toast.makeText(TimetableActivity.this, "Fehler beim Hochladen", Toast.LENGTH_LONG).show();
+                            Toast.makeText(TimetableActivity.this, "Fehler beim Hochladen", Toast.LENGTH_SHORT).show();
                             dialog.hide();
                             finish();
                         });
@@ -208,7 +208,7 @@ public class TimetableActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                     runOnUiThread(() -> {
-                        Toast.makeText(TimetableActivity.this, "Fehler beim Hochladen", Toast.LENGTH_LONG).show();
+                        Toast.makeText(TimetableActivity.this, "Fehler beim Hochladen", Toast.LENGTH_SHORT).show();
                         dialog.hide();
                         finish();
                     });
@@ -254,12 +254,11 @@ public class TimetableActivity extends AppCompatActivity {
             backButton.getBackground().setColorFilter(-14200620, PorterDuff.Mode.SRC_ATOP);
             backButton.setTextColor(Color.WHITE);
             timetable.setTextColor(Color.WHITE);
-            Toast.makeText(this, "Einstellungen zurückgesetzt!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Einstellungen zurückgesetzt!", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.navigation_timetable_upload_timetable) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setTitle("Neuer Stundenplan!")
                     .setMessage("Du kannst einen neuen Stundenplan hochladen, wenn es Änderungen oder Fehler in der aktuellen Version gibt!")
-                    .setCancelable(false)
                     .setPositiveButton("Stundenplan hochladen", (dialogInterface, i) -> uploadTimetable())
                     .setNegativeButton("Abbrechen", null);
             dialog.show();

@@ -49,4 +49,7 @@
     <string name="substitution_head_text_placeholder"><![CDATA[<?>. Stunde verteten durch <?>]]></string>
     <string name="default_text_view_placeholder"><![CDATA[<?>]]></string>
     <string name="feedbackDialog">Schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊</string>
+    <string name="test"><![CDATA[<u>underline</u>]]></string>
+    <string name="teacherLoginText">Lehrer-Login</string>
+    <string name="backToIntroText">Zurück zur Einführung</string>
 </resources>

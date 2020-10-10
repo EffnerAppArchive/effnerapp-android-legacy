@@ -12,10 +12,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -27,9 +30,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import de.effnerapp.effner.IntroActivity;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.json.Classes;
+import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.ClassUtils;
 import de.effnerapp.effner.tools.auth.ServerAuthenticator;
 import okhttp3.Call;
@@ -48,18 +53,21 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText id = findViewById(R.id.effnerapp_id);
-        EditText password = findViewById(R.id.password);
-        Spinner classSelector = findViewById(R.id.sClass);
-        EditText course = findViewById(R.id.course);
-        Button loginButton = findViewById(R.id.login);
+        EditText id = findViewById(R.id.input_id);
+        EditText password = findViewById(R.id.input_password);
+        Spinner classSelector = findViewById(R.id.input_class);
+        EditText course = findViewById(R.id.input_course);
+        Button loginButton = findViewById(R.id.login_button);
+
+        TextView backToIntroButton = findViewById(R.id.back_to_intro_link);
+        TextView teacherLoginButton = findViewById(R.id.teacher_login_link);
 
 
         List<String> items = new ArrayList<>(getClasses());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         classSelector.setAdapter(adapter);
         AccountManager accountManager = AccountManager.get(this);
-        if (accountManager.getAccountsByType("de.effnerapp").length == 1) {
+        if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length == 1) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("Ein Account existiert bereits!")
@@ -92,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            if (!id.getText().toString().isEmpty() && !password.getText().toString().isEmpty() && (ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) && !course.getText().toString().isEmpty()) || (!ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()))) {
+            if (!id.getText().toString().isEmpty() && !password.getText().toString().isEmpty() || (ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) && !course.getText().toString().isEmpty()) || (!ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()))) {
                 dialog = new ProgressDialog(this);
                 dialog.setTitle("Prüfe Daten...");
                 dialog.setMessage("Die Anmeldedaten werden überprüft!");
@@ -105,17 +113,21 @@ public class LoginActivity extends AppCompatActivity {
                     boolean login = serverAuthenticator.register(id.getText().toString(), password.getText().toString(), sClass);
                     runOnUiThread(dialog::cancel);
                     if (login) {
-                        runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_LONG).show());
+                        runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_SHORT).show());
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     } else {
-                        runOnUiThread(() -> Toast.makeText(this, "Fehler beim Anmelden!", Toast.LENGTH_LONG).show());
+                        runOnUiThread(() -> Toast.makeText(this, "Fehler beim Anmelden!", Toast.LENGTH_SHORT).show());
                     }
                 }).start();
             } else {
-                Toast.makeText(this, "Bitte gebe die Anmeldedaten ein!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Bitte gebe die Anmeldedaten ein!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        backToIntroButton.setOnClickListener(v -> startActivity(new Intent(this, IntroActivity.class)));
+        teacherLoginButton.setOnClickListener(v -> Snackbar.make(findViewById(R.id.container), "Diese Funktion ist derzeit noch nicht verfügbar.", BaseTransientBottomBar.LENGTH_LONG).show());
+
     }
 
 

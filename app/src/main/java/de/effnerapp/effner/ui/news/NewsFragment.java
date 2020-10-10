@@ -19,7 +19,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.SplashActivity;
+import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.data.utils.NewsParser;
 import de.effnerapp.effner.ui.news.sections.Head;
 import de.effnerapp.effner.ui.news.sections.Item;
@@ -47,7 +47,7 @@ public class NewsFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        List<NewsItem> news = new NewsParser().parse(SplashActivity.getData().getNews());
+        List<NewsItem> news = new NewsParser().parse(ApiClient.getInstance().getData().getNews());
         int i = 0;
         for(NewsItem newsItem : news) {
             String date = parseDate(newsItem.getDate());

@@ -19,8 +19,8 @@ import java.util.Collections;
 import java.util.List;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.SplashActivity;
 import de.effnerapp.effner.data.model.Term;
+import de.effnerapp.effner.data.utils.ApiClient;
 
 
 public class TermsFragment extends Fragment {
@@ -43,7 +43,7 @@ public class TermsFragment extends Fragment {
         spinner.setAdapter(spinnerAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        List<Term> terms = new ArrayList<>(Arrays.asList(SplashActivity.getData().getTerms()));
+        List<Term> terms = new ArrayList<>(Arrays.asList(ApiClient.getInstance().getData().getTerms()));
         adapter = new TermItemAdapter(terms);
         recyclerView.setAdapter(adapter);
 
