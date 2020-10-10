@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 // success
                 runOnUiThread(() -> Toast.makeText(this, "Daten wurden aktualisiert.", Toast.LENGTH_SHORT).show());
             } else {
-                System.out.println(isSuccess);
                 // TODO: indicate error (snackbar?)
                 if (!isSuccess) {
                     runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), "Verbindung mit dem Server fehlgeschlagen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> reloadData()).show());
