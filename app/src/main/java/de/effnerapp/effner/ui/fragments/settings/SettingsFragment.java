@@ -26,8 +26,6 @@ import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private final String KEY_PREF_NOTIFICATION_SWITCH = "APP_NOTIFICATIONS";
-    private final String KEY_PREF_NIGHT_MODE = "APP_DESIGN_DARK";
     private String sClass;
 
     @Override
@@ -159,12 +157,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key == null) return;
         switch (key) {
-            case KEY_PREF_NOTIFICATION_SWITCH:
+            case "APP_NOTIFICATIONS":
                 Log.i("NOTIFICATION_SWITCH", "Preference value was updated to: " + sharedPreferences.getBoolean(key, false));
                 setNotifications(sharedPreferences.getBoolean(key, false));
                 break;
-            case KEY_PREF_NIGHT_MODE:
-                if (sharedPreferences.getBoolean(KEY_PREF_NIGHT_MODE, false)) {
+            case "APP_DESIGN_DARK":
+                if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

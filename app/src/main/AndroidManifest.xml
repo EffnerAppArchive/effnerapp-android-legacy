@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Default"
         tools:ignore="LockedOrientationActivity">
-        <activity android:name=".ui.activities.login.TeacherLoginActivity"></activity>
+        <activity android:name=".ui.activities.login.TeacherLoginActivity" />
         <activity android:name=".ui.activities.timetable.TimetableActivity" />
         <activity
             android:name=".ui.activities.intro.IntroActivity"
