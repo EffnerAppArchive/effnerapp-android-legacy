@@ -35,7 +35,6 @@
         <activity
             android:name=".ui.activities.splash.SplashActivity"
             android:label="Effner"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>

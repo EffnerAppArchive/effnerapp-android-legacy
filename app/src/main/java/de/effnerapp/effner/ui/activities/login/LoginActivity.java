@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.json.Classes;
+import de.effnerapp.effner.data.utils.ClassesCallback;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.ClassUtils;
 import de.effnerapp.effner.tools.auth.ServerAuthenticator;
@@ -43,7 +44,6 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private Classes classes;
     private ProgressDialog dialog;
 
     @Override
@@ -61,9 +61,21 @@ public class LoginActivity extends AppCompatActivity {
         TextView teacherLoginButton = findViewById(R.id.teacher_login_link);
 
 
-        List<String> items = new ArrayList<>(getClasses());
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        classSelector.setAdapter(adapter);
+        getClasses(new ClassesCallback() {
+            @Override
+            public void onSuccess(List<String> classes) {
+                List<String> items = new ArrayList<>(classes);
+                items.addAll(Arrays.asList("11", "12"));
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(LoginActivity.this, android.R.layout.simple_list_item_1, items);
+                runOnUiThread(() -> classSelector.setAdapter(adapter));
+            }
+
+            @Override
+            public void onFailure() {
+                Snackbar.make(findViewById(R.id.container), "Fehler beim Laden der Klassen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> recreate()).show();
+            }
+        });
+
         AccountManager accountManager = AccountManager.get(this);
         if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length == 1) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
@@ -72,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                     .setMessage("Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl!" +
                             "\nDu kannst es entweder erneut versuchen oder dich neu anmelden!")
                     .setPositiveButton("Neu versuchen", (dialogInterface, i) -> {
+                        System.err.println("Starting splash");
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     })
@@ -112,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                     runOnUiThread(dialog::cancel);
                     if (login) {
                         runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_SHORT).show());
+                        System.err.println("starting splash");
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     } else {
@@ -132,43 +146,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    // TODO: make this shit cool lol
-    private List<String> getClasses() {
-        new Thread(() -> {
-            OkHttpClient client = new OkHttpClient();
+    private void getClasses(ClassesCallback callback) {
+        OkHttpClient client = new OkHttpClient();
 
-            String url = "https://api.effnerapp.de/classes/get.php";
+        String url = "https://api.effnerapp.de:45890/data/classes/get";
 
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
 
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String res = Objects.requireNonNull(response.body()).string();
-                    classes = gson.fromJson(res, Classes.class);
-                }
-
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.d("LA", "Fail! " + e.getMessage());
-                }
-
-            });
-        }).start();
-
-
-        while (classes == null) {
-            Log.d("LA", "Getting classes");
-            try {
-                Thread.sleep(250);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String res = Objects.requireNonNull(response.body()).string();
+                callback.onSuccess(Arrays.asList(gson.fromJson(res, String[].class)));
             }
-        }
 
-        String[] classArray = classes.getClasses().split(";");
-        return Arrays.asList(classArray);
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                callback.onFailure();
+            }
+        });
     }
 }

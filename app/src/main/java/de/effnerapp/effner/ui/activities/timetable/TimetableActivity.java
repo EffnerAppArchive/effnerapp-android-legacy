@@ -79,9 +79,9 @@ public class TimetableActivity extends AppCompatActivity {
         backButton = findViewById(R.id.back);
         backButton.setOnClickListener(v -> finish());
         if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         timetable = findViewById(R.id.timetable);
