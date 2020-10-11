@@ -8,17 +8,12 @@ package de.effnerapp.effner.data.model;
 
 import android.accounts.AccountManager;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
-
 import de.effnerapp.effner.json.LoginStatus;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.ui.activities.main.MainActivity;
 
 public class DataResponse {
     private LoginStatus status;
-    private String username;
     private Term[] terms;
     private Schooltest[] schooltests;
     private Holidays[] holidays;
@@ -30,10 +25,6 @@ public class DataResponse {
 
     public LoginStatus getStatus() {
         return status;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public Term[] getTerms() {
@@ -89,22 +80,5 @@ public class DataResponse {
             }
         }
         return AppColor.WHITE;
-    }
-
-    @NotNull
-    @Override
-    public String toString() {
-        return "DataResponse{" +
-                "status=" + status +
-                ", username='" + username + '\'' +
-                ", terms=" + Arrays.toString(terms) +
-                ", schooltests=" + Arrays.toString(schooltests) +
-                ", holidays=" + Arrays.toString(holidays) +
-                ", news=" + Arrays.toString(news) +
-                ", dayInformation=" + dayInformation +
-                ", timetable=" + timetable +
-                ", content=" + Arrays.toString(content) +
-                ", colors=" + Arrays.toString(colors) +
-                '}';
     }
 }
