@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,14 +17,17 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import de.effnerapp.effner.data.dsbmobile.DSBClient;
 import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.tools.ClassUtils;
+import de.effnerapp.effner.ui.substitutions.SubstitutionsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
@@ -50,7 +54,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         TextView pageHeader = findViewById(R.id.page_text);
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> pageHeader.setText(destination.getLabel()));
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            pageHeader.setText(destination.getLabel());
+
+            // show labels and set home fragment checkable if we navigate back from the news fragment
+            if (destination.getId() != R.id.navigation_news) {
+                navView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_SELECTED);
+                navView.getMenu().getItem(0).setCheckable(true);
+            }
+        });
 
         String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
         if (ClassUtils.isAdvancedClass(sClass)) {
@@ -71,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (System.currentTimeMillis() - activityCreatedTime >= TimeUnit.MINUTES.toMillis(0)) {
+        // TODO change value
+        if (System.currentTimeMillis() - activityCreatedTime >= TimeUnit.MINUTES.toMillis(10)) {
+            activityCreatedTime = System.currentTimeMillis();
             reloadData();
         }
     }
@@ -94,16 +108,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: reload substitutions
-//            // load substitutions
-//            substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
-//            new Thread(() -> substitutions.load(() -> {
-//                Log.d("Splash", "DSB data load finished!");
-//                if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
-//                    Log.d("Splash", "Substitution fragment currently visible, notifying due to data load finished.");
-//                    runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
-//                }
-//            })).start();
+        // TODO: handle success/error messages?
+        new Thread(() -> DSBClient.getInstance().load(() -> {
+            Log.d("Splash", "DSB data load finished!");
+            if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
+                Log.d("Splash", "Substitution fragment currently visible, notifying due to data load finished.");
+                runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
+            }
+        })).start();
     }
 
     public static MainActivity getInstance() {

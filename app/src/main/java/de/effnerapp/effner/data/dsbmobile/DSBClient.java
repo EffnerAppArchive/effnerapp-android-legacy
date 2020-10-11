@@ -18,7 +18,8 @@ import de.effnerapp.effner.data.dsbmobile.model.SClass;
 import de.effnerapp.effner.data.dsbmobile.model.Substitution;
 import de.sematre.dsbmobile.DSBMobile;
 
-public class Substitutions {
+public class DSBClient {
+    private static DSBClient instance;
     private final DSBMobile dsbMobile;
     private final List<String> dates;
     private final List<Day> days;
@@ -26,7 +27,8 @@ public class Substitutions {
     private final List<AbsentClass> absentClasses;
     private String url;
 
-    public Substitutions(String username, String password) {
+    public DSBClient(String username, String password) {
+        instance = this;
         dsbMobile = new DSBMobile(username, password);
 
         dates = new ArrayList<>();
@@ -182,5 +184,9 @@ public class Substitutions {
 
     public List<AbsentClass> getAbsentClasses() {
         return absentClasses;
+    }
+
+    public static DSBClient getInstance() {
+        return instance;
     }
 }

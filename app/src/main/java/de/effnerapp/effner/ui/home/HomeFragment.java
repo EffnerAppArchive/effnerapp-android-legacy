@@ -16,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.Objects;
@@ -29,6 +30,9 @@ import de.effnerapp.effner.tools.ClassUtils;
 
 public class HomeFragment extends Fragment {
 
+    private BottomNavigationView navView;
+    private NavController navController;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
@@ -41,8 +45,8 @@ public class HomeFragment extends Fragment {
         String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
 
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
-        BottomNavigationView navView = view.findViewById(R.id.nav_view);
+        navController = Objects.requireNonNull(navHostFragment).getNavController();
+        navView = requireActivity().findViewById(R.id.nav_view);
 
         MaterialCardView timetableCard = view.findViewById(R.id.timetable_card);
         MaterialCardView illnessDocCard = view.findViewById(R.id.illness_doc_card);
@@ -61,9 +65,17 @@ public class HomeFragment extends Fragment {
             customCard.setVisibility(View.GONE);
         }
 
-
-        newsCard.setOnClickListener(v -> navController.navigate(R.id.navigation_news));
+        newsCard.setOnClickListener(v -> showNewsFragment());
 
         return view;
+    }
+
+    private void showNewsFragment() {
+        // workaround to uncheck the currently selected item
+        navView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
+        navView.getMenu().getItem(0).setCheckable(false);
+
+        // navigate to news fragment
+        navController.navigate(R.id.navigation_news);
     }
 }
