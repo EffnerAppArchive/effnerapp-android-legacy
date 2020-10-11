@@ -11,7 +11,6 @@
     <string name="prompt_password">Passwort</string>
     <string name="prompt_class">Klasse</string>
     <string name="prompt_course">Kurs</string>
-    <string name="prompt_username">Optional: Benutzername</string>
     <string name="action_sign_in">Anmelden</string>
 
     <!-- Nav Menu Titles !-->
@@ -50,21 +49,11 @@
     <string name="default_text_view_placeholder"><![CDATA[<?>]]></string>
     <string name="feedbackDialog">Schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊</string>
     <string name="teacherLoginText">Lehrer-Login</string>
+    <string name="student_login_link">Schüler-Login</string>
     <string name="backToIntroText">Zurück zur Einführung</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="prompt_teacher">Lehrerkürzel</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- Preference strings -->
     <string name="preference_design_dark_description_on">Das dunkle Design ist aktiviert.</string>
     <string name="preference_design_dark_description_off">Drück mich, sonst Augenkrebs</string>
     <string name="preference_design_dark_title">Night-Theme</string>
@@ -88,6 +77,4 @@
     <string name="preference_class_description"><![CDATA[<?>]]></string>
     <string name="preference_logout_title">Abmelden</string>
     <string name="preference_logout_description">Melde dich ab.</string>
-    <string name="student_login_link">Schüler-Login</string>
-    <string name="prompt_teacher">Lehrerkürzel</string>
 </resources>

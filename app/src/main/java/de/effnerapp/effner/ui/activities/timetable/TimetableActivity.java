@@ -158,7 +158,7 @@ public class TimetableActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == APP_CAMERA_PICTURE_ID) {
+        if (requestCode == APP_CAMERA_PICTURE_ID && data != null) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
             AccountManager accountManager = AccountManager.get(this);
@@ -189,7 +189,7 @@ public class TimetableActivity extends AppCompatActivity {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    Status status = gson.fromJson(response.body().string(), Status.class);
+                    Status status = gson.fromJson(Objects.requireNonNull(response.body()).string(), Status.class);
                     String message = status.getMsg();
                     if (message.equals("UPLOAD_SUCCESS")) {
                         runOnUiThread(() -> {

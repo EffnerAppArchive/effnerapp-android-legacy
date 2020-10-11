@@ -8,6 +8,8 @@ package de.effnerapp.effner.data.model;
 
 import android.accounts.AccountManager;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 
 import de.effnerapp.effner.json.LoginStatus;
@@ -89,6 +91,7 @@ public class DataResponse {
         return AppColor.WHITE;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "DataResponse{" +

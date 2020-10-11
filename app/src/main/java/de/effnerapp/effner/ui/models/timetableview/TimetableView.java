@@ -27,7 +27,6 @@ import java.util.Objects;
 
 import de.effnerapp.effner.R;
 
-@SuppressWarnings("deprecation")
 public class TimetableView extends LinearLayout {
     private static final int DEFAULT_ROW_COUNT = 12;
     private static final int DEFAULT_COLUMN_COUNT = 6;

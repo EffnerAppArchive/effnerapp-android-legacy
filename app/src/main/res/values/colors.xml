@@ -7,14 +7,8 @@
     <color name="white">#FFF</color>
     <color name="black">#000</color>
 
-    <color name="icon_yellow">#fabe14</color>
-    <color name="icon_blue">#2b6bbd</color>
-    <color name="icon_green">#32b544</color>
-
     <!-- TimeTable colors !-->
-    <color name="colorHeader">#fcfcfc</color>
     <color name="colorHeaderText">#7d7d7d</color>
-    <color name="colorTableItem">#efefef</color>
 
     <color name="navBackground">#FFFFFE</color>
     <color name="navForeground">#5168EC</color>
