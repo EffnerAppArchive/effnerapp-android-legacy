@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.effnerapp.effner.data.model.News;
-import de.effnerapp.effner.ui.news.NewsItem;
+import de.effnerapp.effner.ui.fragments.news.NewsItem;
 
 public class NewsParser {
 

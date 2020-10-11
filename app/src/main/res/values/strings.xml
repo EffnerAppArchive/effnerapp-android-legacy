@@ -88,4 +88,6 @@
     <string name="preference_class_description"><![CDATA[<?>]]></string>
     <string name="preference_logout_title">Abmelden</string>
     <string name="preference_logout_description">Melde dich ab.</string>
+    <string name="student_login_link">Schüler-Login</string>
+    <string name="prompt_teacher">Lehrerkürzel</string>
 </resources>
