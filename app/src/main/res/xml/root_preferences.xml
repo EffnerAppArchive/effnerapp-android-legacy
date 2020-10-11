@@ -8,14 +8,6 @@
             app:summary="@string/preference_notifications_description"
             app:icon="@drawable/ic_notifications_active_black_24dp" />
 
-        <!--        <ListPreference-->
-        <!--            app:defaultValue="reply"-->
-        <!--            app:entries="@array/reply_entries"-->
-        <!--            app:entryValues="@array/reply_values"-->
-        <!--            app:key="reply"-->
-        <!--            app:title="@string/reply_title"-->
-        <!--            app:useSimpleSummaryProvider="true" />-->
-
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/preference_category_misc_title">
