@@ -10,7 +10,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import de.effnerapp.effner.data.dsbmobile.Substitutions;
+import de.effnerapp.effner.data.dsbmobile.DSBClient;
 import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.error.ErrorUtils;
@@ -18,7 +18,6 @@ import de.effnerapp.effner.ui.login.LoginActivity;
 import de.effnerapp.effner.ui.substitutions.SubstitutionsFragment;
 
 public class SplashActivity extends AppCompatActivity {
-    private static Substitutions substitutions;
 
     private SharedPreferences sharedPreferences;
 
@@ -63,8 +62,8 @@ public class SplashActivity extends AppCompatActivity {
         api.loadData((isSuccess, data) -> {
             if (isSuccess && data.getStatus().isLogin()) {
                 // load substitutions
-                substitutions = new Substitutions(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
-                new Thread(() -> substitutions.load(() -> {
+                DSBClient dsbClient = new DSBClient(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
+                new Thread(() -> dsbClient.load(() -> {
                     Log.d("Splash", "DSB data load finished!");
                     if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
                         Log.d("Splash", "Substitution fragment currently visible, notifying due to data load finished.");
@@ -94,9 +93,5 @@ public class SplashActivity extends AppCompatActivity {
         if (nightModeFlags == Configuration.UI_MODE_NIGHT_YES) {
             sharedPreferences.edit().putBoolean("APP_DESIGN_DARK", true).apply();
         }
-    }
-
-    public static Substitutions getSubstitutions() {
-        return substitutions;
     }
 }

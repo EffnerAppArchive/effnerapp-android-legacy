@@ -147,7 +147,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         aboutCategory.addPreference(privacyPolicyPreference);
 
         Preference imprintPreference = new Preference(context);
-        imprintPreference.setKey("privacyPolicy");
+        imprintPreference.setKey("imprint");
         imprintPreference.setTitle("Impressum");
         imprintPreference.setSummary("Klicke, um mehr zu erfahren.");
         imprintPreference.setIcon(R.drawable.ic_baseline_book_24);

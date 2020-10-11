@@ -49,7 +49,43 @@
     <string name="substitution_head_text_placeholder"><![CDATA[<?>. Stunde verteten durch <?>]]></string>
     <string name="default_text_view_placeholder"><![CDATA[<?>]]></string>
     <string name="feedbackDialog">Schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊</string>
-    <string name="test"><![CDATA[<u>underline</u>]]></string>
     <string name="teacherLoginText">Lehrer-Login</string>
     <string name="backToIntroText">Zurück zur Einführung</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="preference_design_dark_description_on">Das dunkle Design ist aktiviert.</string>
+    <string name="preference_design_dark_description_off">Drück mich, sonst Augenkrebs</string>
+    <string name="preference_design_dark_title">Night-Theme</string>
+    <string name="preference_intro_title">Einführung</string>
+    <string name="preference_intro_description">Schaue dir nochmal die Einführung an.</string>
+    <string name="preference_category_misc_title">Verschiedenes</string>
+    <string name="preference_category_about_title">Über EffnerApp</string>
+    <string name="preference_category_notifications_title">Benachrichtigungen</string>
+    <string name="preference_notifications_title">Benachrichtigungen</string>
+    <string name="preference_notifications_description">Erhalte Nachrichten über neue Vertretungen</string>
+    <string name="preference_feedback_title">Fehler gefunden?</string>
+    <string name="preference_feedback_description">Was findest du gut und was sollen wir besser machen?</string>
+    <string name="preference_build_title">App-Version</string>
+    <string name="preference_build_description">Version: ?, Build: ?</string>
+    <string name="preference_privacy_policy_title">Datenschutz-Bestimmungen</string>
+    <string name="preference_privacy_policy_description">Klicke, um mehr zu erfahren.</string>
+    <string name="preference_imprint_title">Impressum</string>
+    <string name="preference_imprint_description">Klicke, um mehr zu erfahren.</string>
+    <string name="preference_about_title">Über die App</string>
+    <string name="preference_class_title">Deine Klasse</string>
+    <string name="preference_class_description"><![CDATA[<?>]]></string>
+    <string name="preference_logout_title">Abmelden</string>
+    <string name="preference_logout_description">Melde dich ab.</string>
 </resources>

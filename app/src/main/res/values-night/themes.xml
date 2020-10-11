@@ -5,10 +5,15 @@
         <!--        <item name="colorSurface">#131313</item>-->
         <item name="colorSurface">#020202</item>
         <item name="android:colorBackground">#000</item>
+        <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
     </style>
 
     <!-- Splash Screen theme -->
     <style name="AppTheme.SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background_dark</item>
+    </style>
+
+    <style name="AppTheme.PreferenceTheme" parent="@style/PreferenceThemeOverlay">
+        <item name="android:tint">@android:color/white</item>
     </style>
 </resources>

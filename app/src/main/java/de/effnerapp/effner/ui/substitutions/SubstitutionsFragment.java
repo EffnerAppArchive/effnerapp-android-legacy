@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.SplashActivity;
+import de.effnerapp.effner.data.dsbmobile.DSBClient;
 import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
 import de.effnerapp.effner.data.dsbmobile.model.Day;
 import de.effnerapp.effner.data.dsbmobile.model.SClass;
@@ -69,7 +69,7 @@ public class SubstitutionsFragment extends Fragment {
         Spinner spinner = view.findViewById(R.id.spinner);
 
         // get days from substitutions
-        days = SplashActivity.getSubstitutions().getDays();
+        days = DSBClient.getInstance().getDays();
 
         // hide progressbar container if the data has already been loaded
         if(!days.isEmpty()) {
@@ -145,22 +145,22 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                if (SplashActivity.getSubstitutions().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
-                    Item item = new Item(SplashActivity.getSubstitutions().getInformation().get(parent.getItemAtPosition(position).toString()));
+                if (DSBClient.getInstance().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
+                    Item item = new Item(DSBClient.getInstance().getInformation().get(parent.getItemAtPosition(position).toString()));
                     Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
                     heads.add(head);
                     size++;
                 }
 
-                if (SplashActivity.getSubstitutions().getAbsentClasses().size() > 0) {
+                if (DSBClient.getInstance().getAbsentClasses().size() > 0) {
                     List<Item> items = new ArrayList<>();
-                    for (AbsentClass absentClass : SplashActivity.getSubstitutions().getAbsentClasses()) {
+                    for (AbsentClass absentClass : DSBClient.getInstance().getAbsentClasses()) {
                         if (absentClass.getDate().equals(parent.getItemAtPosition(position).toString())) {
                             Item item = new Item(absentClass.getSClass() + ": " + absentClass.getPeriod() + " Stunde");
                             items.add(item);
                         }
                     }
-                    if(items.size() > 0) {
+                    if (items.size() > 0) {
                         Head head = new Head("Abwesende Klassen", items, Color.rgb(255, 93, 82), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
                         heads.add(head);
                         size++;
