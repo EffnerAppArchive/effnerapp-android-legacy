@@ -26,9 +26,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        // TODO: find out why oncreate method is called twice
-        if (ApiClient.getInstance() != null) return;
-
         AccountManager accountManager = AccountManager.get(this);
         if (!sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false)) {
             // set APP_DESIGN_DARK preference based on system dark mode
