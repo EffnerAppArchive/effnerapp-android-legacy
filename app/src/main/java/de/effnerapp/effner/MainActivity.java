@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: handle success/error messages?
         new Thread(() -> DSBClient.getInstance().load(() -> {
-            Log.d("Splash", "DSB data load finished!");
+            Log.d("Main", "DSB data load finished!");
             if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
-                Log.d("Splash", "Substitution fragment currently visible, notifying due to data load finished.");
+                Log.d("Main", "Substitution fragment currently visible, notifying due to data load finished.");
                 runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
             }
         })).start();

@@ -37,6 +37,6 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="de.effnerapp.effner.ui.SettingsFragment"
+        android:name="de.effnerapp.effner.ui.settings.SettingsFragment"
         android:label="@string/title_settings" />
 </navigation>
