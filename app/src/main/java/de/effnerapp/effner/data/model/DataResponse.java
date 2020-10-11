@@ -10,9 +10,9 @@ import android.accounts.AccountManager;
 
 import java.util.Arrays;
 
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.json.LoginStatus;
 import de.effnerapp.effner.services.Authenticator;
+import de.effnerapp.effner.ui.activities.main.MainActivity;
 
 public class DataResponse {
     private LoginStatus status;

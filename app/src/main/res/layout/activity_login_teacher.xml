@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".ui.activities.login.LoginActivity">
+    tools:context=".ui.activities.login.TeacherLoginActivity">
 
     <Button
         android:id="@+id/login_button"
@@ -17,15 +17,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
-        android:layout_marginBottom="64dp"
         android:enabled="true"
         android:text="@string/action_sign_in"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_class"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintTop_toBottomOf="@+id/input_teacher" />
 
     <EditText
         android:id="@+id/input_id"
@@ -44,21 +42,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/input_course"
-        android:layout_width="70dp"
+        android:id="@+id/input_teacher"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-
-        android:layout_marginStart="8dp"
-        android:hint="@string/prompt_course"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/prompt_teacher"
         android:importantForAutofill="no"
-        android:inputType="number"
+        android:inputType="text"
+        android:maxLength="4"
         android:selectAllOnFocus="true"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/input_class"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/input_class"
-        app:layout_constraintTop_toTopOf="@+id/input_class" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_password" />
 
     <EditText
         android:id="@+id/input_password"
@@ -66,7 +63,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-
         android:layout_marginEnd="24dp"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
@@ -89,31 +85,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/app_logo" />
 
-    <Spinner
-        android:id="@+id/input_class"
-        android:layout_width="175dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.443"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_password" />
-
-    <TextView
-        android:id="@+id/classDescription"
-        android:layout_width="72dp"
-        android:layout_height="28dp"
-        android:gravity="center"
-        android:text="@string/prompt_class"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/input_class"
-        app:layout_constraintEnd_toStartOf="@+id/input_class"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_password"
-        app:layout_constraintVertical_bias="0.692" />
-
     <TextView
         android:id="@+id/back_to_intro_link"
         android:layout_width="wrap_content"
@@ -129,13 +100,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/teacher_login_link"
+        android:id="@+id/student_login_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autoLink="all"
         android:linksClickable="false"
         android:selectAllOnFocus="false"
-        android:text="@string/teacherLoginText"
+        android:text="@string/student_login_link"
         android:textAllCaps="false"
         android:textColor="#3F51B5"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"

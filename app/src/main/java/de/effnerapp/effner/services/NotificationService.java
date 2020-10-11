@@ -25,8 +25,8 @@ import java.util.Objects;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import de.effnerapp.effner.MainActivity;
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.ui.activities.main.MainActivity;
 
 public class NotificationService extends FirebaseMessagingService {
     private static final String TAG = "FCM Service";
