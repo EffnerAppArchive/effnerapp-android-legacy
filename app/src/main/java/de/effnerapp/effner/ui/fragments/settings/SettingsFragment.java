@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -116,6 +117,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                         FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
                         firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
                         firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
+                        System.err.println("starting splash");
                         startActivity(new Intent(getContext(), SplashActivity.class));
                         requireActivity().finish();
                     })
@@ -163,9 +165,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 break;
             case "APP_DESIGN_DARK":
                 if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 break;
         }

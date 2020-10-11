@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("Called MainActivity#onCreate()");
         instance = this;
         activityCreatedTime = System.currentTimeMillis();
 
@@ -75,17 +76,16 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager != null;
         notificationManager.cancelAll();
-
     }
 
     private void setDarkMode(boolean enable) {
-        AppCompatDelegate.setDefaultNightMode(enable ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        // AppCompatDelegate.setDefaultNightMode(); causes also the finished activities to recreate which getDelegate().setLocalNightMode() doesn't.
+        getDelegate().setLocalNightMode(enable ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        // TODO change value
         if (System.currentTimeMillis() - activityCreatedTime >= TimeUnit.MINUTES.toMillis(10)) {
             activityCreatedTime = System.currentTimeMillis();
             reloadData();
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadData() {
+        System.out.println("call reloaddata");
         ApiClient.getInstance().loadData((isSuccess, data) -> {
             if (isSuccess && data.getStatus().isLogin()) {
                 // success
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
                     runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), "Authentifizierung mit dem Server fehlgeschlagen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> reloadData()).show());
                 } else {
+                    System.err.println("startign splash");
                     startActivity(new Intent(this, SplashActivity.class));
                     finish();
                 }

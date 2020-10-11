@@ -27,6 +27,6 @@
         </shape>
     </item>
     <item>
-        <bitmap android:src="@drawable/app_logo" />
+        <bitmap android:src="@drawable/ea_rocket" />
     </item>
 </layer-list>
