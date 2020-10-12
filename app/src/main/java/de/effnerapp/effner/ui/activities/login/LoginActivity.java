@@ -1,11 +1,14 @@
 package de.effnerapp.effner.ui.activities.login;
 
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -90,8 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                     })
                     .setNegativeButton("Neu Anmelden", (dialogInterface, i) -> Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_SHORT).show());
             dialog.show();
-        } else {
-            Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_SHORT).show();
         }
 
         classSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -111,9 +112,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            if (!id.getText().toString().isEmpty() && !password.getText().toString().isEmpty() || (ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) && !course.getText().toString().isEmpty()) || (!ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()))) {
+            if (validateInput(id.getText().toString(), password.getText().toString(), classSelector.getSelectedItem().toString(), course.getText().toString())) {
                 dialog = new ProgressDialog(this);
-                dialog.setTitle("Prüfe Daten...");
+                dialog.setTitle("Anmeldung ...");
                 dialog.setMessage("Die Anmeldedaten werden überprüft!");
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(false);
@@ -124,8 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                     boolean login = serverAuthenticator.register(id.getText().toString(), password.getText().toString(), sClass);
                     runOnUiThread(dialog::cancel);
                     if (login) {
-                        runOnUiThread(() -> Toast.makeText(this, "Du hast dich erfolgreich angemeldet!", Toast.LENGTH_SHORT).show());
-                        System.err.println("starting splash");
+                        runOnUiThread(() -> Toast.makeText(this, "Anmeldung erfolgreich!", Toast.LENGTH_SHORT).show());
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     } else {
@@ -133,7 +133,8 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }).start();
             } else {
-                Toast.makeText(this, "Bitte gebe die Anmeldedaten ein!", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.container), "Bitte gebe die Anmeldedaten ein!", BaseTransientBottomBar.LENGTH_LONG).show();
+                hideKeyboardFrom(this, findViewById(R.id.container));
             }
         });
 
@@ -144,7 +145,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
 
     private void getClasses(ClassesCallback callback) {
         OkHttpClient client = new OkHttpClient();
@@ -167,5 +167,25 @@ public class LoginActivity extends AppCompatActivity {
                 callback.onFailure();
             }
         });
+    }
+
+    private boolean validateInput(String id, String password, String sClass, String course) {
+        if (ClassUtils.isAdvancedClass(sClass)) {
+            return validate(id, password, sClass, course);
+        } else {
+            return validate(id, password, sClass);
+        }
+    }
+
+    private boolean validate(String... input) {
+        for (String s : input) {
+            if (s == null || s.isEmpty()) return false;
+        }
+        return true;
+    }
+
+    private void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
