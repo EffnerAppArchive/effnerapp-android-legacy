@@ -39,6 +39,7 @@
     <string name="timetable_card_text">Stundenplan</string>
     <string name="schooltests_card_hj2">2. Halbjahr</string>
     <string name="schooltests_card_hj1">1. Halbjahr</string>
+    <string name="substitution_view_html_link_text">Gesamten Vertretungsplan anzeigen</string>
 
     <string name="description_news_title">Title</string>
     <string name="description_news_content">Content</string>
@@ -77,4 +78,6 @@
     <string name="preference_class_description"><![CDATA[<?>]]></string>
     <string name="preference_logout_title">Abmelden</string>
     <string name="preference_logout_description">Melde dich ab.</string>
+    <string name="disclaimer_info_text">Alle Angaben sind ohne Gewähr. Es gilt das Wort des Lehrers.</string>
+
 </resources>

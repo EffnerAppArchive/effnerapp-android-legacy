@@ -22,7 +22,7 @@ import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.model.Schooltest;
 import de.effnerapp.effner.data.utils.ApiClient;
 
-public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAdapter.ItemViewHolder> {
+public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Schooltest> schooltests;
     private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
@@ -32,10 +32,13 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
 
     @NotNull
     @Override
-    public SchooltestItemAdapter.ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.term_item, parent, false);
-        return new ItemViewHolder(v);
+        if (viewType == 0) {
+            return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.term_item, parent, false));
+        } else {
+            return new InfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.disclaimer_info, parent, false));
+        }
     }
 
     @Override
@@ -43,31 +46,42 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int i) {
-        String text = schooltests.get(i).getName();
-        String date = schooltests.get(i).getDate();
-        holder.itemLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_ITEMS_" + schooltests.get(i).getType().toUpperCase()).getColorValue());
-        Date sDate = null;
-        try {
-            sDate = format.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
+        if (holder.getItemViewType() == 0) {
+            ItemViewHolder iHolder = (ItemViewHolder) holder;
+            String text = schooltests.get(i).getName();
+            String date = schooltests.get(i).getDate();
+            iHolder.itemLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_ITEMS_" + schooltests.get(i).getType().toUpperCase()).getColorValue());
+            Date sDate = null;
+            try {
+                sDate = format.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            assert sDate != null;
+            if (sDate.after(new Date())) {
+                iHolder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
+            } else {
+                iHolder.itemLayout.getBackground().setAlpha(100);
+                iHolder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
+            }
+            iHolder.dateText.setText(date);
+            iHolder.itemText.setText(text);
         }
-        assert sDate != null;
-        if (sDate.after(new Date())) {
-            holder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
-        } else {
-            holder.itemLayout.getBackground().setAlpha(100);
-            holder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
-        }
-        holder.dateText.setText(date);
-        holder.itemText.setText(text);
-
     }
 
     @Override
     public int getItemCount() {
-        return schooltests.size();
+        return schooltests.size() + 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position != getItemCount() - 1) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -78,7 +92,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
         final LinearLayout itemLayout;
         final TextView itemText;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(@NonNull View view) {
             super(view);
             dateCard = view.findViewById(R.id.date_card);
             dateLayout = view.findViewById(R.id.date_layout);
@@ -86,6 +100,13 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<SchooltestItemAd
             itemCard = view.findViewById(R.id.item_card);
             itemLayout = view.findViewById(R.id.item_layout);
             itemText = view.findViewById(R.id.term_item_view);
+        }
+    }
+
+    static class InfoViewHolder extends RecyclerView.ViewHolder {
+
+        public InfoViewHolder(@NonNull View view) {
+            super(view);
         }
     }
 }

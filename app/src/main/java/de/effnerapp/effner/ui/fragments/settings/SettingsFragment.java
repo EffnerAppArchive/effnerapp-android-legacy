@@ -22,6 +22,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.services.Authenticator;
+import de.effnerapp.effner.tools.view.IntentHelper;
 import de.effnerapp.effner.ui.activities.intro.IntroActivity;
 import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 
@@ -73,29 +74,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                     .setTitle("Feedback")
                     .setMessage(R.string.feedbackDialog)
                     .setPositiveButton("E-Mail senden", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:app@effnerapp.de"))))
-                    .setNegativeButton("App bewerten", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=de.effnerapp.effner"))))
+                    .setNegativeButton("App bewerten", (dialogInterface, i) -> IntentHelper.openView(context, "https://play.google.com/store/apps/details?id=de.effnerapp.effner"))
                     .setNeutralButton("Ok", null);
 
             dialog.show();
 
             return true;
         });
-
-//        assert buildPreference != null;
-//        buildPreference.setOnPreferenceClickListener(preference -> {
-//            if (sharedPreferences.getBoolean("APP_DEV_MODE_ENABLE", false)) {
-//                Toast.makeText(context, "Der Entwicklermodus ist schon aktiviert!", Toast.LENGTH_SHORT).show();
-//            } else {
-//                DEV_MODE_ENABLE_COUNT++;
-//                if (DEV_MODE_ENABLE_COUNT > 5 && DEV_MODE_ENABLE_COUNT < 10) {
-//                    Toast.makeText(context, "Sie sind in " + (10 - DEV_MODE_ENABLE_COUNT) + " Schritten ein Entwickler!", Toast.LENGTH_SHORT).show();
-//                } else if (DEV_MODE_ENABLE_COUNT >= 10) {
-//                    Toast.makeText(context, "Der Entwicklermodus ist jetzt aktiviert!", Toast.LENGTH_SHORT).show();
-//                    sharedPreferences.edit().putBoolean("APP_DEV_MODE_ENABLE", true).apply();
-//                }
-//            }
-//            return true;
-//        });
 
         classPreference.setOnPreferenceClickListener(preference -> {
             Toast.makeText(context, "Um deine Klasse zu ändern, melde dich zuerst ab!", Toast.LENGTH_SHORT).show();
@@ -117,7 +102,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                         FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
                         firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
                         firebaseMessaging.unsubscribeFromTopic("APP_GENERAL_NOTIFICATIONS");
-                        System.err.println("starting splash");
                         startActivity(new Intent(getContext(), SplashActivity.class));
                         requireActivity().finish();
                     })
@@ -144,13 +128,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         assert privacyPolicyPreference != null;
         privacyPolicyPreference.setOnPreferenceClickListener(preference -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://go.effnerapp.de/privacy")));
+            IntentHelper.openView(context, "https://go.effnerapp.de/privacy");
             return true;
         });
 
         assert imprintPreference != null;
         imprintPreference.setOnPreferenceClickListener(preference -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://go.effnerapp.de/imprint")));
+            IntentHelper.openView(context, "https://go.effnerapp.de/imprint");
             return true;
         });
     }

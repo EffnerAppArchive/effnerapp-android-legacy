@@ -16,4 +16,5 @@
     <color name="cardBackground">#121212</color>
 
     <color name="recycler_item_color">#FFF</color>
+    <color name="default_text_color">#FFF</color>
 </resources>

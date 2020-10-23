@@ -49,11 +49,33 @@
             android:indeterminate="true" />
     </RelativeLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subs_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="25dp"
         android:scrollbars="vertical" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|end">
+
+        <TextView
+            android:id="@+id/substitutions_view_html_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="all"
+            android:linksClickable="false"
+            android:selectAllOnFocus="false"
+            android:text="@string/substitution_view_html_link_text"
+            android:textAllCaps="false"
+            android:textColor="#3F51B5"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </RelativeLayout>
 
 </FrameLayout>
