@@ -69,6 +69,7 @@ public class DSBClient {
         }
 
         assert document != null;
+
         for (Document doc : splitDocument(document)) {
             String date = null;
             for(Element a : doc.select("a")) {
@@ -184,6 +185,10 @@ public class DSBClient {
 
     public List<AbsentClass> getAbsentClasses() {
         return absentClasses;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public static DSBClient getInstance() {

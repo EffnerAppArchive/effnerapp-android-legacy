@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,7 @@ import de.effnerapp.effner.data.dsbmobile.model.Day;
 import de.effnerapp.effner.data.dsbmobile.model.SClass;
 import de.effnerapp.effner.data.dsbmobile.model.Substitution;
 import de.effnerapp.effner.tools.ClassUtils;
+import de.effnerapp.effner.tools.view.IntentHelper;
 import de.effnerapp.effner.ui.fragments.substitutions.sections.Badge;
 import de.effnerapp.effner.ui.fragments.substitutions.sections.Head;
 import de.effnerapp.effner.ui.fragments.substitutions.sections.Item;
@@ -67,6 +69,7 @@ public class SubstitutionsFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         Spinner spinner = view.findViewById(R.id.spinner);
+        TextView viewWebDataLink = view.findViewById(R.id.substitutions_view_html_link);
 
         // get days from substitutions
         days = DSBClient.getInstance().getDays();
@@ -147,7 +150,7 @@ public class SubstitutionsFragment extends Fragment {
 
                 if (DSBClient.getInstance().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
                     Item item = new Item(DSBClient.getInstance().getInformation().get(parent.getItemAtPosition(position).toString()));
-                    Head head = new Head("Informationen für die ganze Schule", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
+                    Head head = new Head("Allgemeine Infos", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
                     heads.add(head);
                     size++;
                 }
@@ -184,6 +187,15 @@ public class SubstitutionsFragment extends Fragment {
                 // Useless?
                 Log.w("SubstitutionSpinner", "Nothing selected!");
             }
+        });
+
+        viewWebDataLink.setOnClickListener(v -> {
+            IntentHelper.openView(requireContext(), DSBClient.getInstance().getUrl());
+//            WebViewFragment fragment = WebViewFragment.newInstance(DSBClient.getInstance().getUrl());
+//            requireActivity().getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.nav_host_fragment, fragment)
+//                    .addToBackStack(null)
+//                    .commit();
         });
 
         return view;
