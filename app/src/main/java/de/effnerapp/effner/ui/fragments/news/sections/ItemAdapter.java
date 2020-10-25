@@ -2,8 +2,6 @@ package de.effnerapp.effner.ui.fragments.news.sections;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +17,7 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import java.util.List;
 
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.tools.view.IntentHelper;
 import de.effnerapp.effner.ui.activities.main.MainActivity;
 
 public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, ItemViewHandler> {
@@ -65,7 +64,7 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
 
                     title.setText(getDocumentType(document));
                     tableRow.addView(cardView);
-                    tableRow.setOnClickListener(view -> MainActivity.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(document))));
+                    tableRow.setOnClickListener(view -> IntentHelper.openView(MainActivity.getInstance(), document));
                     tableLayout.addView(tableRow);
                 }
                 builder.setPositiveButton("Schließen", null);

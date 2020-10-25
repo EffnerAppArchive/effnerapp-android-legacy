@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/item_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
+        android:backgroundTint="@color/terms_item_color">
+
+        <ImageView
+            android:id="@+id/info_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_outline_info_24"
+            android:contentDescription="@string/base_description"
+            app:tint="@color/recycler_item_color" />
+
+        <LinearLayout
+            android:id="@+id/information_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="?android:listPreferredItemPaddingLeft"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp">
+
+            <TextView
+                android:id="@+id/information_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_text_view_placeholder"
+                android:textColor="@color/recycler_item_color"
+                android:layout_marginStart="15dp"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/information_badge_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/badge_shape"
+                android:backgroundTint="#009688"
+                android:text="@string/default_text_view_placeholder"
+                android:textAlignment="center"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/information_badge_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/badge_shape"
+                android:backgroundTint="#3F51B5"
+                android:text="@string/default_text_view_placeholder"
+                android:textAlignment="center"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

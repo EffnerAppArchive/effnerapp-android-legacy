@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -53,29 +54,24 @@ public class HomeFragment extends Fragment {
         MaterialCardView foodPlanCard = view.findViewById(R.id.food_plan_card);
         MaterialCardView substitutionCard = view.findViewById(R.id.subs_card);
         MaterialCardView newsCard = view.findViewById(R.id.news_card);
-        MaterialCardView customCard = view.findViewById(R.id.custom_card);
+        MaterialCardView informationCard = view.findViewById(R.id.information_card);
 
         timetableCard.setOnClickListener(v -> startActivity(new Intent(getContext(), TimetableActivity.class)));
         illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_ILLNESS_DOC_" + (ClassUtils.isAdvancedClass(sClass) ? 1 : 0)).getValue()))));
         foodPlanCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_FOOD_PLAN").getValue()))));
         substitutionCard.setOnClickListener(v -> navController.navigate(R.id.navigation_substitutions));
-        if (ApiClient.getInstance().getData().getContentByKey("DATA_CUSTOM") != null) {
-            customCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_CUSTOM").getValue()))));
-        } else {
-            customCard.setVisibility(View.GONE);
-        }
-
-        newsCard.setOnClickListener(v -> showNewsFragment());
+        informationCard.setOnClickListener(v -> navigateTo(R.id.navigation_information));
+        newsCard.setOnClickListener(v -> navigateTo(R.id.navigation_news));
 
         return view;
     }
 
-    private void showNewsFragment() {
+    private void navigateTo(@IdRes int id) {
         // workaround to uncheck the currently selected item
         navView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
         navView.getMenu().getItem(0).setCheckable(false);
 
         // navigate to news fragment
-        navController.navigate(R.id.navigation_news);
+        navController.navigate(id);
     }
 }

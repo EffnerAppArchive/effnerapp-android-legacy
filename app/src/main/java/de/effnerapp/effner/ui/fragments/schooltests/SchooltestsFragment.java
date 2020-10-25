@@ -85,10 +85,12 @@ public class SchooltestsFragment extends Fragment {
             });
 
         } else {
-            recyclerView.setVisibility(View.INVISIBLE);
-            spinner.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            spinner.setVisibility(View.GONE);
             GridLayout gridLayout = view.findViewById(R.id.schooltests_card_layout);
             gridLayout.setVisibility(View.VISIBLE);
+            View disclaimerInfo = view.findViewById(R.id.disclaimer_info);
+            disclaimerInfo.setVisibility(View.VISIBLE);
 
             CardView h1Card = view.findViewById(R.id.h1_card);
             CardView h2Card = view.findViewById(R.id.h2_card);

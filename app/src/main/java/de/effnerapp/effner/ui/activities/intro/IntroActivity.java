@@ -25,23 +25,22 @@ public class IntroActivity extends AppIntro {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        addSlide(new IntroPageFactory.Builder("Willkommen bei EffnerApp", "Ich hab doch selber keine Ahnung was ich da hin schreiben soll!")
+        addSlide(new IntroPageFactory.Builder("Power on", "Willkommen zur EffnerApp!")
                 .imageDrawable(R.drawable.intro_logo)
                 .backgroundDrawable(R.drawable.background_gradient)
                 .build());
 
         addSlide(new IntroPageFactory.Builder("Immer up-to-date", "Mit der EffnerApp hast du immer den Überblick über deine Schulaufgaben, Vertretungen und vieles mehr!")
-                .imageDrawable(R.drawable.intro_logo)
+                .imageDrawable(R.drawable.screenshot1)
                 .backgroundDrawable(R.drawable.background_gradient2)
                 .build());
 
-        addSlide(new IntroPageFactory.Builder("Los geht's", "Viel Spaß und so kp")
-                .imageDrawable(R.drawable.intro_logo)
+        addSlide(new IntroPageFactory.Builder("Los geht's", "Viel Spaß mit der EffnerApp!")
+                .imageDrawable(R.drawable.app_logo_intro)
                 .backgroundDrawable(R.drawable.background_gradient3)
                 .build());
 
         setTransformer(AppIntroPageTransformerType.Fade.INSTANCE);
-//        setColorTransitionsEnabled(true)
         setIndicatorEnabled(true);
         setProgressIndicator();
     }

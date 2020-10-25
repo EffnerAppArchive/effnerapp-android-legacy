@@ -159,14 +159,14 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/default_text_color"
-                app:drawableTint="#D773E8"
+                app:drawableTint="#13FFEB"
                 android:drawablePadding="10dp"
                 app:drawableTopCompat="@drawable/ic_mail_black_24dp" />
 
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/custom_card"
+            android:id="@+id/information_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -180,13 +180,14 @@
                 android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/hygiene_concept_corona"
+                android:text="@string/information_card_text"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/default_text_color"
+                app:drawableTint="#561BBD"
                 android:drawablePadding="10dp"
-                app:drawableTopCompat="@drawable/ic_virus" />
+                app:drawableTopCompat="@drawable/ic_outline_info_24" />
 
         </com.google.android.material.card.MaterialCardView>
 
