@@ -32,7 +32,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         // create a new view
         if (viewType == 0) {
             return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.term_item, parent, false));
@@ -51,7 +51,6 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ItemViewHolder iHolder = (ItemViewHolder) holder;
             String text = schooltests.get(i).getName();
             String date = schooltests.get(i).getDate();
-            iHolder.itemLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_ITEMS_" + schooltests.get(i).getType().toUpperCase()).getColorValue());
             Date sDate = null;
             try {
                 sDate = format.parse(date);
@@ -60,10 +59,10 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
             assert sDate != null;
             if (sDate.after(new Date())) {
-                iHolder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
+                iHolder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
             } else {
-                iHolder.itemLayout.getBackground().setAlpha(100);
-                iHolder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
+                iHolder.itemCard.getBackground().setAlpha(100);
+                iHolder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
             }
             iHolder.dateText.setText(date);
             iHolder.itemText.setText(text);
@@ -85,8 +84,6 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-        final CardView dateCard;
-        final LinearLayout dateLayout;
         final TextView dateText;
         final CardView itemCard;
         final LinearLayout itemLayout;
@@ -94,8 +91,6 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         ItemViewHolder(@NonNull View view) {
             super(view);
-            dateCard = view.findViewById(R.id.date_card);
-            dateLayout = view.findViewById(R.id.date_layout);
             dateText = view.findViewById(R.id.term_date_view);
             itemCard = view.findViewById(R.id.item_card);
             itemLayout = view.findViewById(R.id.item_layout);

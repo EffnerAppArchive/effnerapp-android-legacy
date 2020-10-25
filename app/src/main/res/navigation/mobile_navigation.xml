@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_news" />
 
     <fragment
+        android:id="@+id/navigation_information"
+        android:name="de.effnerapp.effner.ui.fragments.information.InformationFragment"
+        android:label="@string/title_information"
+        tools:layout="@layout/fragment_information" />
+
+    <fragment
         android:id="@+id/navigation_substitutions"
         android:name="de.effnerapp.effner.ui.fragments.substitutions.SubstitutionsFragment"
         android:label="@string/title_substitutions"

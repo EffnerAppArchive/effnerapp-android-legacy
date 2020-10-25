@@ -48,7 +48,6 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
         String date = terms.get(i).getDate();
         holder.dateText.setText(date);
         holder.itemText.setText(text);
-        holder.itemLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_ITEMS_TERM").getColorValue());
 
         Date sDate = null;
         try {
@@ -58,10 +57,10 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
         }
         assert sDate != null;
         if (sDate.after(new Date())) {
-            holder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
+            holder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
         } else {
-            holder.itemLayout.getBackground().setAlpha(100);
-            holder.dateLayout.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
+            holder.itemCard.getBackground().setAlpha(100);
+            holder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
         }
     }
 
@@ -71,8 +70,6 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-        final CardView dateCard;
-        final LinearLayout dateLayout;
         final TextView dateText;
         final CardView itemCard;
         final LinearLayout itemLayout;
@@ -80,8 +77,6 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
 
         ItemViewHolder(View view) {
             super(view);
-            dateCard = view.findViewById(R.id.date_card);
-            dateLayout = view.findViewById(R.id.date_layout);
             dateText = view.findViewById(R.id.term_date_view);
             itemCard = view.findViewById(R.id.item_card);
             itemLayout = view.findViewById(R.id.item_layout);

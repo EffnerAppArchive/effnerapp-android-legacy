@@ -17,4 +17,6 @@
 
     <color name="recycler_item_color">#FFF</color>
     <color name="default_text_color">#FFF</color>
+
+    <color name="terms_item_color">#121212</color>
 </resources>

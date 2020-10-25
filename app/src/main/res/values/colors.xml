@@ -11,10 +11,12 @@
     <color name="colorHeaderText">#7d7d7d</color>
 
     <color name="navBackground">#FFFFFE</color>
-    <color name="navForeground">#5168EC</color>
+    <color name="navForeground">#3F51B5</color>
 
     <color name="cardBackground">#FFF</color>
 
     <color name="recycler_item_color">#000</color>
     <color name="default_text_color">#808080</color>
+
+    <color name="terms_item_color">#ededed</color>
 </resources>

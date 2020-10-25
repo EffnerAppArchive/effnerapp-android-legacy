@@ -16,7 +16,7 @@
         android:rowCount="1"
         android:padding="14dp"
         android:columnOrderPreserved="false"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/h1_card"
@@ -69,6 +69,14 @@
         </com.google.android.material.card.MaterialCardView>
 
     </GridLayout>
+
+    <include
+        android:id="@+id/disclaimer_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        layout="@layout/disclaimer_info"
+        android:visibility="gone" />
 
     <Spinner
         android:id="@+id/spinner"
