@@ -41,7 +41,7 @@ import java.util.Objects;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.model.TDay;
 import de.effnerapp.effner.data.utils.ApiClient;
-import de.effnerapp.effner.json.Status;
+import de.effnerapp.effner.json.BaseResponse;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.ui.models.timetableview.Schedule;
 import de.effnerapp.effner.ui.models.timetableview.Time;
@@ -158,7 +158,11 @@ public class TimetableActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == APP_CAMERA_PICTURE_ID && data != null) {
+        if (requestCode == APP_CAMERA_PICTURE_ID) {
+            if (data == null || data.getExtras() == null || !data.getExtras().containsKey("data")) {
+                finish();
+                return;
+            }
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
             AccountManager accountManager = AccountManager.get(this);
@@ -189,8 +193,8 @@ public class TimetableActivity extends AppCompatActivity {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    Status status = gson.fromJson(Objects.requireNonNull(response.body()).string(), Status.class);
-                    String message = status.getMsg();
+                    BaseResponse res = gson.fromJson(Objects.requireNonNull(response.body().string()), BaseResponse.class);
+                    String message = res.getStatus().getMsg();
                     if (message.equals("UPLOAD_SUCCESS")) {
                         runOnUiThread(() -> {
                             Toast.makeText(TimetableActivity.this, "Stundenplan erfolgreich hochgeladen", Toast.LENGTH_SHORT).show();
