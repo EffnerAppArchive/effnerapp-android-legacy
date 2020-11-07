@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(v -> {
-            if (validateInput(id.getText().toString(), password.getText().toString(), classSelector.getSelectedItem().toString(), course.getText().toString())) {
+            if (validateInput(id.getText().toString(), password.getText().toString(), classSelector.getSelectedItem(), course.getText().toString())) {
                 dialog = new ProgressDialog(this);
                 dialog.setTitle("Anmeldung ...");
                 dialog.setMessage("Die Anmeldedaten werden überprüft!");
@@ -169,11 +169,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private boolean validateInput(String id, String password, String sClass, String course) {
-        if (ClassUtils.isAdvancedClass(sClass)) {
-            return validate(id, password, sClass, course);
+    private boolean validateInput(String id, String password, Object sClass, String course) {
+        if (sClass == null) return false;
+
+        if (ClassUtils.isAdvancedClass(sClass.toString())) {
+            return validate(id, password, sClass.toString(), course);
         } else {
-            return validate(id, password, sClass);
+            return validate(id, password, sClass.toString());
         }
     }
 
