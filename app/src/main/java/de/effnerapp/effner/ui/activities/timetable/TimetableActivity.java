@@ -137,8 +137,9 @@ public class TimetableActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, APP_CAMERA_PERMISSION_REQUEST_CODE);
         } else {
-            Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(camera_intent, APP_CAMERA_PICTURE_ID);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, )
+            startActivityForResult(intent, APP_CAMERA_PICTURE_ID);
         }
     }
 
@@ -169,7 +170,7 @@ public class TimetableActivity extends AppCompatActivity {
             String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] bitmapData = stream.toByteArray();
 
             OkHttpClient client = new OkHttpClient();

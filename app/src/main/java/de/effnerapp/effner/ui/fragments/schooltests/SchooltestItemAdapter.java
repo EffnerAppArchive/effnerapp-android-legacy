@@ -59,6 +59,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
             assert sDate != null;
             if (sDate.after(new Date())) {
+                iHolder.itemCard.getBackground().setAlpha(255);
                 iHolder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
             } else {
                 iHolder.itemCard.getBackground().setAlpha(100);

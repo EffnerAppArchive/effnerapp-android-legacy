@@ -57,6 +57,7 @@ public class TermItemAdapter extends RecyclerView.Adapter<TermItemAdapter.ItemVi
         }
         assert sDate != null;
         if (sDate.after(new Date())) {
+            holder.itemCard.getBackground().setAlpha(255);
             holder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
         } else {
             holder.itemCard.getBackground().setAlpha(100);
