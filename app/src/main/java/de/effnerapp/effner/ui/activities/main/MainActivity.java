@@ -15,6 +15,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
@@ -76,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager != null;
         notificationManager.cancelAll();
+
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            reloadData();
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     private void setDarkMode(boolean enable) {
@@ -105,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 } else if (data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
                     runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), "Authentifizierung mit dem Server fehlgeschlagen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> reloadData()).show());
                 } else {
-                    System.err.println("startign splash");
                     startActivity(new Intent(this, SplashActivity.class));
                     finish();
                 }
