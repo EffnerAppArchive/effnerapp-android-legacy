@@ -105,7 +105,6 @@ public class SubstitutionsFragment extends Fragment {
                 for (Day day : days) {
                     if (day.getDate().equals(parent.getItemAtPosition(position))) {
                         for (SClass sClass : day.getSClasses()) {
-
                             // get SchoolClass from SharedPreferences
                             String userClass = sharedPreferences.getString("APP_USER_CLASS", "");
 
@@ -189,14 +188,7 @@ public class SubstitutionsFragment extends Fragment {
             }
         });
 
-        viewWebDataLink.setOnClickListener(v -> {
-            IntentHelper.openView(requireContext(), DSBClient.getInstance().getUrl());
-//            WebViewFragment fragment = WebViewFragment.newInstance(DSBClient.getInstance().getUrl());
-//            requireActivity().getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.nav_host_fragment, fragment)
-//                    .addToBackStack(null)
-//                    .commit();
-        });
+        viewWebDataLink.setOnClickListener(v -> IntentHelper.openView(requireContext(), DSBClient.getInstance().getUrl()));
 
         return view;
     }

@@ -10,14 +10,12 @@
         android:id="@+id/item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
+        android:backgroundTint="@color/cardBackground"
         app:cardCornerRadius="0dp"
-        app:cardElevation="0dp"
-        android:backgroundTint="@color/terms_item_color">
+        app:cardElevation="5dp">
 
         <ImageView
             android:id="@+id/info_icon"
