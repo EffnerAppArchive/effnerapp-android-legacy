@@ -7,8 +7,8 @@ android {
         applicationId "de.effnerapp.effner"
         minSdkVersion 22
         targetSdkVersion 30
-        versionCode 43
-        versionName "release-1.2.1"
+        versionCode 44
+        versionName "release-1.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,7 +36,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
