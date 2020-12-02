@@ -52,14 +52,14 @@ public class HomeFragment extends Fragment {
         MaterialCardView timetableCard = view.findViewById(R.id.timetable_card);
         MaterialCardView illnessDocCard = view.findViewById(R.id.illness_doc_card);
         MaterialCardView foodPlanCard = view.findViewById(R.id.food_plan_card);
-        MaterialCardView substitutionCard = view.findViewById(R.id.subs_card);
+        MaterialCardView busCard = view.findViewById(R.id.bus_card);
         MaterialCardView newsCard = view.findViewById(R.id.news_card);
         MaterialCardView informationCard = view.findViewById(R.id.information_card);
 
         timetableCard.setOnClickListener(v -> startActivity(new Intent(getContext(), TimetableActivity.class)));
         illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_ILLNESS_DOC_" + (ClassUtils.isAdvancedClass(sClass) ? 1 : 0)).getValue()))));
         foodPlanCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_FOOD_PLAN").getValue()))));
-        substitutionCard.setOnClickListener(v -> navController.navigate(R.id.navigation_substitutions));
+        busCard.setOnClickListener(v -> navigateTo(R.id.navigation_bus));
         informationCard.setOnClickListener(v -> navigateTo(R.id.navigation_information));
         newsCard.setOnClickListener(v -> navigateTo(R.id.navigation_news));
 

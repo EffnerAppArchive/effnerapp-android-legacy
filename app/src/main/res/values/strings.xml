@@ -32,14 +32,14 @@
     <string name="button_back">Zurück</string>
 
     <string name="header_text">42 Tage bis zum Wochenende!</string>
-    <string name="substitution_card_text">Vertretungen</string>
+    <string name="bus_card_text">Busfahrplan</string>
     <string name="base_description">Effner</string>
     <string name="food_plan_card_text">Speiseplan</string>
     <string name="illness_doc_card_text">Krankheitsanzeige</string>
     <string name="timetable_card_text">Stundenplan</string>
     <string name="schooltests_card_hj2">2. Halbjahr</string>
     <string name="schooltests_card_hj1">1. Halbjahr</string>
-    <string name="substitution_view_html_link_text">Gesamten Vertretungsplan anzeigen</string>
+    <string name="substitution_view_web_link_text">Gesamten Vertretungsplan anzeigen</string>
 
     <string name="description_news_title">Title</string>
     <string name="description_news_content">Content</string>
@@ -80,5 +80,6 @@
     <string name="disclaimer_info_text">Alle Angaben sind ohne Gewähr. Es gilt das Wort der Lehrkraft.</string>
     <string name="information_card_text">Informationen</string>
     <string name="title_information">Informationen</string>
+    <string name="title_bus">Busfahrplan</string>
 
 </resources>
