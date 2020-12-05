@@ -81,5 +81,6 @@
     <string name="information_card_text">Informationen</string>
     <string name="title_information">Informationen</string>
     <string name="title_bus">Busfahrplan</string>
+    <string name="mvv_disclaimer_info_text">Alle Angaben sind ohne Gewähr. Die Daten stammen von mvv-muenchen.de.</string>
 
 </resources>
