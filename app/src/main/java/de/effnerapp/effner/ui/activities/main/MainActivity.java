@@ -30,12 +30,12 @@ import de.effnerapp.effner.data.dsbmobile.DSBClient;
 import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.tools.ClassUtils;
 import de.effnerapp.effner.ui.activities.splash.SplashActivity;
-import de.effnerapp.effner.ui.fragments.substitutions.SubstitutionsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private static MainActivity instance;
     private long activityCreatedTime;
 
+    private NavHostFragment navHostFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
         // setup navView
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         NavigationUI.setupWithNavController(navView, navController);
 
@@ -121,10 +121,11 @@ public class MainActivity extends AppCompatActivity {
         // TODO: handle success/error messages?
         new Thread(() -> DSBClient.getInstance().load(() -> {
             Log.d("Main", "DSB data load finished!");
-            if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
-                Log.d("Main", "Substitution fragment currently visible, notifying due to data load finished.");
-                runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
-            }
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .detach(navHostFragment)
+                    .attach(navHostFragment)
+                    .commit();
         })).start();
     }
 

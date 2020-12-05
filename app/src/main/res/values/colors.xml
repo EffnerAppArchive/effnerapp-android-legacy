@@ -19,4 +19,7 @@
     <color name="default_text_color">#808080</color>
 
     <color name="terms_item_color">#ededed</color>
+
+    <color name="mvv_badge_bus">#4A7FE8</color>
+    <color name="mvv_badge_train">#79B833</color>
 </resources>
