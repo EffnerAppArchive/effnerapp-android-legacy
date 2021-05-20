@@ -31,7 +31,7 @@ public class IntentHelper {
         openView(context, Uri.parse(url));
     }
 
-    private static void openSystemView(Context context, Uri uri) {
+    public static void openSystemView(Context context, Uri uri) {
         context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 }

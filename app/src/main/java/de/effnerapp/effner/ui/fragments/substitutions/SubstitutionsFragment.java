@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -147,6 +148,7 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
+                System.out.println(DSBClient.getInstance().getInformation().containsKey(parent.getItemAtPosition(position).toString()));
                 if (DSBClient.getInstance().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
                     Item item = new Item(DSBClient.getInstance().getInformation().get(parent.getItemAtPosition(position).toString()));
                     Head head = new Head("Allgemeine Infos", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
@@ -195,9 +197,7 @@ public class SubstitutionsFragment extends Fragment {
 
     private void updateSpinnerItems() {
         dates.clear();
-        for (Day day : days) {
-            dates.add(day.getDate());
-        }
+        dates.addAll(DSBClient.getInstance().getDates());
     }
 
     private void selectDefaultItem(Spinner spinner) {

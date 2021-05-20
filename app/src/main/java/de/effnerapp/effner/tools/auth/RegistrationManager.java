@@ -8,7 +8,8 @@ import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
-import com.google.firebase.iid.FirebaseInstanceId;
+
+import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,11 +43,9 @@ public class RegistrationManager {
     public boolean register(String id, String password, String sClass) {
 
         // RESET FIREBASE INSTANCE (Reset Topics)
-        try {
-            FirebaseInstanceId.getInstance().deleteInstanceId();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        // don't know if this works
+        FirebaseInstallations.getInstance().delete();
 
         OkHttpClient client = new OkHttpClient();
 
