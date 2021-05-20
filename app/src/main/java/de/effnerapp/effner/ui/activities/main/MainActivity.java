@@ -100,13 +100,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadData() {
-        System.out.println("call reloaddata");
         ApiClient.getInstance().loadData((isSuccess, data) -> {
             if (isSuccess && data.getStatus().isLogin()) {
                 // success
                 runOnUiThread(() -> Toast.makeText(this, "Daten wurden aktualisiert.", Toast.LENGTH_SHORT).show());
             } else {
-                // TODO: indicate error (snackbar?)
                 if (!isSuccess) {
                     runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), "Verbindung mit dem Server fehlgeschlagen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> reloadData()).show());
                 } else if (data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {

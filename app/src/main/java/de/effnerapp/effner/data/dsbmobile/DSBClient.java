@@ -46,7 +46,7 @@ public class DSBClient {
             e.printStackTrace();
         }
 
-        if(timeTables == null) {
+        if (timeTables == null) {
             // TODO: HANDLE LOGIN FAILURE
             return;
         }
@@ -72,8 +72,8 @@ public class DSBClient {
 
         for (Document doc : splitDocument(document)) {
             String date = null;
-            for(Element a : doc.select("a")) {
-                if(!a.attr("name").isEmpty()) {
+            for (Element a : doc.select("a")) {
+                if (!a.attr("name").isEmpty()) {
                     date = a.attr("name");
                     dates.add(date);
                 }
@@ -93,15 +93,8 @@ public class DSBClient {
                         break;
                     case "K":
                         for (Element tr : table.select("tr")) {
-                            String sClass = "?", period = "?";
-                            for (Element th : tr.select("th")) {
-                                sClass = th.text();
-                            }
-
-                            for (Element td : tr.select("td")) {
-                                period = td.text();
-                            }
-
+                            String sClass = tr.selectFirst("th").text();
+                            String period = tr.selectFirst("td").text();
                             absentClasses.add(new AbsentClass(date, sClass, period));
                         }
 
@@ -142,6 +135,13 @@ public class DSBClient {
                         }
                         days.add(day);
                         break;
+                    case "G":
+                        for (Element tr : table.select("tr")) {
+                            String period = tr.selectFirst("th").text();
+                            String info = tr.selectFirst("td").text();
+                            information.put(date, period + " Stunde: " + info);
+                        }
+                        break;
                 }
             }
         }
@@ -151,8 +151,8 @@ public class DSBClient {
     private List<Document> splitDocument(Document document) {
 
         List<String> elements = new ArrayList<>();
-        for(Element a : document.select("a")) {
-            if(!a.attr("name").isEmpty()) {
+        for (Element a : document.select("a")) {
+            if (!a.attr("name").isEmpty()) {
                 elements.add("<a name=\"" + a.attr("name") + "\">");
             }
         }
@@ -160,9 +160,9 @@ public class DSBClient {
         List<Document> splitDocuments = new ArrayList<>();
         String val = document.toString();
         for (int i = 0; i < elements.size(); i++) {
-            if(i == 0) {
+            if (i == 0) {
                 splitDocuments.add(Jsoup.parse(val.substring(0, val.indexOf(elements.get(i)))));
-            } else if(i == elements.size() - 1) {
+            } else if (i == elements.size() - 1) {
                 splitDocuments.add(Jsoup.parse(val.substring(val.indexOf(elements.get(i)))));
             } else {
                 splitDocuments.add(Jsoup.parse(val.substring(val.indexOf(elements.get(i)), val.indexOf(elements.get(i + 1)))));
