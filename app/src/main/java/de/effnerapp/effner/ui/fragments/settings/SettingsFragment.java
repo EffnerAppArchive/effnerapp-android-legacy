@@ -128,13 +128,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         assert privacyPolicyPreference != null;
         privacyPolicyPreference.setOnPreferenceClickListener(preference -> {
-            IntentHelper.openSystemView(context, Uri.parse("https://go.effnerapp.de/privacy"));
+            IntentHelper.openSystemView(context, Uri.parse("https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf"));
             return true;
         });
 
         assert imprintPreference != null;
         imprintPreference.setOnPreferenceClickListener(preference -> {
-            IntentHelper.openSystemView(context, Uri.parse("https://go.effnerapp.de/imprint"));
+            IntentHelper.openSystemView(context, Uri.parse("https://effnerapp.de/resources/Impressum.pdf"));
             return true;
         });
     }

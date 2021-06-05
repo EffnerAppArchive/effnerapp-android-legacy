@@ -180,7 +180,7 @@ public class TimetableActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url("https://api.effnerapp.de:45890/data/timetable/upload?token=" + token)
+                    .url("https://api.effnerapp.de/data/timetable/upload?token=" + token)
                     .post(requestBody)
                     .build();
 

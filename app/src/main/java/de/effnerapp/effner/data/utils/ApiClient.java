@@ -45,7 +45,7 @@ public class ApiClient {
     }
 
     public void loadData(ApiCallback callback) {
-        String url = "https://api.effnerapp.de:45890/rest?token=" + token + "&app_version=" + info.versionName;
+        String url = "https://api.effnerapp.de/rest?token=" + token + "&app_version=" + info.versionName;
 
         OkHttpClient client = new OkHttpClient();
 
