@@ -149,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
     private void getClasses(ClassesCallback callback) {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://api.effnerapp.de:45890/data/classes/get";
+        String url = "https://api.effnerapp.de/data/classes/get";
 
         Request request = new Request.Builder()
                 .url(url)
