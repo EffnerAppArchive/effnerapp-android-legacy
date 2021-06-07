@@ -194,7 +194,7 @@ public class TimetableActivity extends AppCompatActivity {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    BaseResponse res = gson.fromJson(Objects.requireNonNull(response.body().string()), BaseResponse.class);
+                    BaseResponse res = gson.fromJson(Objects.requireNonNull(response.body()).string(), BaseResponse.class);
                     String message = res.getStatus().getMsg();
                     if (message.equals("UPLOAD_SUCCESS")) {
                         runOnUiThread(() -> {
