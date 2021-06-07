@@ -114,7 +114,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         aboutPreference.setOnPreferenceClickListener(preference -> {
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
                     .setTitle("Über die App")
-                    .setMessage("EffnerApp - by Luis & Sebi!\n\n\n\n© 2020 EffnerApp - Danke an alle Mitwirkenden ❤")
+                    .setMessage("EffnerApp - by Luis & Sebi!\n\n\n\n© 2021 EffnerApp - Danke an alle Mitwirkenden ❤")
                     .setPositiveButton("Schließen", null);
             dialog.show();
             return true;
@@ -128,13 +128,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         assert privacyPolicyPreference != null;
         privacyPolicyPreference.setOnPreferenceClickListener(preference -> {
-            IntentHelper.openSystemView(context, Uri.parse("https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf"));
+            IntentHelper.openView(context, Uri.parse("https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf"));
             return true;
         });
 
         assert imprintPreference != null;
         imprintPreference.setOnPreferenceClickListener(preference -> {
-            IntentHelper.openSystemView(context, Uri.parse("https://effnerapp.de/resources/Impressum.pdf"));
+            IntentHelper.openView(context, Uri.parse("https://effnerapp.de/resources/Impressum.pdf"));
             return true;
         });
     }

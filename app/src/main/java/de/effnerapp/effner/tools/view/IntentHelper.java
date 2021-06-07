@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
 
 public class IntentHelper {
@@ -21,7 +22,7 @@ public class IntentHelper {
         }
 
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.setToolbarColor(Color.BLACK);
+        builder.setDefaultColorSchemeParams(new CustomTabColorSchemeParams.Builder().setToolbarColor(Color.BLACK).build());
         CustomTabsIntent intent = builder.build();
         intent.intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.launchUrl(context, uri);
@@ -31,7 +32,7 @@ public class IntentHelper {
         openView(context, Uri.parse(url));
     }
 
-    public static void openSystemView(Context context, Uri uri) {
+    private static void openSystemView(Context context, Uri uri) {
         context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 }
