@@ -2,15 +2,20 @@ package de.effnerapp.effner.ui.fragments.news.sections;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import com.google.android.material.card.MaterialCardView;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
@@ -61,10 +66,15 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
 
                     View cardView = inflater.inflate(R.layout.news_document, null);
                     TextView title = cardView.findViewById(R.id.doc_title);
+                    ImageView icon = cardView.findViewById(R.id.doc_icon);
 
-                    title.setText(getDocumentType(document));
+                    MaterialCardView card = cardView.findViewById(R.id.doc_card);
+
+                    title.setText(getUrlText(document));
+                    icon.setImageDrawable(getDocumentDrawable(dialogContext, document));
+
                     tableRow.addView(cardView);
-                    tableRow.setOnClickListener(view -> IntentHelper.openView(MainActivity.getInstance(), document));
+                    card.setOnClickListener(view -> IntentHelper.openView(MainActivity.getInstance(), document));
                     tableLayout.addView(tableRow);
                 }
                 builder.setPositiveButton("Schließen", null);
@@ -82,15 +92,27 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
         holder.bind(head);
     }
 
-    private String getDocumentType(String url) {
-        if(url.endsWith(".pdf")) {
-            return "PDF-Dokument";
-        } else if (url.startsWith("mailto:")) {
-            return "Email-Adresse";
-        } else if (url.startsWith("https://effner.de") || url.startsWith("http://effner.de")) {
-            return "Effner.de-Seite";
+    private String getUrlText(String url) {
+        url = url.replaceAll("\\?.*", "");
+        if (url.startsWith("mailto:")) {
+            return url.replace("mailto:", "");
+        } else if(url.contains("/")) {
+            String[] split = url.split("/");
+            return split[split.length - 1];
         } else {
-            return "Externe Internet-Adresse";
+            return url;
+        }
+    }
+
+    private Drawable getDocumentDrawable(Context context, String url) {
+        if(url.endsWith(".pdf")) {
+            return ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_insert_drive_file_black_24dp, null);
+        } else if (url.startsWith("mailto:")) {
+            return ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_mail_black_24dp, null);
+        } else if (url.startsWith("https://effner.de") || url.startsWith("http://effner.de")) {
+            return ResourcesCompat.getDrawable(context.getResources(), R.drawable.app_logo, null);
+        } else {
+            return ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_baseline_link_24, null);
         }
     }
 }

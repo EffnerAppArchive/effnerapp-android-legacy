@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -62,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
 
         TextView backToIntroButton = findViewById(R.id.back_to_intro_link);
         TextView teacherLoginButton = findViewById(R.id.teacher_login_link);
+
+        TextView privacyWarning = findViewById(R.id.warning_privacy);
+        privacyWarning.setText(Html.fromHtml(getResources().getString(R.string.warning_privacy_text)));
+        privacyWarning.setMovementMethod(LinkMovementMethod.getInstance());
 
 
         getClasses(new ClassesCallback() {

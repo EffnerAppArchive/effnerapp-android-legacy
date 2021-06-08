@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -46,7 +48,7 @@ public class InformationItemAdapter extends RecyclerView.Adapter<InformationItem
     public void onBindViewHolder(@NonNull InformationItemAdapter.ItemViewHolder holder, int i) {
         String text = items.get(i).getName();
         holder.itemText.setText(text.replace("DATA_INFORMATION_", ""));
-        holder.layout.setOnClickListener(v -> IntentHelper.openView(MainActivity.getInstance(), items.get(i).getValue()));
+        holder.cardView.setOnClickListener(v -> IntentHelper.openView(MainActivity.getInstance(), items.get(i).getValue()));
     }
 
     @Override
@@ -55,14 +57,14 @@ public class InformationItemAdapter extends RecyclerView.Adapter<InformationItem
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-        final LinearLayout layout;
+        final MaterialCardView cardView;
         final TextView itemText;
         final TextView badge0;
         final TextView badge1;
 
         ItemViewHolder(@NonNull View view) {
             super(view);
-            layout = view.findViewById(R.id.information_layout);
+            cardView = view.findViewById(R.id.item_card);
             itemText = view.findViewById(R.id.information_text_view);
             badge0 = view.findViewById(R.id.information_badge_0);
             badge1 = view.findViewById(R.id.information_badge_1);

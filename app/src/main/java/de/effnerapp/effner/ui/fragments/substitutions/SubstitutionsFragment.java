@@ -71,6 +71,11 @@ public class SubstitutionsFragment extends Fragment {
         Spinner spinner = view.findViewById(R.id.spinner);
         TextView viewWebDataLink = view.findViewById(R.id.substitutions_view_html_link);
 
+        if(DSBClient.getInstance() == null) {
+            requireActivity().recreate();
+            return view;
+        }
+
         // get days from substitutions
         days = DSBClient.getInstance().getDays();
 
@@ -170,15 +175,18 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                ImageView noSubs = container.findViewById(R.id.no_subs_image);
-                if (size == 0) {
-                    noSubs.setVisibility(View.VISIBLE);
-                } else {
-                    noSubs.setVisibility(View.INVISIBLE);
-                }
-
                 ItemAdapter itemAdapter = new ItemAdapter(heads);
                 recyclerView.setAdapter(itemAdapter);
+
+                ImageView noSubs = container.findViewById(R.id.no_subs_image);
+
+                if(noSubs != null) {
+                    if (size == 0) {
+                        noSubs.setVisibility(View.VISIBLE);
+                    } else {
+                        noSubs.setVisibility(View.INVISIBLE);
+                    }
+                }
 
             }
 
