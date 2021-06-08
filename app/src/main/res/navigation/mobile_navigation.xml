@@ -36,12 +36,6 @@
         tools:layout="@layout/fragment_schooltests" />
 
     <fragment
-        android:id="@+id/navigation_terms"
-        android:name="de.effnerapp.effner.ui.fragments.terms.TermsFragment"
-        android:label="@string/title_terms"
-        tools:layout="@layout/fragment_terms" />
-
-    <fragment
         android:id="@+id/navigation_settings"
         android:name="de.effnerapp.effner.ui.fragments.settings.SettingsFragment"
         android:label="@string/title_settings" />

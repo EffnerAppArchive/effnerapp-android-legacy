@@ -28,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.dsbmobile.DSBClient;
 import de.effnerapp.effner.data.utils.ApiClient;
-import de.effnerapp.effner.tools.ClassUtils;
 import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 import de.effnerapp.effner.ui.fragments.substitutions.SubstitutionsFragment;
 
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("Called MainActivity#onCreate()");
         instance = this;
         activityCreatedTime = System.currentTimeMillis();
 
@@ -69,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
-        if (ClassUtils.isAdvancedClass(sClass)) {
-            navView.getMenu().findItem(R.id.navigation_terms).setVisible(false);
-        }
 
         // cancel all notifications
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);

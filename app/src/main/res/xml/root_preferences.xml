@@ -31,7 +31,7 @@
             app:key="feedback"
             app:title="@string/preference_feedback_title"
             app:summary="@string/preference_feedback_description"
-            app:icon="@drawable/ic_mail_black_24dp" />
+            app:icon="@drawable/ic_baseline_feedback_24" />
 
         <Preference
             app:key="build"
@@ -70,6 +70,24 @@
             app:title="@string/preference_logout_title"
             app:summary="@string/preference_logout_description"
             app:icon="@drawable/ic_cancel_black_24dp" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="dev_tools_cat"
+        app:title="Developer tools"
+        app:isPreferenceVisible="false">
+
+        <Preference
+            app:key="dev_auth_token"
+            app:title="Authentication token"
+            app:summary="@string/default_text_view_placeholder"
+            app:icon="@drawable/ic_baseline_developer_mode_24" />
+
+        <Preference
+            app:key="dev_firebase_token"
+            app:title="Firebase token"
+            app:summary="@string/default_text_view_placeholder"
+            app:icon="@drawable/ic_baseline_local_fire_department_24" />
     </PreferenceCategory>
 
 </PreferenceScreen>

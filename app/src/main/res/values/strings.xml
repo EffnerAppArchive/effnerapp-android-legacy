@@ -17,7 +17,6 @@
     <string name="title_home">Home</string>
     <string name="title_substitutions">Vertretungen</string>
     <string name="title_schooltests">Schulaufgaben</string>
-    <string name="title_terms">Termine</string>
     <string name="title_settings">Einstellungen</string>
     <string name="title_timetable">Stundenplan</string>
     <string name="title_color_timetable">Stundenplan-Farbe</string>
@@ -41,7 +40,6 @@
     <string name="schooltests_card_hj1">1. Halbjahr</string>
     <string name="substitution_view_html_link_text">Gesamten Vertretungsplan anzeigen</string>
 
-    <string name="description_news_title">Title</string>
     <string name="description_news_content">Content</string>
     <string name="title_news">News</string>
     <string name="news_card_text">Neuigkeiten</string>
@@ -81,5 +79,6 @@
     <string name="information_card_text">Informationen</string>
     <string name="title_information">Informationen</string>
     <string name="warning_privacy_text"><![CDATA[Mit der Anmeldung stimmst du der <a href=\"https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf\">Datenschutzerklärung</a> zu.]]></string>
+    <string name="help_description">Help</string>
 
 </resources>

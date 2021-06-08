@@ -15,11 +15,6 @@
         android:title="@string/title_schooltests" />
 
     <item
-        android:id="@+id/navigation_terms"
-        android:icon="@drawable/ic_event_available_black_24dp"
-        android:title="@string/title_terms" />
-
-    <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/title_settings" />
