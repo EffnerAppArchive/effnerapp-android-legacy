@@ -17,6 +17,7 @@ public class ErrorUtils {
         activity.runOnUiThread(alert::show);
     }
 
+    @SuppressWarnings("SameParameterValue")
     private AlertDialog.Builder buildAlert(String title, String message, boolean recreateOnRetry, boolean showNegativeButton) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setTitle(title)

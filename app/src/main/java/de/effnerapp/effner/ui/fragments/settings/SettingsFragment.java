@@ -2,6 +2,8 @@ package de.effnerapp.effner.ui.fragments.settings;
 
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
@@ -29,6 +32,8 @@ import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private String sClass;
+
+    private int BUILD_VERSION_CLICK_COUNT = 0;
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -51,6 +56,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Preference classPreference = findPreference("class");
         Preference logoutPreference = findPreference("logout");
 
+        PreferenceCategory devToolsCategory = findPreference("dev_tools_cat");
+        Preference devAuthToken = findPreference("dev_auth_token");
+        Preference devFirebaseToken = findPreference("dev_firebase_token");
+
+        assert devToolsCategory != null;
+        devToolsCategory.setVisible(sharedPreferences.getBoolean("APP_DEV_MODE_ENABLED", false));
+
         PackageInfo info = null;
         try {
             info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -63,6 +75,18 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         assert buildPreference != null;
         buildPreference.setSummary("Version: " + version + ", Build: " + build);
+
+        buildPreference.setOnPreferenceClickListener(preference -> {
+            if (BUILD_VERSION_CLICK_COUNT >= 10 && !sharedPreferences.getBoolean("APP_DEV_MODE_ENABLED", false)) {
+                sharedPreferences.edit().putBoolean("APP_DEV_MODE_ENABLED", true).apply();
+                devToolsCategory.setVisible(true);
+                Toast.makeText(context, "Dev tools enabled", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            BUILD_VERSION_CLICK_COUNT++;
+            return true;
+        });
 
         assert classPreference != null;
         classPreference.setSummary(sClass);
@@ -83,7 +107,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         classPreference.setOnPreferenceClickListener(preference -> {
-            Toast.makeText(context, "Um deine Klasse zu ändern, melde dich zuerst ab!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Um deine Klasse zu ändern, melde dich zuerst ab.", Toast.LENGTH_SHORT).show();
             return true;
         });
 
@@ -137,6 +161,32 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             IntentHelper.openView(context, Uri.parse("https://effnerapp.de/resources/Impressum.pdf"));
             return true;
         });
+
+        assert devAuthToken != null;
+        assert devFirebaseToken != null;
+
+        String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
+        devAuthToken.setSummary(token);
+        devFirebaseToken.setSummary(sharedPreferences.getString("APP_FIREBASE_TOKEN", "Not available"));
+
+        ClipboardManager clipboard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+
+
+        devAuthToken.setOnPreferenceClickListener(preference -> {
+            ClipData clip = ClipData.newPlainText("effnerapp auth token", preference.getSummary());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(context, "Copied to clipboard.", Toast.LENGTH_SHORT).show();
+            return true;
+        });
+
+        devFirebaseToken.setOnPreferenceClickListener(preference -> {
+            ClipData clip = ClipData.newPlainText("effnerapp firebase token", preference.getSummary());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(context, "Copied to clipboard.", Toast.LENGTH_SHORT).show();
+            return true;
+        });
+
+
     }
 
     @Override

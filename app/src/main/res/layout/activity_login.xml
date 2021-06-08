@@ -31,9 +31,9 @@
         android:id="@+id/input_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="220dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="50dp"
 
         android:hint="@string/prompt_id"
         android:importantForAutofill="no"
@@ -89,25 +89,25 @@
 
     <Spinner
         android:id="@+id/input_class"
-        android:layout_width="175dp"
+        android:layout_width="120dp"
         android:layout_height="46dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/input_password"
-        app:layout_constraintStart_toStartOf="@+id/input_password"
-        app:layout_constraintTop_toBottomOf="@+id/input_password" />
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/classDescription"
+        app:layout_constraintStart_toEndOf="@+id/classDescription"
+        app:layout_constraintTop_toTopOf="@+id/classDescription" />
 
     <TextView
         android:id="@+id/classDescription"
         android:layout_width="57dp"
         android:layout_height="26dp"
+        android:layout_marginTop="24dp"
         android:gravity="center_vertical"
         android:text="@string/prompt_class"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/input_class"
-        app:layout_constraintEnd_toStartOf="@+id/input_class"
-        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintEnd_toEndOf="@+id/input_password"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="@+id/input_password"
-        app:layout_constraintTop_toTopOf="@+id/input_class" />
+        app:layout_constraintTop_toBottomOf="@+id/input_password" />
 
     <TextView
         android:id="@+id/warning_privacy"
@@ -155,4 +155,16 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/help_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/input_id"
+        app:layout_constraintStart_toEndOf="@+id/input_id"
+        app:layout_constraintTop_toTopOf="@+id/input_id"
+        app:srcCompat="@drawable/ic_baseline_help_outline_24"
+        android:contentDescription="@string/help_description" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

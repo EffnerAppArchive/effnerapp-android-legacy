@@ -1,7 +1,7 @@
 package de.effnerapp.effner.json;
 
 public class BaseResponse {
-    private Status status;
+    private final Status status;
 
     public BaseResponse(Status status) {
         this.status = status;

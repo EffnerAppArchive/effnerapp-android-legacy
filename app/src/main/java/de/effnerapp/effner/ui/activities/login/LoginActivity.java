@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,9 +66,16 @@ public class LoginActivity extends AppCompatActivity {
         TextView backToIntroButton = findViewById(R.id.back_to_intro_link);
         TextView teacherLoginButton = findViewById(R.id.teacher_login_link);
 
+        ImageView helpButton = findViewById(R.id.help_button);
+
         TextView privacyWarning = findViewById(R.id.warning_privacy);
         privacyWarning.setText(Html.fromHtml(getResources().getString(R.string.warning_privacy_text)));
         privacyWarning.setMovementMethod(LinkMovementMethod.getInstance());
+
+        helpButton.setOnClickListener(v -> {
+            hideKeyboardFrom(this, findViewById(R.id.container));
+            Snackbar.make(helpButton, "Die Anmeldedaten sind die selben, die du auch für die \"DSBmobile\"-App benötigst.", BaseTransientBottomBar.LENGTH_LONG).show();
+        });
 
 
         getClasses(new ClassesCallback() {
@@ -90,14 +98,13 @@ public class LoginActivity extends AppCompatActivity {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setCancelable(false)
                     .setTitle("Ein Account existiert bereits!")
-                    .setMessage("Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl!" +
-                            "\nDu kannst es entweder erneut versuchen oder dich neu anmelden!")
+                    .setMessage("Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl." +
+                            "\nDu kannst es entweder erneut versuchen oder dich neu anmelden.")
                     .setPositiveButton("Neu versuchen", (dialogInterface, i) -> {
-                        System.err.println("Starting splash");
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     })
-                    .setNegativeButton("Neu Anmelden", (dialogInterface, i) -> Toast.makeText(this, "Bitte melde dich an!", Toast.LENGTH_SHORT).show());
+                    .setNegativeButton("Neu Anmelden", (dialogInterface, i) -> Toast.makeText(this, "Bitte melde dich an.", Toast.LENGTH_SHORT).show());
             dialog.show();
         }
 
@@ -121,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             if (validateInput(id.getText().toString(), password.getText().toString(), classSelector.getSelectedItem(), course.getText().toString())) {
                 dialog = new ProgressDialog(this);
                 dialog.setTitle("Anmeldung ...");
-                dialog.setMessage("Die Anmeldedaten werden überprüft!");
+                dialog.setMessage("Die Anmeldedaten werden überprüft ...");
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(false);
                 dialog.show();
@@ -131,15 +138,14 @@ public class LoginActivity extends AppCompatActivity {
                     boolean login = serverAuthenticator.register(id.getText().toString(), password.getText().toString(), sClass);
                     runOnUiThread(dialog::cancel);
                     if (login) {
-                        runOnUiThread(() -> Toast.makeText(this, "Anmeldung erfolgreich!", Toast.LENGTH_SHORT).show());
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     } else {
-                        runOnUiThread(() -> Toast.makeText(this, "Fehler beim Anmelden!", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> Toast.makeText(this, "Fehler beim Anmelden.", Toast.LENGTH_SHORT).show());
                     }
                 }).start();
             } else {
-                Snackbar.make(findViewById(R.id.container), "Bitte gebe die Anmeldedaten ein!", BaseTransientBottomBar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.container), "Bitte gebe die Login-Daten ein.", BaseTransientBottomBar.LENGTH_LONG).show();
                 hideKeyboardFrom(this, findViewById(R.id.container));
             }
         });

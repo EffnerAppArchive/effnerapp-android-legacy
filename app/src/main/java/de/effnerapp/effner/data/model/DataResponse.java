@@ -14,7 +14,6 @@ import de.effnerapp.effner.ui.activities.main.MainActivity;
 
 public class DataResponse {
     private LoginStatus status;
-    private Term[] terms;
     private Schooltest[] schooltests;
     private Holidays[] holidays;
     private News[] news;
@@ -25,10 +24,6 @@ public class DataResponse {
 
     public LoginStatus getStatus() {
         return status;
-    }
-
-    public Term[] getTerms() {
-        return terms;
     }
 
     public Schooltest[] getSchooltests() {

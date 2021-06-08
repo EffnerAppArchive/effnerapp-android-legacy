@@ -152,7 +152,6 @@ public class SubstitutionsFragment extends Fragment {
                     }
                 }
 
-                System.out.println(DSBClient.getInstance().getInformation().containsKey(parent.getItemAtPosition(position).toString()));
                 if (DSBClient.getInstance().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
                     Item item = new Item(DSBClient.getInstance().getInformation().get(parent.getItemAtPosition(position).toString()));
                     Head head = new Head("Allgemeine Infos", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));

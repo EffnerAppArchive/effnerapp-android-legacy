@@ -48,8 +48,6 @@ public class InformationFragment extends Fragment {
             }
         }
 
-        System.out.println(items.size());
-
         InformationItemAdapter adapter = new InformationItemAdapter(items);
 
         recyclerView.setAdapter(adapter);
