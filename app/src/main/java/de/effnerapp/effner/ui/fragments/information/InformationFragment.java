@@ -37,6 +37,11 @@ public class InformationFragment extends Fragment {
 
         List<Content> items = new ArrayList<>();
 
+        if(ApiClient.getInstance() == null) {
+            requireActivity().recreate();
+            return view;
+        }
+
         for (Content content : ApiClient.getInstance().getData().getContent()) {
             if (content.getName().startsWith("DATA_INFORMATION")) {
                 items.add(content);

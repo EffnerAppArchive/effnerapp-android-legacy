@@ -24,8 +24,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_class"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintTop_toBottomOf="@+id/warning_privacy"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/input_id"
@@ -64,18 +64,16 @@
         android:id="@+id/input_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
 
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/input_id"
+        app:layout_constraintStart_toStartOf="@+id/input_id"
         app:layout_constraintTop_toBottomOf="@+id/input_id" />
 
     <ImageView
@@ -93,26 +91,41 @@
         android:id="@+id/input_class"
         android:layout_width="175dp"
         android:layout_height="46dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.443"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/input_password"
+        app:layout_constraintStart_toStartOf="@+id/input_password"
         app:layout_constraintTop_toBottomOf="@+id/input_password" />
 
     <TextView
         android:id="@+id/classDescription"
-        android:layout_width="72dp"
-        android:layout_height="28dp"
-        android:gravity="center"
+        android:layout_width="57dp"
+        android:layout_height="26dp"
+        android:gravity="center_vertical"
         android:text="@string/prompt_class"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/input_class"
         app:layout_constraintEnd_toStartOf="@+id/input_class"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="@+id/input_password"
+        app:layout_constraintTop_toTopOf="@+id/input_class" />
+
+    <TextView
+        android:id="@+id/warning_privacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:drawablePadding="10dp"
+        android:linksClickable="true"
+        android:padding="25dp"
+        android:text="@string/warning_privacy_text"
+        android:textColor="@color/default_text_color"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_outline_info_24"
+        app:drawableTint="@color/default_text_color"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_password"
-        app:layout_constraintVertical_bias="0.692" />
+        app:layout_constraintTop_toBottomOf="@+id/input_class" />
 
     <TextView
         android:id="@+id/back_to_intro_link"
@@ -130,6 +143,7 @@
 
     <TextView
         android:id="@+id/teacher_login_link"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autoLink="all"
@@ -138,7 +152,7 @@
         android:text="@string/teacherLoginText"
         android:textAllCaps="false"
         android:textColor="#3F51B5"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

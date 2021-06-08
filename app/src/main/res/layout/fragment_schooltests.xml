@@ -26,8 +26,8 @@
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
             android:backgroundTint="@color/cardBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="5dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp">
 
             <TextView
                 android:layout_width="143dp"
@@ -39,6 +39,7 @@
                 android:textStyle="bold"
                 app:drawableTint="#FFDA6B"
                 android:drawablePadding="10dp"
+                android:textColor="@color/default_text_color"
                 app:drawableTopCompat="@drawable/ic_insert_drive_file_black_24dp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -51,8 +52,8 @@
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
             android:backgroundTint="@color/cardBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="5dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp">
 
             <TextView
                 android:layout_width="143dp"
@@ -64,6 +65,7 @@
                 android:textStyle="bold"
                 app:drawableTint="#FFDA6B"
                 android:drawablePadding="10dp"
+                android:textColor="@color/default_text_color"
                 app:drawableTopCompat="@drawable/ic_insert_drive_file_black_24dp" />
 
         </com.google.android.material.card.MaterialCardView>

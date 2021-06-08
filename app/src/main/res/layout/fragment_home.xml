@@ -43,8 +43,8 @@
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
             android:backgroundTint="@color/cardBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="5dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -69,8 +69,8 @@
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
             android:backgroundTint="@color/cardBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="5dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp">
 
             <TextView
                 android:layout_width="143dp"
@@ -95,8 +95,8 @@
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
             android:backgroundTint="@color/cardBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="5dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp">
 
             <TextView
                 android:layout_width="143dp"
@@ -121,8 +121,8 @@
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
             android:backgroundTint="@color/cardBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="5dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp">
 
             <TextView
                 android:layout_width="143dp"
@@ -147,8 +147,8 @@
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
             android:backgroundTint="@color/cardBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="5dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp">
 
             <TextView
                 android:layout_width="143dp"
@@ -159,7 +159,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/default_text_color"
-                app:drawableTint="#13FFEB"
+                app:drawableTint="#27D2E8"
                 android:drawablePadding="10dp"
                 app:drawableTopCompat="@drawable/ic_mail_black_24dp" />
 
@@ -173,8 +173,8 @@
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
             android:backgroundTint="@color/cardBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="5dp">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp">
 
             <TextView
                 android:layout_width="143dp"
@@ -185,7 +185,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/default_text_color"
-                app:drawableTint="#561BBD"
+                app:drawableTint="#FFE500"
                 android:drawablePadding="10dp"
                 app:drawableTopCompat="@drawable/ic_outline_info_24" />
 

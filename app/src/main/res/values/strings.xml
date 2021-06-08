@@ -7,7 +7,7 @@
     <string name="title_activity_login">Anmelden</string>
 
     <!-- EffnerApp Strings !-->
-    <string name="prompt_id">EffnerApp-ID</string>
+    <string name="prompt_id">ID</string>
     <string name="prompt_password">Passwort</string>
     <string name="prompt_class">Klasse</string>
     <string name="prompt_course">Kurs</string>
@@ -24,7 +24,7 @@
     <string name="title_timetable_settings_reset">Einstellungen zurücksetzen</string>
     <string name="title_timetable_upload_timetable">Neuen Stundenplan hochladen</string>
 
-    <string name="description_no_subs_image">No Subs!</string>
+    <string name="description_no_subs_image">Keine Vertretungen</string>
     <string name="description_effnerapp_logo_image">EffnerApp</string>
     <string name="description_term_text">Term</string>
     <string name="description_date_text">Date</string>
@@ -64,7 +64,7 @@
     <string name="preference_category_notifications_title">Benachrichtigungen</string>
     <string name="preference_notifications_title">Benachrichtigungen</string>
     <string name="preference_notifications_description">Erhalte Nachrichten über neue Vertretungen</string>
-    <string name="preference_feedback_title">Fehler gefunden?</string>
+    <string name="preference_feedback_title">Feedback</string>
     <string name="preference_feedback_description">Was findest du gut und was sollen wir besser machen?</string>
     <string name="preference_build_title">App-Version</string>
     <string name="preference_build_description">Version: ?, Build: ?</string>
@@ -80,5 +80,6 @@
     <string name="disclaimer_info_text">Alle Angaben sind ohne Gewähr. Es gilt das Wort der Lehrkraft.</string>
     <string name="information_card_text">Informationen</string>
     <string name="title_information">Informationen</string>
+    <string name="warning_privacy_text"><![CDATA[Mit der Anmeldung stimmst du der <a href=\"https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf\">Datenschutzerklärung</a> zu.]]></string>
 
 </resources>

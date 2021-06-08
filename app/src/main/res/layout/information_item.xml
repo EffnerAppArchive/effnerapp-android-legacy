@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
-            android:src="@drawable/ic_outline_info_24"
+            android:src="@drawable/ic_insert_drive_file_black_24dp"
             android:contentDescription="@string/base_description"
             app:tint="@color/recycler_item_color" />
 

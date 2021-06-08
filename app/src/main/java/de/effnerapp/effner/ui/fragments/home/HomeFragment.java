@@ -39,6 +39,12 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         TextView headerTextView = view.findViewById(R.id.headerTextView);
+
+        if(ApiClient.getInstance() == null) {
+            requireActivity().recreate();
+            return view;
+        }
+
         DataResponse data = ApiClient.getInstance().getData();
         String headerText = new HeaderTextParser().parse(data.getHolidays(), data.getDayInformation());
         headerTextView.setText(headerText);

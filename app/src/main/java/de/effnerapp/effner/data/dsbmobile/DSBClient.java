@@ -51,10 +51,7 @@ public class DSBClient {
             return;
         }
 
-        for (DSBMobile.TimeTable timeTable : timeTables) {
-            url = timeTable.getDetail(); // TimeTable#getDetail() contains url.
-            break;
-        }
+        url = timeTables.get(0).getDetail(); // TimeTable#getDetail() contains url.
 
         dates.clear();
         days.clear();

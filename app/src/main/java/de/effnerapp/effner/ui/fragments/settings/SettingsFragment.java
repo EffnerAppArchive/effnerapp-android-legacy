@@ -73,7 +73,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
                     .setTitle("Feedback")
                     .setMessage(R.string.feedbackDialog)
-                    .setPositiveButton("E-Mail senden", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:app@effnerapp.de"))))
+                    .setPositiveButton("E-Mail senden", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:info@effnerapp.de"))))
                     .setNegativeButton("App bewerten", (dialogInterface, i) -> IntentHelper.openView(context, "https://play.google.com/store/apps/details?id=de.effnerapp.effner"))
                     .setNeutralButton("Ok", null);
 
