@@ -24,7 +24,6 @@
         android:theme="@style/AppTheme.Default"
         tools:ignore="LockedOrientationActivity">
         <activity android:name=".ui.activities.login.TeacherLoginActivity" />
-        <activity android:name=".ui.activities.timetable.TimetableActivity" />
         <activity
             android:name=".ui.activities.intro.IntroActivity"
             android:label="AppIntro" />
@@ -34,7 +33,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.splash.SplashActivity"
-            android:label="Effner"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>

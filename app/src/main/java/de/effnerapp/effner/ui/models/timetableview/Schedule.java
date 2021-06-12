@@ -8,6 +8,7 @@ public class Schedule implements Serializable {
     private int day = 0;
     private Time startTime;
     private Time endTime;
+    private int backgroundColor;
 
     public Schedule() {
         this.startTime = new Time();
@@ -52,5 +53,13 @@ public class Schedule implements Serializable {
 
     public void setEndTime(Time endTime) {
         this.endTime = endTime;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 }

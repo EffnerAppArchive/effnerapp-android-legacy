@@ -80,13 +80,13 @@
         <Preference
             app:key="dev_auth_token"
             app:title="Authentication token"
-            app:summary="@string/default_text_view_placeholder"
+            app:summary="@string/placeholder_default"
             app:icon="@drawable/ic_baseline_developer_mode_24" />
 
         <Preference
             app:key="dev_firebase_token"
             app:title="Firebase token"
-            app:summary="@string/default_text_view_placeholder"
+            app:summary="@string/placeholder_default"
             app:icon="@drawable/ic_baseline_local_fire_department_24" />
     </PreferenceCategory>
 

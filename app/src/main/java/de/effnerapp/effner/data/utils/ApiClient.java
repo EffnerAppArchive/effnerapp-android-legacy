@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.Objects;
 
+import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.model.DataResponse;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,13 +31,16 @@ public class ApiClient {
     private static ApiClient instance;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final String token;
+    private final String BASE_URL;
     private PackageInfo info;
 
     private DataResponse data;
 
     public ApiClient(Context context, String token) {
         instance = this;
+        this.BASE_URL = context.getString(R.string.uri_api_get_data);
         this.token = token;
+
         try {
             info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
@@ -45,7 +49,7 @@ public class ApiClient {
     }
 
     public void loadData(ApiCallback callback) {
-        String url = "https://api.effnerapp.de/rest?token=" + token + "&app_version=" + info.versionName;
+        String url = BASE_URL + "?token=" + token + "&app_version=" + info.versionName;
 
         OkHttpClient client = new OkHttpClient();
 

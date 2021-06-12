@@ -10,7 +10,7 @@
         android:padding="6dip"
         android:paddingStart="60dp"
         android:paddingEnd="6dp"
-        android:text="@string/default_text_view_placeholder"
+        android:text="@string/placeholder_default"
         android:textColor="@color/recycler_item_color"
         android:textSize="13sp" />
 

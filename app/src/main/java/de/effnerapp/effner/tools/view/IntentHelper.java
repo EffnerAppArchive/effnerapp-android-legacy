@@ -17,7 +17,10 @@ import androidx.browser.customtabs.CustomTabsIntent;
 public class IntentHelper {
     public static void openView(Context context, Uri uri) {
         if (uri.toString().endsWith(".pdf")) {
-            openSystemView(context, uri);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            context.startActivity(intent);
             return;
         }
 
@@ -30,9 +33,5 @@ public class IntentHelper {
 
     public static void openView(Context context, String url) {
         openView(context, Uri.parse(url));
-    }
-
-    private static void openSystemView(Context context, Uri uri) {
-        context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 }

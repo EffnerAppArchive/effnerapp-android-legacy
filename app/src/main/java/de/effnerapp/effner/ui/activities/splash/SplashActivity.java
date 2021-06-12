@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,9 +62,7 @@ public class SplashActivity extends AppCompatActivity {
                 // load substitutions
                 DSBClient dsbClient = new DSBClient(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
                 new Thread(() -> dsbClient.load(() -> {
-                    Log.d("Splash", "DSB data load finished!");
                     if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
-                        Log.d("Splash", "Substitution fragment currently visible, notifying due to data load finished.");
                         runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
                     }
                 })).start();

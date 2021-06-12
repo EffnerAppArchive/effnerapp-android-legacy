@@ -11,7 +11,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -95,11 +94,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         feedbackPreference.setOnPreferenceClickListener(preference -> {
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
-                    .setTitle("Feedback")
-                    .setMessage(R.string.feedbackDialog)
-                    .setPositiveButton("E-Mail senden", (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:info@effnerapp.de"))))
-                    .setNegativeButton("App bewerten", (dialogInterface, i) -> IntentHelper.openView(context, "https://play.google.com/store/apps/details?id=de.effnerapp.effner"))
-                    .setNeutralButton("Ok", null);
+                    .setTitle(R.string.d_settings_feedback_title)
+                    .setMessage(R.string.d_settings_feedback_message)
+                    .setPositiveButton(R.string.d_button_send_email, (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uri_link_email)))))
+                    .setNegativeButton(R.string.d_button_rate_app, (dialogInterface, i) -> IntentHelper.openView(context, getString(R.string.uri_link_google_play)))
+                    .setNeutralButton(R.string.d_button_ok, null);
 
             dialog.show();
 
@@ -107,21 +106,23 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         });
 
         classPreference.setOnPreferenceClickListener(preference -> {
-            Toast.makeText(context, "Um deine Klasse zu ändern, melde dich zuerst ab.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.t_prompt_change_class, Toast.LENGTH_SHORT).show();
             return true;
         });
 
         assert logoutPreference != null;
         logoutPreference.setOnPreferenceClickListener(preference -> {
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
-                    .setTitle("Abmelden?")
-                    .setMessage("Willst du dich wirklich abmelden?")
-                    .setPositiveButton("Abmelden", (dialogInterface, i) -> {
-                        Log.i("LOGOUT_PREF", "Logging out!");
+                    .setTitle(R.string.d_settings_logout_title)
+                    .setMessage(R.string.d_settings_logout_message)
+                    .setPositiveButton(R.string.d_button_logout, (dialogInterface, i) -> {
+
                         // clear sharedPreferences
                         sharedPreferences.edit().clear().apply();
+
                         // remove account
                         accountManager.removeAccountExplicitly(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
+
                         // disable Firebase Notifications
                         FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
                         firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
@@ -129,7 +130,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                         startActivity(new Intent(getContext(), SplashActivity.class));
                         requireActivity().finish();
                     })
-                    .setNegativeButton("Abbrechen", null);
+                    .setNegativeButton(R.string.button_cancel, null);
             dialog.show();
             return true;
         });
@@ -137,9 +138,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         assert aboutPreference != null;
         aboutPreference.setOnPreferenceClickListener(preference -> {
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
-                    .setTitle("Über die App")
-                    .setMessage("EffnerApp - by Luis & Sebi!\n\n\n\n© 2021 EffnerApp - Danke an alle Mitwirkenden ❤")
-                    .setPositiveButton("Schließen", null);
+                    .setTitle(R.string.d_settings_about_title)
+                    .setMessage(R.string.d_settings_about_message)
+                    .setPositiveButton(R.string.d_button_close, null);
             dialog.show();
             return true;
         });
@@ -152,13 +153,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         assert privacyPolicyPreference != null;
         privacyPolicyPreference.setOnPreferenceClickListener(preference -> {
-            IntentHelper.openView(context, Uri.parse("https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf"));
+            IntentHelper.openView(context, Uri.parse(getString(R.string.uri_link_privacy_policy)));
             return true;
         });
 
         assert imprintPreference != null;
         imprintPreference.setOnPreferenceClickListener(preference -> {
-            IntentHelper.openView(context, Uri.parse("https://effnerapp.de/resources/Impressum.pdf"));
+            IntentHelper.openView(context, Uri.parse(getString(R.string.uri_link_imprint)));
             return true;
         });
 
@@ -194,7 +195,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         if (key == null) return;
         switch (key) {
             case "APP_NOTIFICATIONS":
-                Log.i("NOTIFICATION_SWITCH", "Preference value was updated to: " + sharedPreferences.getBoolean(key, false));
                 setNotifications(sharedPreferences.getBoolean(key, false));
                 break;
             case "APP_DESIGN_DARK":

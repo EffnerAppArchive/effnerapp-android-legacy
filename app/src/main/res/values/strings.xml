@@ -1,57 +1,19 @@
 <resources>
     <string name="app_name">Effner</string>
 
-    <string name="action_sign_in_short">Sign in</string>
+    <!-- IntroActivity slides -->
 
+    <string name="intro_slide1_title">Power on</string>
+    <string name="intro_slide1_description">Willkommen zur EffnerApp!</string>
 
-    <string name="title_activity_login">Anmelden</string>
+    <string name="intro_slide2_title">Immer up-to-date</string>
+    <string name="intro_slide2_description">Mit der EffnerApp hast du immer den Überblick über deine Schulaufgaben, Vertretungen und vieles mehr!</string>
 
-    <!-- EffnerApp Strings !-->
-    <string name="prompt_id">ID</string>
-    <string name="prompt_password">Passwort</string>
-    <string name="prompt_class">Klasse</string>
-    <string name="prompt_course">Kurs</string>
-    <string name="action_sign_in">Anmelden</string>
+    <string name="intro_slide3_title">Los geht\'s</string>
+    <string name="intro_slide3_description">Viel Spaß mit der EffnerApp!</string>
 
-    <!-- Nav Menu Titles !-->
-    <string name="title_home">Home</string>
-    <string name="title_substitutions">Vertretungen</string>
-    <string name="title_schooltests">Schulaufgaben</string>
-    <string name="title_settings">Einstellungen</string>
-    <string name="title_timetable">Stundenplan</string>
-    <string name="title_color_timetable">Stundenplan-Farbe</string>
-    <string name="title_timetable_settings_reset">Einstellungen zurücksetzen</string>
-    <string name="title_timetable_upload_timetable">Neuen Stundenplan hochladen</string>
+    <!-- Preference screen -->
 
-    <string name="description_no_subs_image">Keine Vertretungen</string>
-    <string name="description_effnerapp_logo_image">EffnerApp</string>
-    <string name="description_term_text">Term</string>
-    <string name="description_date_text">Date</string>
-
-    <string name="button_back">Zurück</string>
-
-    <string name="header_text">42 Tage bis zum Wochenende!</string>
-    <string name="substitution_card_text">Vertretungen</string>
-    <string name="base_description">Effner</string>
-    <string name="food_plan_card_text">Speiseplan</string>
-    <string name="illness_doc_card_text">Krankheitsanzeige</string>
-    <string name="timetable_card_text">Stundenplan</string>
-    <string name="schooltests_card_hj2">2. Halbjahr</string>
-    <string name="schooltests_card_hj1">1. Halbjahr</string>
-    <string name="substitution_view_html_link_text">Gesamten Vertretungsplan anzeigen</string>
-
-    <string name="description_news_content">Content</string>
-    <string name="title_news">News</string>
-    <string name="news_card_text">Neuigkeiten</string>
-    <string name="substitution_head_text_placeholder"><![CDATA[<?>. Stunde verteten durch <?>]]></string>
-    <string name="default_text_view_placeholder"><![CDATA[<?>]]></string>
-    <string name="feedbackDialog">Schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊</string>
-    <string name="teacherLoginText">Lehrer-Login</string>
-    <string name="student_login_link">Schüler-Login</string>
-    <string name="backToIntroText">Zurück zur Einführung</string>
-    <string name="prompt_teacher">Lehrerkürzel</string>
-
-    <!-- Preference strings -->
     <string name="preference_design_dark_description_on">Das dunkle Design ist aktiviert.</string>
     <string name="preference_design_dark_description_off">Das helle Design ist aktiviert.</string>
     <string name="preference_design_dark_title">Night-Theme</string>
@@ -75,10 +37,140 @@
     <string name="preference_class_description"><![CDATA[<?>]]></string>
     <string name="preference_logout_title">Abmelden</string>
     <string name="preference_logout_description">Melde dich ab.</string>
-    <string name="disclaimer_info_text">Alle Angaben sind ohne Gewähr. Es gilt das Wort der Lehrkraft.</string>
-    <string name="information_card_text">Informationen</string>
+
+    <!-- input fields hints -->
+
+    <string name="input_id_hint">ID</string>
+    <string name="input_password_hint">Passwort</string>
+    <string name="input_class_hint">Klasse</string>
+    <string name="input_course_hint">Kurs</string>
+    <string name="input_teacher_id_hint">Lehrerkürzel</string>
+
+    <!-- navigation titles -->
+
+    <string name="title_home">Home</string>
+    <string name="title_substitutions">Vertretungen</string>
+    <string name="title_schooltests">Schulaufgaben</string>
+    <string name="title_settings">Einstellungen</string>
+    <string name="title_timetable">Stundenplan</string>
+    <string name="title_news">News</string>
     <string name="title_information">Informationen</string>
-    <string name="warning_privacy_text"><![CDATA[Mit der Anmeldung stimmst du der <a href=\"https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf\">Datenschutzerklärung</a> zu.]]></string>
-    <string name="help_description">Help</string>
+
+    <!-- Snackbars -->
+
+    <string name="s_login_help">Die Anmeldedaten sind die selben, die du auch für die "DSBmobile"-App benötigst.</string>
+
+    <string name="s_err_load_classes">"Fehler beim Laden der Klassen.</string>
+
+    <string name="s_err_server_connection">Verbindung mit dem Server fehlgeschlagen.</string>
+    <string name="s_err_server_authentication">Authentifizierung mit dem Server fehlgeschlagen.</string>
+
+    <string name="s_prompt_enter_credentials">Bitte gebe die Login-Daten ein.</string>
+    <string name="s_prompt_login">Bitte melde dich an.</string>
+
+    <!-- Dialogs -->
+
+    <string name="d_account_exists_title">Ein Account existiert bereits</string>
+    <string name="d_account_exists_message">Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl.\nDu kannst es entweder erneut versuchen oder dich neu anmelden.</string>
+
+    <string name="d_timetable_unavailable_title">Kein Stundenplan</string>
+    <string name="d_timetable_unavailable_message">Für deine Klasse wurde noch kein Stundenplan eingereicht!\nMöchtest du einen Stundenplan hochlanden?</string>
+
+    <string name="d_login_progress_title">Anmeldung …</string>
+    <string name="d_login_progress_message">Die Anmeldedaten werden überprüft …</string>
+
+    <string name="d_button_timetable_upload">Stundenplan hochladen</string>
+
+    <string name="d_button_send_email">E-Mail senden</string>
+    <string name="d_button_rate_app">App bewerten</string>
+    <string name="d_button_ok">OK</string>
+    <string name="d_button_logout">Abmelden</string>
+    <string name="d_button_close">Schließen</string>
+
+    <string name="d_err_login">Anmeldevorgang fehlgeschlagen</string>
+
+    <string name="d_settings_feedback_title">Feedback</string>
+    <string name="d_settings_feedback_message">Schreib uns eine E-Mail, wenn du uns Verbesserungsvorschläge mitteilen möchtest oder Probleme mit der App hast!\nWenn du willst, kannst du die App im Play-Store bewerten! 😊</string>
+
+    <string name="d_settings_logout_title">Abmelden?</string>
+    <string name="d_settings_logout_message">Willst du dich wirklich abmelden?</string>
+
+    <string name="d_settings_about_title">Über die App</string>
+    <string name="d_settings_about_message">EffnerApp - by Luis &amp; Sebi!\n\n© 2021 EffnerApp - Danke an alle Mitwirkenden ❤</string>
+
+    <string name="d_news_attached_documents">Angehängte Dokuemente</string>
+
+    <!-- Toasts -->
+
+    <string name="t_document_unavailable">Dieses Dokument ist nicht verfügbar</string>
+
+    <string name="t_prompt_change_class">Um deine Klasse zu ändern, melde dich zuerst ab.</string>
+
+    <string name="t_no_attached_documents">An diesen Beitrag wurden keine Dokumente angehängt.</string>
+
+    <!-- image descriptions -->
+
+    <string name="i_description_no_substitutions">Keine Vertretungen</string>
+    <string name="i_description_app_logo">EffnerApp</string>
+    <string name="i_description_help">Help</string>
+    <string name="i_description_base" />
+
+    <!-- placeholder -->
+
+    <string name="placeholder_term">Term</string>
+    <string name="placeholder_date">Date</string>
+    <string name="placeholder_news_content">Content</string>
+    <string name="placeholder_substitution_head"><![CDATA[<?>. Stunde verteten durch <?>]]></string>
+    <string name="placeholder_default"><![CDATA[<?>]]></string>
+    <string name="placeholder_header_text">42 Tage bis zum Wochenende!</string>
+
+    <!-- substitutions -->
+
+    <string name="substitutions_head_general_information">Allgemeine Infos</string>
+    <string name="substitutions_head_absent_classes">Abwesende Klassen</string>
+    <string name="substitutions_badge_school">Schule</string>
+    <string name="substitutions_view_full_plan">Gesamten Vertretungsplan anzeigen</string>
+
+    <!-- cards -->
+
+    <string name="card_food_plan">Speiseplan</string>
+    <string name="card_illness_doc">Krankheitsanzeige</string>
+    <string name="card_timetable">Stundenplan</string>
+    <string name="card_news">News</string>
+    <string name="card_schooltests_hj1">1. Halbjahr</string>
+    <string name="card_schooltests_hj2">2. Halbjahr</string>
+    <string name="card_substitutions">Vertretungen</string>
+    <string name="card_information">Informationen</string>
+
+    <!-- buttons -->
+
+    <string name="button_retry">Neu versuchen</string>
+    <string name="button_login">Anmelden</string>
+    <string name="button_cancel">Abbrechen</string>
+    <string name="button_back_to_intro">Zurück zur Einführung</string>
+    <string name="button_login_teacher">Lehrer-Login</string>
+    <string name="button_login_students">Schüler-Login</string>
+
+    <!-- etc -->
+
+    <string name="action_sign_in_short">Sign in</string>
+
+    <string name="title_activity_login">Anmelden</string>
+
+    <string name="text_disclaimer">Alle Angaben sind ohne Gewähr. Es gilt das Wort der Lehrkraft.</string>
+    <string name="text_warning_privacy"><![CDATA[Mit der Anmeldung stimmst du der <a href=\"https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf\">Datenschutzerklärung</a> zu.]]></string>
+
+    <!-- URIs -->
+
+    <string name="uri_link_privacy_policy">https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf</string>
+    <string name="uri_link_imprint">https://effnerapp.de/resources/Impressum.pdf</string>
+    <string name="uri_link_google_play">https://play.google.com/store/apps/details?id=de.effnerapp.effner</string>
+    <string name="uri_link_email">mailto:info@effnerapp.de</string>
+
+    <string name="uri_api_register">https://api.effnerapp.de/auth/register</string>
+    <string name="uri_api_get_classes">https://api.effnerapp.de/data/classes/get</string>
+    <string name="uri_api_get_data">https://api.effnerapp.de/data/get</string>
+
+
 
 </resources>

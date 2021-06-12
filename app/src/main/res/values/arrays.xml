@@ -17,4 +17,9 @@
         <item>Thu</item>
         <item>Fri</item>
     </string-array>
+
+    <string-array name="spin_sort_items">
+        <item>Neuste zuerst</item>
+        <item>Älteste zuerst</item>
+    </string-array>
 </resources>

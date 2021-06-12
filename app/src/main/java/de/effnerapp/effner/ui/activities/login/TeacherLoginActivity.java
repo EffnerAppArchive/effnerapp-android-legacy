@@ -23,7 +23,7 @@ public class TeacherLoginActivity extends AppCompatActivity {
 
         EditText id = findViewById(R.id.input_id);
         EditText password = findViewById(R.id.input_password);
-        EditText teacher = findViewById(R.id.input_teacher);
+        EditText teacher = findViewById(R.id.input_teacher_id);
         Button loginButton = findViewById(R.id.login_button);
 
         TextView backToIntroButton = findViewById(R.id.back_to_intro_link);

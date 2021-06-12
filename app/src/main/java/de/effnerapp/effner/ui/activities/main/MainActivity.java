@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -60,13 +58,11 @@ public class MainActivity extends AppCompatActivity {
             pageHeader.setText(destination.getLabel());
 
             // show labels and set home fragment checkable if we navigate back from the news fragment
-            if (destination.getId() != R.id.navigation_news && destination.getId() != R.id.navigation_information) {
+            if (destination.getId() != R.id.navigation_news && destination.getId() != R.id.navigation_information && destination.getId() != R.id.navigation_timetable) {
                 navView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_SELECTED);
                 navView.getMenu().getItem(0).setCheckable(true);
             }
         });
-
-        String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
 
         // cancel all notifications
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -96,14 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void reloadData() {
         ApiClient.getInstance().loadData((isSuccess, data) -> {
-            if (isSuccess && data.getStatus().isLogin()) {
-                // success
-                runOnUiThread(() -> Toast.makeText(this, "Daten wurden aktualisiert.", Toast.LENGTH_SHORT).show());
-            } else {
+            if (!isSuccess || !data.getStatus().isLogin()) {
                 if (!isSuccess) {
-                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), "Verbindung mit dem Server fehlgeschlagen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> reloadData()).show());
+                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), R.string.s_err_server_connection, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_retry, v -> reloadData()).show());
                 } else if (data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
-                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), "Authentifizierung mit dem Server fehlgeschlagen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> reloadData()).show());
+                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), R.string.s_err_server_authentication, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_retry, v -> reloadData()).show());
                 } else {
                     startActivity(new Intent(this, SplashActivity.class));
                     finish();
@@ -113,9 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO: handle success/error messages?
         new Thread(() -> DSBClient.getInstance().load(() -> {
-            Log.d("Main", "DSB data load finished!");
             if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
-                Log.d("Main", "Substitution fragment currently visible, notifying due to data load finished.");
                 runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
             }
         })).start();

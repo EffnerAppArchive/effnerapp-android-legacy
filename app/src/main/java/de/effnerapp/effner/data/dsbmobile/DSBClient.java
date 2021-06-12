@@ -1,7 +1,5 @@
 package de.effnerapp.effner.data.dsbmobile;
 
-import android.util.Log;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -83,7 +81,6 @@ public class DSBClient {
                             sb.append(th.text()).append("\n");
                         }
                         if (!sb.toString().isEmpty()) {
-                            Log.d("Subs", "Adding general information for date " + date);
                             information.put(date, sb.toString());
                         }
 

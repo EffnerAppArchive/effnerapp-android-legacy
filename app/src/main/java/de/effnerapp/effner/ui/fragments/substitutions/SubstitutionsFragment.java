@@ -3,7 +3,6 @@ package de.effnerapp.effner.ui.fragments.substitutions;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,7 @@ public class SubstitutionsFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         Spinner spinner = view.findViewById(R.id.spinner);
-        TextView viewWebDataLink = view.findViewById(R.id.substitutions_view_html_link);
+        TextView viewWebDataLink = view.findViewById(R.id.substitutions_view_full_plan);
 
         if(DSBClient.getInstance() == null) {
             requireActivity().recreate();
@@ -99,8 +98,6 @@ public class SubstitutionsFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(@NonNull AdapterView<?> parent, View view, int position, long id) {
-                Log.d("SubstitutionSpinner", "Item: " + parent.getItemAtPosition(position));
-
                 // clear list
                 heads.clear();
 
@@ -119,7 +116,8 @@ public class SubstitutionsFragment extends Fragment {
 
                                 for (Substitution substitution : sClass.getSubstitutions()) {
                                     size++;
-                                    //set body
+
+                                    // set body
                                     List<Item> items = new ArrayList<>();
                                     items.add(new Item("Ausfall: " + substitution.getTeacher()));
                                     if (!substitution.getRoom().isEmpty()) {
@@ -138,7 +136,8 @@ public class SubstitutionsFragment extends Fragment {
                                             header.append(": ").append(substitution.getInfo());
                                         }
                                     }
-                                    //set header
+
+                                    // set header
                                     Head head = new Head(header.toString(), items, Color.BLACK);
 
                                     if(!userClass.equals(sClass.getName())) {
@@ -154,7 +153,7 @@ public class SubstitutionsFragment extends Fragment {
 
                 if (DSBClient.getInstance().getInformation().containsKey(parent.getItemAtPosition(position).toString())) {
                     Item item = new Item(DSBClient.getInstance().getInformation().get(parent.getItemAtPosition(position).toString()));
-                    Head head = new Head("Allgemeine Infos", Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
+                    Head head = new Head(getString(R.string.substitutions_head_general_information), Collections.singletonList(item), Color.rgb(0, 150, 136), Collections.singletonList(new Badge(0, getString(R.string.substitutions_badge_school), Color.rgb(255, 93, 82))));
                     heads.add(head);
                     size++;
                 }
@@ -168,7 +167,7 @@ public class SubstitutionsFragment extends Fragment {
                         }
                     }
                     if (items.size() > 0) {
-                        Head head = new Head("Abwesende Klassen", items, Color.rgb(255, 93, 82), Collections.singletonList(new Badge(0, "Schule", Color.rgb(255, 93, 82))));
+                        Head head = new Head(getString(R.string.substitutions_head_absent_classes), items, Color.rgb(255, 93, 82), Collections.singletonList(new Badge(0, getString(R.string.substitutions_badge_school), Color.rgb(255, 93, 82))));
                         heads.add(head);
                         size++;
                     }
@@ -190,10 +189,7 @@ public class SubstitutionsFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Useless?
-                Log.w("SubstitutionSpinner", "Nothing selected!");
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         viewWebDataLink.setOnClickListener(v -> IntentHelper.openView(requireContext(), DSBClient.getInstance().getUrl()));

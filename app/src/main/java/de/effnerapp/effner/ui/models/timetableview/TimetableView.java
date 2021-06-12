@@ -113,6 +113,7 @@ public class TimetableView extends LinearLayout {
             String text = schedule.getSubject() + "\n" + schedule.getPlace();
             tv.setText(text);
             tv.setTextColor(Color.WHITE);
+            tv.setBackgroundColor(schedule.getBackgroundColor());
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_STICKER_FONT_SIZE_DP);
             tv.setTypeface(null, Typeface.BOLD);
 
@@ -124,7 +125,6 @@ public class TimetableView extends LinearLayout {
             items.add(tv);
             stickerBox.addView(tv);
         }
-        updateStickerColor();
     }
 
     public void removeAll() {
@@ -145,13 +145,6 @@ public class TimetableView extends LinearLayout {
             stickerBox.removeView(tv);
         }
         stickers.remove(idx);
-        updateStickerColor();
-    }
-
-    public void updateStickerColor() {
-        for (TextView v : Objects.requireNonNull(stickers.get(0)).getView()) {
-            v.setBackgroundColor(-14200620);
-        }
     }
 
     public void setColor(int i, int color) {

@@ -2,7 +2,8 @@ package de.effnerapp.effner.tools.error;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.util.Log;
+
+import de.effnerapp.effner.R;
 
 public class ErrorUtils {
     private final Activity activity;
@@ -12,21 +13,19 @@ public class ErrorUtils {
     }
 
     public void showError(String errorMessage, boolean recreateOnRetry, boolean showNegativeButton) {
-        Log.e("ServerAuth", "Error!");
-        AlertDialog.Builder alert = buildAlert("Anmeldevorgang fehlgeschlagen!", errorMessage, recreateOnRetry, showNegativeButton);
+        AlertDialog.Builder alert = buildAlert(errorMessage, recreateOnRetry, showNegativeButton);
         activity.runOnUiThread(alert::show);
     }
 
-    @SuppressWarnings("SameParameterValue")
-    private AlertDialog.Builder buildAlert(String title, String message, boolean recreateOnRetry, boolean showNegativeButton) {
+    private AlertDialog.Builder buildAlert(String message, boolean recreateOnRetry, boolean showNegativeButton) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-                .setTitle(title)
+                .setTitle(R.string.d_err_login)
                 .setMessage(message)
                 .setCancelable(false)
-                .setPositiveButton("Schießen", (dialogInterface, i) -> activity.finish());
+                .setPositiveButton(R.string.button_cancel, (dialogInterface, i) -> activity.finish());
 
         if (showNegativeButton) {
-            builder.setNegativeButton("Neu Versuchen", recreateOnRetry ? (dialogInterface, i) -> activity.recreate() : null);
+            builder.setNegativeButton(R.string.button_retry, recreateOnRetry ? (dialogInterface, i) -> activity.recreate() : null);
         }
 
         return builder;
