@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +52,7 @@ public class SchooltestsFragment extends Fragment {
         String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
 
         if (!ClassUtils.isAdvancedClass(sClass)) {
-            String[] items = {"Neuste zuerst", "Älteste zuerst"};
+            String[] items = getResources().getStringArray(R.array.spin_sort_items);
             ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, items);
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(spinnerAdapter);
@@ -61,13 +60,14 @@ public class SchooltestsFragment extends Fragment {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
             List<Schooltest> schooltests = new ArrayList<>(Arrays.asList(ApiClient.getInstance().getData().getSchooltests()));
+            Collections.reverse(schooltests);
             adapter = new SchooltestItemAdapter(schooltests);
             recyclerView.setAdapter(adapter);
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d("SchooltestSpinner", "Item: " + parent.getItemAtPosition(position));
+
                     if (position == 1) {
                         List<Schooltest> list = new ArrayList<>(schooltests);
                         Collections.reverse(list);
@@ -79,9 +79,7 @@ public class SchooltestsFragment extends Fragment {
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    Log.w("SchooltestSpinner", "Nothing selected!");
-                }
+                public void onNothingSelected(AdapterView<?> parent) {}
             });
 
         } else {
@@ -94,23 +92,23 @@ public class SchooltestsFragment extends Fragment {
 
             CardView h1Card = view.findViewById(R.id.h1_card);
             CardView h2Card = view.findViewById(R.id.h2_card);
-            String key = "DATA_TOP_LEVEL_SA_DOC_" + ClassUtils.getFirstDigits(sClass) + "_";
+            String keyPrefix = "DATA_TOP_LEVEL_SA_DOC_" + ClassUtils.getFirstDigits(sClass) + "_";
 
             h1Card.setOnClickListener(v -> {
-                Content content = ApiClient.getInstance().getData().getContentByKey(key + 1);
+                Content content = ApiClient.getInstance().getData().getContentByKey(keyPrefix + 1);
                 if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
                 } else {
-                    Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.t_document_unavailable, Toast.LENGTH_SHORT).show();
                 }
             });
 
             h2Card.setOnClickListener(v -> {
-                Content content = ApiClient.getInstance().getData().getContentByKey(key + 2);
+                Content content = ApiClient.getInstance().getData().getContentByKey(keyPrefix + 2);
                 if (content != null) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
                 } else {
-                    Toast.makeText(getContext(), "Dieses Dokument ist nicht verfügbar!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.t_document_unavailable, Toast.LENGTH_SHORT).show();
                 }
             });
         }

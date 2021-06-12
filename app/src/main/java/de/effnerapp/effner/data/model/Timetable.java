@@ -2,18 +2,25 @@ package de.effnerapp.effner.data.model;
 
 public class Timetable {
     private int id;
-    private String sClass;
-    private String value;
+    private String sClass, value, created_by, created_at;
 
     public int getId() {
         return id;
     }
 
-    public String getsClass() {
+    public String getSClass() {
         return sClass;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public String getCreatedBy() {
+        return created_by;
+    }
+
+    public String getCreatedAt() {
+        return created_at;
     }
 }

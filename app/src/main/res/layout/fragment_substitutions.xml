@@ -26,7 +26,7 @@
         android:id="@+id/no_subs_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/description_no_subs_image"
+        android:contentDescription="@string/i_description_no_substitutions"
         android:src="@drawable/ic_cancel_black_24dp"
         android:visibility="invisible"
         app:tint="#333D3D" />
@@ -64,13 +64,13 @@
         android:gravity="bottom|end">
 
         <TextView
-            android:id="@+id/substitutions_view_html_link"
+            android:id="@+id/substitutions_view_full_plan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="all"
             android:linksClickable="false"
             android:selectAllOnFocus="false"
-            android:text="@string/substitution_view_html_link_text"
+            android:text="@string/substitutions_view_full_plan"
             android:textAllCaps="false"
             android:textColor="#3F51B5"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"

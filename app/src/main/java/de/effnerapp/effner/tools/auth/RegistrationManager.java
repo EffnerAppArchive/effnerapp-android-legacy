@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
@@ -18,6 +17,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import de.effnerapp.effner.R;
 import de.effnerapp.effner.json.Auth;
 import de.effnerapp.effner.json.AuthResponse;
 import de.effnerapp.effner.services.Authenticator;
@@ -29,7 +29,6 @@ import okhttp3.Response;
 
 public class RegistrationManager {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final String BASE_URL = "https://api.effnerapp.de/auth/register";
     private final Context context;
     private Auth auth;
     private boolean ok;
@@ -53,8 +52,6 @@ public class RegistrationManager {
         Request request = new Request.Builder()
                 .url(createUrl(id, password, sClass))
                 .build();
-
-        Log.d("RegMgr", "Logging in...");
 
         try {
             Response response = client.newCall(request).execute();
@@ -85,7 +82,8 @@ public class RegistrationManager {
         String firebaseToken = sharedPreferences.getString("APP_FIREBASE_TOKEN", "NONE");
         HashGenerator hashGenerator = new HashGenerator("SHA-512", StandardCharsets.UTF_8);
 
-        return BASE_URL + "?id=" + hashGenerator.generate(id) +
+        return context.getString(R.string.uri_api_register) +
+                "?id=" + hashGenerator.generate(id) +
                 "&password=" + hashGenerator.generate(password) +
                 "&class=" + sClass +
                 "&firebase_token=" + firebaseToken;

@@ -27,7 +27,6 @@ import de.effnerapp.effner.data.model.DataResponse;
 import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.data.utils.HeaderTextParser;
 import de.effnerapp.effner.tools.ClassUtils;
-import de.effnerapp.effner.ui.activities.timetable.TimetableActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -62,7 +61,7 @@ public class HomeFragment extends Fragment {
         MaterialCardView newsCard = view.findViewById(R.id.news_card);
         MaterialCardView informationCard = view.findViewById(R.id.information_card);
 
-        timetableCard.setOnClickListener(v -> startActivity(new Intent(getContext(), TimetableActivity.class)));
+        timetableCard.setOnClickListener(v -> navigateTo(R.id.navigation_timetable));
         illnessDocCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_ILLNESS_DOC_" + (ClassUtils.isAdvancedClass(sClass) ? 1 : 0)).getValue()))));
         foodPlanCard.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(ApiClient.getInstance().getData().getContentByKey("DATA_FOOD_PLAN").getValue()))));
         substitutionCard.setOnClickListener(v -> navController.navigate(R.id.navigation_substitutions));

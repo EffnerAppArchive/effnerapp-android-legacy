@@ -74,6 +74,6 @@ public class DataResponse {
                 return color;
             }
         }
-        return AppColor.WHITE;
+        return AppColor.BLACK;
     }
 }

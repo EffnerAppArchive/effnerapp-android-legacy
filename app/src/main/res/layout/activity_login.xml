@@ -20,7 +20,7 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="64dp"
         android:enabled="true"
-        android:text="@string/action_sign_in"
+        android:text="@string/button_login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         android:layout_marginTop="220dp"
         android:layout_marginEnd="50dp"
 
-        android:hint="@string/prompt_id"
+        android:hint="@string/input_id_hint"
         android:importantForAutofill="no"
         android:inputType="number"
         android:selectAllOnFocus="true"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
 
         android:layout_marginStart="8dp"
-        android:hint="@string/prompt_course"
+        android:hint="@string/input_course_hint"
         android:importantForAutofill="no"
         android:inputType="number"
         android:selectAllOnFocus="true"
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="8dp"
-        android:hint="@string/prompt_password"
+        android:hint="@string/input_password_hint"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
@@ -80,7 +80,7 @@
         android:id="@+id/logo_view"
         android:layout_width="114dp"
         android:layout_height="117dp"
-        android:contentDescription="@string/description_effnerapp_logo_image"
+        android:contentDescription="@string/i_description_app_logo"
         app:layout_constraintBottom_toTopOf="@+id/input_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
         android:layout_height="26dp"
         android:layout_marginTop="24dp"
         android:gravity="center_vertical"
-        android:text="@string/prompt_class"
+        android:text="@string/input_class_hint"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/input_password"
         app:layout_constraintHorizontal_bias="0.02"
@@ -117,7 +117,7 @@
         android:drawablePadding="10dp"
         android:linksClickable="true"
         android:padding="25dp"
-        android:text="@string/warning_privacy_text"
+        android:text="@string/text_warning_privacy"
         android:textColor="@color/default_text_color"
         android:textSize="15sp"
         android:textStyle="bold"
@@ -131,7 +131,7 @@
         android:id="@+id/back_to_intro_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/backToIntroText"
+        android:text="@string/button_back_to_intro"
         android:textColor="#3F51B5"
         android:selectAllOnFocus="false"
         android:linksClickable="false"
@@ -149,7 +149,7 @@
         android:autoLink="all"
         android:linksClickable="false"
         android:selectAllOnFocus="false"
-        android:text="@string/teacherLoginText"
+        android:text="@string/button_login_teacher"
         android:textAllCaps="false"
         android:textColor="#3F51B5"
         android:visibility="gone"
@@ -165,6 +165,6 @@
         app:layout_constraintStart_toEndOf="@+id/input_id"
         app:layout_constraintTop_toTopOf="@+id/input_id"
         app:srcCompat="@drawable/ic_baseline_help_outline_24"
-        android:contentDescription="@string/help_description" />
+        android:contentDescription="@string/i_description_help" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

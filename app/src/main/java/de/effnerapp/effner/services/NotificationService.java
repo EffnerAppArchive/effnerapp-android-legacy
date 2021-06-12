@@ -66,6 +66,7 @@ public class NotificationService extends FirebaseMessagingService {
             }
 
         }
+
         createNotificationChannel();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
@@ -93,8 +94,6 @@ public class NotificationService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        Log.d(TAG, "Token: " + s);
         sharedPreferences.edit().putString("APP_FIREBASE_TOKEN", s).apply();
     }
 

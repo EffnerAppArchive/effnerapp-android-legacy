@@ -27,6 +27,7 @@ import de.effnerapp.effner.ui.activities.main.MainActivity;
 
 public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, ItemViewHandler> {
     private final List<Head> heads;
+
     public ItemAdapter(List<Head> groups) {
         super(groups);
         heads = groups;
@@ -49,20 +50,20 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
         final Item item = (Item) group.getItems().get(childIndex);
         holder.bind(item);
         holder.itemView.setOnClickListener(v -> {
-            if(heads.get(item.id).getDocuments().size() > 0) {
+            if (heads.get(item.id).getDocuments().size() > 0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getInstance());
                 Context dialogContext = builder.getContext();
                 LayoutInflater inflater = LayoutInflater.from(dialogContext);
                 View alertView = inflater.inflate(R.layout.news_attachments, null);
 
-                builder.setTitle("Angehängte Dokumente");
+                builder.setTitle(R.string.d_news_attached_documents);
                 builder.setView(alertView);
                 TableLayout tableLayout = alertView.findViewById(R.id.table);
-                for(String document : heads.get(item.id).getDocuments()){
+                for (String document : heads.get(item.id).getDocuments()) {
                     TableRow tableRow = new TableRow(dialogContext);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     tableRow.setLayoutParams(params);
-                    tableRow.setPadding(50,20,0,0);
+                    tableRow.setPadding(50, 20, 0, 0);
 
                     View cardView = inflater.inflate(R.layout.news_document, null);
                     TextView title = cardView.findViewById(R.id.doc_title);
@@ -77,10 +78,10 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
                     card.setOnClickListener(view -> IntentHelper.openView(MainActivity.getInstance(), document));
                     tableLayout.addView(tableRow);
                 }
-                builder.setPositiveButton("Schließen", null);
+                builder.setPositiveButton(R.string.d_button_close, null);
                 builder.show();
             } else {
-                Toast.makeText(MainActivity.getInstance(), "An diesen Beitrag wurden keine Dokumente angehängt!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.getInstance(), R.string.t_no_attached_documents, Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -96,7 +97,7 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
         url = url.replaceAll("\\?.*", "");
         if (url.startsWith("mailto:")) {
             return url.replace("mailto:", "");
-        } else if(url.contains("/")) {
+        } else if (url.contains("/")) {
             String[] split = url.split("/");
             return split[split.length - 1];
         } else {
@@ -105,7 +106,7 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
     }
 
     private Drawable getDocumentDrawable(Context context, String url) {
-        if(url.endsWith(".pdf")) {
+        if (url.endsWith(".pdf")) {
             return ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_insert_drive_file_black_24dp, null);
         } else if (url.startsWith("mailto:")) {
             return ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_mail_black_24dp, null);

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -25,17 +24,17 @@ public class IntroActivity extends AppIntro {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        addSlide(new IntroPageFactory.Builder("Power on", "Willkommen zur EffnerApp!")
+        addSlide(new IntroPageFactory.Builder(getString(R.string.intro_slide1_title), getString(R.string.intro_slide1_description))
                 .imageDrawable(R.drawable.intro_logo)
                 .backgroundDrawable(R.drawable.background_gradient)
                 .build());
 
-        addSlide(new IntroPageFactory.Builder("Immer up-to-date", "Mit der EffnerApp hast du immer den Überblick über deine Schulaufgaben, Vertretungen und vieles mehr!")
+        addSlide(new IntroPageFactory.Builder(getString(R.string.intro_slide2_title), getString(R.string.intro_slide2_description))
                 .imageDrawable(R.drawable.screenshot1)
                 .backgroundDrawable(R.drawable.background_gradient2)
                 .build());
 
-        addSlide(new IntroPageFactory.Builder("Los geht's", "Viel Spaß mit der EffnerApp!")
+        addSlide(new IntroPageFactory.Builder(getString(R.string.intro_slide3_title), getString(R.string.intro_slide3_description))
                 .imageDrawable(R.drawable.app_logo_intro)
                 .backgroundDrawable(R.drawable.background_gradient3)
                 .build());
@@ -60,10 +59,8 @@ public class IntroActivity extends AppIntro {
     /**
      * set COMPLETED_ON_BOARDING to true so you see the intro only once
      */
-
     public void setOnBoarding() {
         sharedPreferences.edit().putBoolean("IntroActivity.COMPLETED_ON_BOARDING", true).apply();
-        Log.d("Intro", "COMPLETED_ON_BOARDING set to " + sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false));
     }
 
 

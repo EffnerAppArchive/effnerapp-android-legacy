@@ -22,7 +22,7 @@
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_insert_drive_file_black_24dp"
-            android:contentDescription="@string/base_description"
+            android:contentDescription="@string/i_description_base"
             app:tint="@color/recycler_item_color" />
 
         <LinearLayout
@@ -35,7 +35,7 @@
                 android:id="@+id/doc_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/default_text_view_placeholder"
+                android:text="@string/placeholder_default"
                 android:textColor="@color/recycler_item_color"
                 android:textSize="16sp" />
         </LinearLayout>

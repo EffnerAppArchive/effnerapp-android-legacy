@@ -69,12 +69,12 @@ public class LoginActivity extends AppCompatActivity {
         ImageView helpButton = findViewById(R.id.help_button);
 
         TextView privacyWarning = findViewById(R.id.warning_privacy);
-        privacyWarning.setText(Html.fromHtml(getResources().getString(R.string.warning_privacy_text)));
+        privacyWarning.setText(Html.fromHtml(getString(R.string.text_warning_privacy)));
         privacyWarning.setMovementMethod(LinkMovementMethod.getInstance());
 
         helpButton.setOnClickListener(v -> {
             hideKeyboardFrom(this, findViewById(R.id.container));
-            Snackbar.make(helpButton, "Die Anmeldedaten sind die selben, die du auch für die \"DSBmobile\"-App benötigst.", BaseTransientBottomBar.LENGTH_LONG).show();
+            Snackbar.make(helpButton, getString(R.string.s_login_help), BaseTransientBottomBar.LENGTH_LONG).show();
         });
 
 
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure() {
-                Snackbar.make(findViewById(R.id.container), "Fehler beim Laden der Klassen.", BaseTransientBottomBar.LENGTH_LONG).setAction("Retry", v -> recreate()).show();
+                Snackbar.make(findViewById(R.id.container), R.string.s_err_load_classes, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_retry, v -> recreate()).show();
             }
         });
 
@@ -97,14 +97,13 @@ public class LoginActivity extends AppCompatActivity {
         if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length == 1) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this)
                     .setCancelable(false)
-                    .setTitle("Ein Account existiert bereits!")
-                    .setMessage("Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl." +
-                            "\nDu kannst es entweder erneut versuchen oder dich neu anmelden.")
-                    .setPositiveButton("Neu versuchen", (dialogInterface, i) -> {
+                    .setTitle(R.string.d_account_exists_title)
+                    .setMessage(R.string.d_account_exists_message)
+                    .setPositiveButton(R.string.button_retry, (dialogInterface, i) -> {
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     })
-                    .setNegativeButton("Neu Anmelden", (dialogInterface, i) -> Toast.makeText(this, "Bitte melde dich an.", Toast.LENGTH_SHORT).show());
+                    .setNegativeButton(R.string.button_login, (dialogInterface, i) -> Toast.makeText(this, R.string.s_prompt_login, Toast.LENGTH_SHORT).show());
             dialog.show();
         }
 
@@ -127,8 +126,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> {
             if (validateInput(id.getText().toString(), password.getText().toString(), classSelector.getSelectedItem(), course.getText().toString())) {
                 dialog = new ProgressDialog(this);
-                dialog.setTitle("Anmeldung ...");
-                dialog.setMessage("Die Anmeldedaten werden überprüft ...");
+                dialog.setTitle(R.string.d_login_progress_title);
+                dialog.setMessage(getString(R.string.d_login_progress_message));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(false);
                 dialog.show();
@@ -141,11 +140,11 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(new Intent(this, SplashActivity.class));
                         finish();
                     } else {
-                        runOnUiThread(() -> Toast.makeText(this, "Fehler beim Anmelden.", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> Toast.makeText(this, R.string.s_err_server_authentication, Toast.LENGTH_SHORT).show());
                     }
                 }).start();
             } else {
-                Snackbar.make(findViewById(R.id.container), "Bitte gebe die Login-Daten ein.", BaseTransientBottomBar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.container), R.string.s_prompt_enter_credentials, BaseTransientBottomBar.LENGTH_LONG).show();
                 hideKeyboardFrom(this, findViewById(R.id.container));
             }
         });
@@ -161,7 +160,7 @@ public class LoginActivity extends AppCompatActivity {
     private void getClasses(ClassesCallback callback) {
         OkHttpClient client = new OkHttpClient();
 
-        String url = "https://api.effnerapp.de/data/classes/get";
+        String url = getString(R.string.uri_api_get_classes);
 
         Request request = new Request.Builder()
                 .url(url)

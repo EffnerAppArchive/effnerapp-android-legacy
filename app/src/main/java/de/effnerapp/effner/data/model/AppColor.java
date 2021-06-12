@@ -5,7 +5,8 @@ import android.graphics.Color;
 import de.effnerapp.effner.data.model.color.ColorParser;
 
 public class AppColor {
-    public static final AppColor WHITE = new AppColor("HEX", "#FFFFFF");
+    public static final AppColor BLACK = new AppColor("HEX", "#000000");
+
     private String id, name, type, color;
 
     public AppColor(String type, String color) {

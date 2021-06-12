@@ -20,10 +20,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
         android:enabled="true"
-        android:text="@string/action_sign_in"
+        android:text="@string/button_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_teacher" />
+        app:layout_constraintTop_toBottomOf="@+id/input_teacher_id" />
 
     <EditText
         android:id="@+id/input_id"
@@ -33,7 +33,7 @@
         android:layout_marginTop="220dp"
         android:layout_marginEnd="24dp"
 
-        android:hint="@string/prompt_id"
+        android:hint="@string/input_id_hint"
         android:importantForAutofill="no"
         android:inputType="number"
         android:selectAllOnFocus="true"
@@ -42,13 +42,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/input_teacher"
+        android:id="@+id/input_teacher_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="16dp"
-        android:hint="@string/prompt_teacher"
+        android:hint="@string/input_teacher_id_hint"
         android:importantForAutofill="no"
         android:inputType="text"
         android:maxLength="4"
@@ -64,7 +64,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:hint="@string/prompt_password"
+        android:hint="@string/input_password_hint"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:importantForAutofill="no"
@@ -78,7 +78,7 @@
         android:id="@+id/logo_view"
         android:layout_width="114dp"
         android:layout_height="117dp"
-        android:contentDescription="@string/description_effnerapp_logo_image"
+        android:contentDescription="@string/i_description_app_logo"
         app:layout_constraintBottom_toTopOf="@+id/input_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
         android:id="@+id/back_to_intro_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/backToIntroText"
+        android:text="@string/button_back_to_intro"
         android:textColor="#3F51B5"
         android:selectAllOnFocus="false"
         android:linksClickable="false"
@@ -106,7 +106,7 @@
         android:autoLink="all"
         android:linksClickable="false"
         android:selectAllOnFocus="false"
-        android:text="@string/student_login_link"
+        android:text="@string/button_login_students"
         android:textAllCaps="false"
         android:textColor="#3F51B5"
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
