@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    name: Build app bundle
     runs-on: ubuntu-latest
 
     steps:
@@ -34,6 +35,7 @@ jobs:
           path: /home/runner/work/EffnerApp/EffnerApp/app/build/outputs/bundle/release/app-release.aab
         
   sign:
+    name: Sign app bundle
     runs-on: ubuntu-latest
     needs: [build]
     
@@ -71,3 +73,17 @@ jobs:
           prerelease: false
           automatic_release_tag: 'latest'
           files: ${{steps.sign_app.outputs.signedReleaseFile}}
+           
+  upload:
+    name: Upload & release app on Google Play
+    runs-on: ubuntu-latest
+    needs: [sign]
+  
+    steps:
+      - uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: de.effnerapp.effner
+          releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
+          track: alpha
+          whatsNewDirectory: dist/whatsnew
