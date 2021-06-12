@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -68,14 +69,15 @@ public class TimetableFragment extends Fragment {
 
             int dayI = 0;
             for (String[] day : data) {
-                for (int i = 1; i <= 10; i++) {
+                for (int i = 0; i < 10; i++) {
                     String lesson = day[i];
-                    if (!lesson.isEmpty()) {
+
+                    if (lesson != null && !lesson.isEmpty()) {
                         Schedule schedule = new Schedule();
                         schedule.setSubject(lesson);
                         schedule.setDay(dayI);
-                        schedule.setStartTime(new Time(i, 0));
-                        schedule.setEndTime(new Time(i + 1, 0));
+                        schedule.setStartTime(new Time(i + 1, 0));
+                        schedule.setEndTime(new Time(i + 2, 0));
                         schedule.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_TIMETABLE_" + lesson).getColorValue());
                         schedules.add(schedule);
                     }
