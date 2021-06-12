@@ -86,4 +86,4 @@ jobs:
           packageName: de.effnerapp.effner
           releaseFiles: 'app-release.aab'
           track: alpha
-          whatsNewDirectory: /home/runner/work/EffnerApp/EffnerApp/dist/whatsnew/
+          whatsNewDirectory: dist/
