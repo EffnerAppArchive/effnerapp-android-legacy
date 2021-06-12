@@ -96,7 +96,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             AlertDialog.Builder dialog = new AlertDialog.Builder(context)
                     .setTitle(R.string.d_settings_feedback_title)
                     .setMessage(R.string.d_settings_feedback_message)
-                    .setPositiveButton(R.string.d_button_send_email, (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uri_link_email)))))
+                    .setPositiveButton(R.string.d_button_send_email, (dialogInterface, i) -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uri_link_email_feedback)))))
                     .setNegativeButton(R.string.d_button_rate_app, (dialogInterface, i) -> IntentHelper.openView(context, getString(R.string.uri_link_google_play)))
                     .setNeutralButton(R.string.d_button_ok, null);
 

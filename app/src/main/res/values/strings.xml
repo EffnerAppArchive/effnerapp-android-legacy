@@ -74,12 +74,12 @@
     <string name="d_account_exists_message">Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl.\nDu kannst es entweder erneut versuchen oder dich neu anmelden.</string>
 
     <string name="d_timetable_unavailable_title">Kein Stundenplan</string>
-    <string name="d_timetable_unavailable_message">Für deine Klasse wurde noch kein Stundenplan eingereicht!\nMöchtest du einen Stundenplan hochlanden?</string>
+    <string name="d_timetable_unavailable_message">Für deine Klasse wurde noch kein Stundenplan eingereicht!\nWenn du möchtest, kannst du einen per E-Mail einreichen.</string>
 
     <string name="d_login_progress_title">Anmeldung …</string>
     <string name="d_login_progress_message">Die Anmeldedaten werden überprüft …</string>
 
-    <string name="d_button_timetable_upload">Stundenplan hochladen</string>
+    <string name="d_button_timetable_submit">Stundenplan einreichen</string>
 
     <string name="d_button_send_email">E-Mail senden</string>
     <string name="d_button_rate_app">App bewerten</string>
@@ -165,7 +165,8 @@
     <string name="uri_link_privacy_policy">https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf</string>
     <string name="uri_link_imprint">https://effnerapp.de/resources/Impressum.pdf</string>
     <string name="uri_link_google_play">https://play.google.com/store/apps/details?id=de.effnerapp.effner</string>
-    <string name="uri_link_email">mailto:info@effnerapp.de</string>
+    <string name="uri_link_email_feedback">mailto:hello@effnerapp.de</string>
+    <string name="uri_link_email_timetable">mailto:stundenplan@effnerapp.de</string>
 
     <string name="uri_api_register">https://api.effnerapp.de/auth/register</string>
     <string name="uri_api_get_classes">https://api.effnerapp.de/data/classes/get</string>
