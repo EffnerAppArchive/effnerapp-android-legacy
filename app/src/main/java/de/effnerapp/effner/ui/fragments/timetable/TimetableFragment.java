@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -67,7 +68,7 @@ public class TimetableFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            ArrayList<Schedule> schedules = new ArrayList<>();
+            List<Schedule> schedules = new ArrayList<>();
 
             int dayI = 0;
             for (String[] day : data) {
