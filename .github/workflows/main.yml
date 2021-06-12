@@ -45,9 +45,6 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: Unsigned app bundle
-          
-      - name: Display structure of downloaded files
-        run: ls -R
     
       - uses: r0adkll/sign-android-release@v1
         name: Sign app APK
@@ -80,10 +77,13 @@ jobs:
     needs: [sign]
   
     steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: Signed app bundle
       - uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: de.effnerapp.effner
-          releaseFiles: ${{steps.sign_app.outputs.signedReleaseFile}}
+          releaseFiles: 'app-release.aab'
           track: alpha
           whatsNewDirectory: dist/whatsnew
