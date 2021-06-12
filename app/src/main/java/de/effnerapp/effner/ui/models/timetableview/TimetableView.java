@@ -100,7 +100,7 @@ public class TimetableView extends LinearLayout {
     }
 
 
-    public void add(ArrayList<Schedule> schedules) {
+    public void add(List<Schedule> schedules) {
         stickerCount++;
 
         Sticker sticker = new Sticker();
