@@ -191,6 +191,32 @@
 
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/bus_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/cardBackground"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp">
+
+            <TextView
+                android:layout_width="143dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/card_bus"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/default_text_color"
+                app:drawableTint="#798DFF"
+                android:drawablePadding="10dp"
+                app:drawableTopCompat="@drawable/ic_baseline_directions_bus_24" />
+
+        </com.google.android.material.card.MaterialCardView>
+
     </GridLayout>
 
 
