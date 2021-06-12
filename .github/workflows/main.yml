@@ -43,6 +43,7 @@ jobs:
         
   sign:
     runs-on: ubuntu-latest
+    needs: [build]
     
     steps:
       - uses: r0adkll/sign-android-release@v1
