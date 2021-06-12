@@ -55,6 +55,7 @@
     <string name="title_timetable">Stundenplan</string>
     <string name="title_news">News</string>
     <string name="title_information">Informationen</string>
+    <string name="title_bus">Busfahrplan</string>
 
     <!-- Snackbars -->
 
@@ -141,6 +142,7 @@
     <string name="card_schooltests_hj2">2. Halbjahr</string>
     <string name="card_substitutions">Vertretungen</string>
     <string name="card_information">Informationen</string>
+    <string name="card_bus">Busfahrplan</string>
 
     <!-- buttons -->
 
@@ -159,6 +161,7 @@
 
     <string name="text_disclaimer">Alle Angaben sind ohne Gewähr. Es gilt das Wort der Lehrkraft.</string>
     <string name="text_warning_privacy"><![CDATA[Mit der Anmeldung stimmst du der <a href=\"https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf\">Datenschutzerklärung</a> zu.]]></string>
+    <string name="text_disclaimer_mvv">Alle Angaben sind ohne Gewähr. Die Daten stammen von mvv-muenchen.de.</string>
 
     <!-- URIs -->
 

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
         android:padding="25dp"
-        android:text="@string/mvv_disclaimer_info_text"
+        android:text="@string/text_disclaimer_mvv"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/default_text_color"
