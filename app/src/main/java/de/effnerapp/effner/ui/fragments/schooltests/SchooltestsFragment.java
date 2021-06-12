@@ -30,6 +30,7 @@ import de.effnerapp.effner.data.model.Content;
 import de.effnerapp.effner.data.model.Schooltest;
 import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.tools.ClassUtils;
+import de.effnerapp.effner.tools.view.IntentHelper;
 
 public class SchooltestsFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -95,18 +96,18 @@ public class SchooltestsFragment extends Fragment {
             String keyPrefix = "DATA_TOP_LEVEL_SA_DOC_" + ClassUtils.getFirstDigits(sClass) + "_";
 
             h1Card.setOnClickListener(v -> {
-                Content content = ApiClient.getInstance().getData().getContentByKey(keyPrefix + 1);
+                Content content = ApiClient.getInstance().getData().getContentByKey(keyPrefix + "1");
                 if (content != null) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
+                    IntentHelper.openView(requireContext(), content.getValue());
                 } else {
                     Toast.makeText(getContext(), R.string.t_document_unavailable, Toast.LENGTH_SHORT).show();
                 }
             });
 
             h2Card.setOnClickListener(v -> {
-                Content content = ApiClient.getInstance().getData().getContentByKey(keyPrefix + 2);
+                Content content = ApiClient.getInstance().getData().getContentByKey(keyPrefix + "2");
                 if (content != null) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(content.getValue())));
+                    IntentHelper.openView(requireContext(), content.getValue());
                 } else {
                     Toast.makeText(getContext(), R.string.t_document_unavailable, Toast.LENGTH_SHORT).show();
                 }

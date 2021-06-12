@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
@@ -73,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             reloadData();
             swipeRefreshLayout.setRefreshing(false);
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if(navController.getCurrentDestination().getId() == R.id.navigation_home) {
+                    moveTaskToBack(true);
+                } else {
+                    navController.navigate(R.id.navigation_home);
+                }
+            }
         });
     }
 
