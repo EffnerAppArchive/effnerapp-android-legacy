@@ -171,7 +171,4 @@
     <string name="uri_api_register">https://api.effnerapp.de/auth/register</string>
     <string name="uri_api_get_classes">https://api.effnerapp.de/data/classes/get</string>
     <string name="uri_api_get_data">https://api.effnerapp.de/data/get</string>
-
-
-
 </resources>
