@@ -33,8 +33,6 @@ public class MvvClient {
 
         OkHttpClient client = new OkHttpClient();
 
-        System.out.println(url);
-
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -49,7 +47,6 @@ public class MvvClient {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String res = Objects.requireNonNull(response.body()).string();
-                System.out.println(res);
                 try {
                     MvvResponse mvvResponse = gson.fromJson(res, MvvResponse.class);
                     callback.onFinish(true, mvvResponse);
