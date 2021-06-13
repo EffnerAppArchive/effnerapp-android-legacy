@@ -42,6 +42,12 @@
         tools:layout="@layout/fragment_schooltests" />
 
     <fragment
+        android:id="@+id/navigation_mvv"
+        android:name="de.effnerapp.effner.ui.fragments.mvv.MVVFragment"
+        android:label="@string/title_mvv"
+        tools:layout="@layout/fragment_mvv" />
+
+    <fragment
         android:id="@+id/navigation_settings"
         android:name="de.effnerapp.effner.ui.fragments.settings.SettingsFragment"
         android:label="@string/title_settings" />
