@@ -30,7 +30,7 @@ public class IntroActivity extends AppIntro {
                 .build());
 
         addSlide(new IntroPageFactory.Builder(getString(R.string.intro_slide2_title), getString(R.string.intro_slide2_description))
-                .imageDrawable(R.drawable.screenshot1)
+                .imageDrawable(R.drawable.screenshot)
                 .backgroundDrawable(R.drawable.background_gradient2)
                 .build());
 
