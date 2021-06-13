@@ -15,7 +15,7 @@
         android:padding="5dp"
         android:background="@drawable/badge_shape"
         android:backgroundTint="#009688"
-        android:text="721"
+        android:text="@string/placeholder_default"
         android:textAlignment="center"
         android:textColor="#FFF"
         android:textSize="16sp"
@@ -26,7 +26,7 @@
         android:id="@+id/departure_destination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dachau Bahnhof"
+        android:text="@string/placeholder_default"
         android:textColor="@color/recycler_item_color"
         android:layout_marginStart="15dp"
         android:textSize="16sp" />
@@ -36,7 +36,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:text="00:00"
+        android:text="@string/placeholder_default"
         android:textColor="@color/recycler_item_color"
         android:textSize="16sp" />
 

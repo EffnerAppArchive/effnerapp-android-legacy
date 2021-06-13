@@ -65,7 +65,7 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
                     tableRow.setLayoutParams(params);
                     tableRow.setPadding(50, 20, 0, 0);
 
-                    View cardView = inflater.inflate(R.layout.news_document, null);
+                    View cardView = inflater.inflate(R.layout.news_document, (ViewGroup) tableRow, false);
                     TextView title = cardView.findViewById(R.id.doc_title);
                     ImageView icon = cardView.findViewById(R.id.doc_icon);
 

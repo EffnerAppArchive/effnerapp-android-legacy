@@ -7,7 +7,6 @@
     tools:context=".ui.fragments.mvv.MVVFragment">
 
     <include
-        android:id="@+id/mvv_disclaimer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
