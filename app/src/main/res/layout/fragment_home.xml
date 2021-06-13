@@ -114,7 +114,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/bus_card"
+            android:id="@+id/mvv_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_columnWeight="1"
@@ -128,7 +128,7 @@
                 android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/card_bus"
+                android:text="@string/card_mvv"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 android:textStyle="bold"

@@ -1,4 +1,4 @@
-package de.effnerapp.effner.ui.fragments.bus;
+package de.effnerapp.effner.ui.fragments.mvv;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;

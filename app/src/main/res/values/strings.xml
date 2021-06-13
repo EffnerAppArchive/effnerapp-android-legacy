@@ -56,7 +56,7 @@
     <string name="title_timetable">Stundenplan</string>
     <string name="title_news">News</string>
     <string name="title_information">Informationen</string>
-    <string name="title_bus">MVV</string>
+    <string name="title_mvv">MVV</string>
 
     <!-- Snackbars -->
 
@@ -143,7 +143,7 @@
     <string name="card_schooltests_hj2">2. Halbjahr</string>
     <string name="card_substitutions">Vertretungen</string>
     <string name="card_information">Informationen</string>
-    <string name="card_bus">MVV</string>
+    <string name="card_mvv">MVV</string>
 
     <!-- buttons -->
 
