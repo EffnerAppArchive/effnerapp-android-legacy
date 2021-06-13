@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if(navController.getCurrentDestination().getId() == R.id.navigation_home) {
+                if(Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.navigation_home) {
                     moveTaskToBack(true);
                 } else {
                     navController.navigate(R.id.navigation_home);
