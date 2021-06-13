@@ -1,32 +1,48 @@
 package de.effnerapp.effner.ui.fragments.bus;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.data.mvv.Departure;
 import de.effnerapp.effner.data.mvv.MvvClient;
+import de.effnerapp.effner.data.mvv.StopItem;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BusFragment extends Fragment {
 
+    private final MvvClient mvvClient;
+
+    private List<Departure> departures;
+    private DepartureItemAdapter departureItemAdapter;
+
+
     public BusFragment() {
         // Required empty public constructor
+        mvvClient = new MvvClient();
     }
 
     @Override
@@ -34,18 +50,43 @@ public class BusFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bus, container, false);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+
         RecyclerView recyclerView = view.findViewById(R.id.bus_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        MvvClient mvvClient = new MvvClient();
+        departures = new ArrayList<>();
 
-        mvvClient.loadData((isSuccess, data) -> {
-            if (isSuccess) {
-                DepartureItemAdapter adapter = new DepartureItemAdapter(new ArrayList<>(Arrays.asList(data.getDepartures())), requireActivity());
-                requireActivity().runOnUiThread(() -> recyclerView.setAdapter(adapter));
-            }
+        departureItemAdapter = new DepartureItemAdapter(departures, requireActivity());
+        recyclerView.setAdapter(departureItemAdapter);
+
+
+        AutoCompleteTextView stopInput = view.findViewById(R.id.input_stop);
+
+        AutoCompleteAdapter adapter = new AutoCompleteAdapter(requireContext(), android.R.layout.select_dialog_item, mvvClient);
+
+        stopInput.setThreshold(4);
+        stopInput.setAdapter(adapter);
+
+        stopInput.setOnItemClickListener((parent, v, position, id) -> {
+            hideKeyboardFrom(requireContext(), view.findViewById(R.id.container));
+            stopInput.clearFocus();
+
+            StopItem stopItem = (StopItem) parent.getItemAtPosition(position);
+            fetchDepartures(stopItem.getId());
+            sharedPreferences.edit()
+                    .putString("APP_MVV_LAST_STOP_ID", stopItem.getId())
+                    .putString("APP_MVV_LAST_STOP_NAME", stopItem.getName())
+                    .apply();
         });
+
+        String lastStopId = sharedPreferences.getString("APP_MVV_LAST_STOP_ID", "de:09174:6800");
+        String lastStopName = sharedPreferences.getString("APP_MVV_LAST_STOP_NAME", "Dachau");
+
+        stopInput.setText(lastStopName);
+        fetchDepartures(lastStopId);
+
 
         // update time every minute
         Timer timer = new Timer();
@@ -67,5 +108,20 @@ public class BusFragment extends Fragment {
         }, delta * 1000, 60 * 1000);
 
         return view;
+    }
+
+    private void fetchDepartures(String stopId) {
+        mvvClient.loadDepartures(stopId, (isSuccess, data) -> {
+            if (isSuccess) {
+                departures.clear();
+                departures.addAll(Arrays.asList(data.getDepartures()));
+                requireActivity().runOnUiThread(() -> departureItemAdapter.notifyDataSetChanged());
+            }
+        });
+    }
+
+    private void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -17,19 +19,20 @@ import okhttp3.Response;
 public class MvvClient {
     private final Gson gson = new Gson();
 
-    public void loadData(MvvCallback callback) {
+    public void loadDepartures(String stopId, MvvCallback callback) {
         long time = System.currentTimeMillis() / 1000;
 //        String stopId = "de%3A09174%3A7034";
-        String stopId = "de:09174:6800"; //bahnhof
+//        String stopId = "de:09174:6800"; //bahnhof
 //        String stopId = "de:09174:7034"; // ??
 //        String lines = "JmxpbmU9bXZ2JTNBNDA3MDIlM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBNDA3MDIlM0ElMjAlM0FSJTNBczIwJmxpbmU9bXZ2JTNBMTk3MDMlM0ElMjAlM0FSJTNBczIwJmxpbmU9bXZ2JTNBMTk3MDQlM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBMTk3MDQlM0ElMjAlM0FSJTNBczIwJmxpbmU9bXZ2JTNBNTc3MDUlM0ElMjAlM0FSJTNBczIwJmxpbmU9bXZ2JTNBMTk3MDYlM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBMTk3MDYlM0ElMjAlM0FSJTNBczIwJmxpbmU9bXZ2JTNBNDA3MTAlM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBNDA3MTAlM0ElMjAlM0FSJTNBczIwJmxpbmU9bXZ2JTNBNjU3MjAlM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBMTk3MjElM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBMTk3MjElM0ElMjAlM0FSJTNBczIwJmxpbmU9bXZ2JTNBNjU3MjIlM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBMTk3MjMlM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBMTk3MjMlM0ElMjAlM0FSJTNBczIwJmxpbmU9bXZ2JTNBMTk3MjUlM0ElMjAlM0FIJTNBczIwJmxpbmU9bXZ2JTNBMTk3MjUlM0ElMjAlM0FSJTNBczIw";
-        String lines = "JmxpbmU9ZGRiJTNBOTJNMDIlM0ElMjAlM0FIJTNBajIwJmxpbmU9ZGRiJTNBOTJNMDIlM0ElMjAlM0FSJTNBajIwJmxpbmU9c3dtJTNBMDMxNzIlM0FHJTNBSCUzQTAxMCZsaW5lPW12diUzQTE5NzAzJTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTE5NzA0JTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTQwNzEwJTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTY1NzE3JTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTY1NzE4JTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTY1NzE5JTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTY1NzIwJTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTE5NzIxJTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTY1NzIyJTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTY1NzI2JTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTE5NzM2JTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTY1NzQ0JTNBJTIwJTNBUiUzQXMyMA%3D%3D";
+        // base64 encoded query
+//        String lines = "JmxpbmU9ZGRiJTNBOTJNMDIlM0ElMjAlM0FIJTNBajIwJmxpbmU9ZGRiJTNBOTJNMDIlM0ElMjAlM0FSJTNBajIwJmxpbmU9c3dtJTNBMDMxNzIlM0FHJTNBSCUzQTAxMCZsaW5lPW12diUzQTE5NzAzJTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTE5NzA0JTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTQwNzEwJTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTY1NzE3JTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTY1NzE4JTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTY1NzE5JTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTY1NzIwJTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTE5NzIxJTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTY1NzIyJTNBJTIwJTNBSCUzQXMyMCZsaW5lPW12diUzQTY1NzI2JTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTE5NzM2JTNBJTIwJTNBUiUzQXMyMCZsaW5lPW12diUzQTY1NzQ0JTNBJTIwJTNBUiUzQXMyMA%3D%3D";
         String url = "https://www.mvv-muenchen.de/" +
                 "?eID=departuresFinder" +
                 "&action=get_departures" +
                 "&stop_id=" + stopId +
                 "&requested_timestamp=" + time +
-                "&lines=" + lines;
+                "&lines=" + "";
 
         OkHttpClient client = new OkHttpClient();
 
@@ -58,5 +61,24 @@ public class MvvClient {
                 }
             }
         });
+    }
+
+    public FindStopResponse findStop(String query) {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("https://www.mvv-muenchen.de/?eID=stopFinder&query=" + query)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+            return gson.fromJson(Objects.requireNonNull(response.body()).string(), FindStopResponse.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
