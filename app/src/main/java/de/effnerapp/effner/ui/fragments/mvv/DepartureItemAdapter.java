@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.mvv.Departure;
+import de.effnerapp.effner.data.mvv.json.Departure;
 import de.effnerapp.effner.data.utils.ApiClient;
 
 public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

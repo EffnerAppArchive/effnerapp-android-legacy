@@ -25,9 +25,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.mvv.Departure;
+import de.effnerapp.effner.data.mvv.json.Departure;
 import de.effnerapp.effner.data.mvv.MvvClient;
-import de.effnerapp.effner.data.mvv.StopItem;
+import de.effnerapp.effner.data.mvv.json.StopItem;
 
 /**
  * A simple {@link Fragment} subclass.
