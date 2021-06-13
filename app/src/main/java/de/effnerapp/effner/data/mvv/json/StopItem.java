@@ -1,4 +1,4 @@
-package de.effnerapp.effner.data.mvv;
+package de.effnerapp.effner.data.mvv.json;
 
 import org.jetbrains.annotations.NotNull;
 

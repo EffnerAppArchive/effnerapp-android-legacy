@@ -1,4 +1,4 @@
-package de.effnerapp.effner.data.mvv;
+package de.effnerapp.effner.data.mvv.json;
 
 public class Line {
     private String number, symbol, direction, stateless, name;
