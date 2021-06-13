@@ -6,10 +6,12 @@
 
 package de.effnerapp.effner.tools.view;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -20,7 +22,14 @@ public class IntentHelper {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, "application/pdf");
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            context.startActivity(intent);
+
+            try {
+                context.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                // fallback to default action_view handler
+                context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+            }
+
             return;
         }
 

@@ -26,7 +26,7 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:alignmentMode="alignMargins"
         android:columnCount="2"
@@ -37,8 +37,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/timetable_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
@@ -47,7 +47,7 @@
             app:cardElevation="2dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/card_timetable"
@@ -63,8 +63,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/illness_doc_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
@@ -89,8 +89,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/food_plan_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
@@ -115,8 +115,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/mvv_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
@@ -141,8 +141,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/news_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
@@ -167,8 +167,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/information_card"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_margin="10dp"
