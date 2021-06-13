@@ -45,6 +45,7 @@
     <string name="input_class_hint">Klasse</string>
     <string name="input_course_hint">Kurs</string>
     <string name="input_teacher_id_hint">Lehrerkürzel</string>
+    <string name="input_stop_hint">Haltestelle …</string>
 
     <!-- navigation titles -->
 
@@ -55,6 +56,7 @@
     <string name="title_timetable">Stundenplan</string>
     <string name="title_news">News</string>
     <string name="title_information">Informationen</string>
+    <string name="title_mvv">MVV</string>
 
     <!-- Snackbars -->
 
@@ -141,6 +143,7 @@
     <string name="card_schooltests_hj2">2. Halbjahr</string>
     <string name="card_substitutions">Vertretungen</string>
     <string name="card_information">Informationen</string>
+    <string name="card_mvv">MVV</string>
 
     <!-- buttons -->
 
@@ -159,6 +162,8 @@
 
     <string name="text_disclaimer">Alle Angaben sind ohne Gewähr. Es gilt das Wort der Lehrkraft.</string>
     <string name="text_warning_privacy"><![CDATA[Mit der Anmeldung stimmst du der <a href=\"https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf\">Datenschutzerklärung</a> zu.]]></string>
+    <string name="text_disclaimer_mvv">Alle Angaben sind ohne Gewähr. Die Daten stammen von mvv-muenchen.de.</string>
+    <string name="text_no_departures">Derzeit sind keine Abfahrten verfügbar.</string>
 
     <!-- URIs -->
 
