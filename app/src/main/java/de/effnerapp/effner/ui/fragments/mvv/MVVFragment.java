@@ -1,4 +1,4 @@
-package de.effnerapp.effner.ui.fragments.bus;
+package de.effnerapp.effner.ui.fragments.mvv;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,7 +32,7 @@ import de.effnerapp.effner.data.mvv.StopItem;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BusFragment extends Fragment {
+public class MVVFragment extends Fragment {
 
     private final MvvClient mvvClient;
 
@@ -40,7 +40,7 @@ public class BusFragment extends Fragment {
     private DepartureItemAdapter departureItemAdapter;
 
 
-    public BusFragment() {
+    public MVVFragment() {
         // Required empty public constructor
         mvvClient = new MvvClient();
     }
@@ -48,11 +48,11 @@ public class BusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_bus, container, false);
+        View view = inflater.inflate(R.layout.fragment_mvv, container, false);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
-        RecyclerView recyclerView = view.findViewById(R.id.bus_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.mvv_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -98,7 +98,7 @@ public class BusFragment extends Fragment {
             @Override
             public void run() {
                 if (!isVisible()) {
-                    Log.d("BusFrag", "Fragment detached! Stopping timer ...");
+                    Log.d("MVVFrag", "Fragment detached! Stopping timer ...");
                     timer.cancel();
                     return;
                 }

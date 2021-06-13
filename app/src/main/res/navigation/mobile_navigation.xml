@@ -42,10 +42,10 @@
         tools:layout="@layout/fragment_schooltests" />
 
     <fragment
-        android:id="@+id/navigation_bus"
-        android:name="de.effnerapp.effner.ui.fragments.bus.BusFragment"
-        android:label="@string/title_bus"
-        tools:layout="@layout/fragment_bus" />
+        android:id="@+id/navigation_mvv"
+        android:name="de.effnerapp.effner.ui.fragments.mvv.MVVFragment"
+        android:label="@string/title_mvv"
+        tools:layout="@layout/fragment_mvv" />
 
     <fragment
         android:id="@+id/navigation_settings"
