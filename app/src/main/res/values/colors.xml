@@ -22,4 +22,5 @@
 
     <color name="mvv_badge_bus">#4A7FE8</color>
     <color name="mvv_badge_train">#79B833</color>
+    <color name="mvv_badge_regio">#FD5757</color>
 </resources>

@@ -41,7 +41,7 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (viewType == 0) {
             return new DepartureItemAdapter.ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.departure_item, parent, false));
         } else {
-            return new DepartureItemAdapter.InfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.mvv_disclaimer, parent, false));
+            return new DepartureItemAdapter.InfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.no_departures_item, parent, false));
         }
     }
 
@@ -71,6 +71,8 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (departure.getLine().getNumber().startsWith("S")) {
                 iHolder.line.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.mvv_badge_train)));
+            } else if(departure.getLine().getNumber().startsWith("RB")) {
+                iHolder.line.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.mvv_badge_regio)));
             } else {
                 iHolder.line.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.mvv_badge_bus)));
             }
@@ -107,12 +109,15 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return departures.size() + 1;
+        if(departures.isEmpty()) {
+            return 1;
+        }
+        return departures.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position != getItemCount() - 1) {
+        if (!departures.isEmpty()) {
             return 0;
         } else {
             return 1;
