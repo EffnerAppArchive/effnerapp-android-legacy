@@ -159,7 +159,7 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="@color/default_text_color"
-                app:drawableTint="#27D2E8"
+                app:drawableTint="#63FBE9"
                 android:drawablePadding="10dp"
                 app:drawableTopCompat="@drawable/ic_mail_black_24dp" />
 

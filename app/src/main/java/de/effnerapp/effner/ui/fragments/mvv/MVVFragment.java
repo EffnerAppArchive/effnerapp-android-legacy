@@ -112,7 +112,7 @@ public class MVVFragment extends Fragment {
 
     private void fetchDepartures(String stopId) {
         mvvClient.loadDepartures(stopId, (isSuccess, data) -> {
-            if (isSuccess) {
+            if (isSuccess && isVisible()) {
                 departures.clear();
                 departures.addAll(Arrays.asList(data.getDepartures()));
                 requireActivity().runOnUiThread(() -> departureItemAdapter.notifyDataSetChanged());

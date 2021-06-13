@@ -10,7 +10,6 @@
         android:id="@+id/mvv_disclaimer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:layout_gravity="bottom"
         layout="@layout/mvv_disclaimer" />
 
@@ -18,7 +17,7 @@
         android:id="@+id/input_stop"
         android:text=""
         android:hint="@string/input_stop_hint"
-        android:inputType="text"
+        android:inputType="text|textNoSuggestions"
         android:imeOptions="actionDone"
         android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
