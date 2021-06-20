@@ -10,6 +10,28 @@ on:
   workflow_dispatch:
 
 jobs:
+  check:
+    name: Check gradle config
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Expose version name
+        uses: michpohl/android-expose-version-name-action@v1.0.0
+        with:
+          expose-version-name: 'true'
+          expose-version-code: 'false'
+          
+      - run: 'echo "$VERSION_NAME" > VERSION'
+        shell: bash
+        env:
+          VERSION_NAME: ${{ANDROID_VERSION_NAME}}
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Android version name
+          path: VERSION
   build:
     name: Build app bundle
     runs-on: ubuntu-latest
@@ -26,9 +48,17 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
         
-      - name: Build with Gradle
+      - name: Build APK
+        run: ./gradlew buildRelease
+        
+      - name: Build bundle
         run: ./gradlew bundleRelease
         
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Unsigned APK
+          path: /home/runner/work/EffnerApp/EffnerApp/app/build/outputs/apk/release/app-release.apk
+          
       - uses: actions/upload-artifact@v2
         with:
           name: Unsigned app bundle
@@ -44,11 +74,22 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
+          name: Android version name
+          
+      - name: Read VERSION file
+        id: getversion
+        run: echo "::set-output name=version::$(cat VERSION)"
+          
+      - uses: actions/download-artifact@v2
+        with:
+          name: Unsigned APK
+          
+      - uses: actions/download-artifact@v2
+        with:
           name: Unsigned app bundle
     
       - uses: r0adkll/sign-android-release@v1
         name: Sign app APK
-        # ID used to access action output
         id: sign_app
         with:
           releaseDirectory: /home/runner/work/EffnerApp/EffnerApp
@@ -68,8 +109,10 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          automatic_release_tag: 'latest'
-          files: ${{steps.sign_app.outputs.signedReleaseFile}}
+          automatic_release_tag: ${{ steps.getversion.outputs.version }}
+          files: |
+            app-release.apk
+            ${{steps.sign_app.outputs.signedReleaseFile}}
            
   upload:
     name: Upload & release app on Google Play
