@@ -87,12 +87,13 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: Unsigned app bundle
+          path: bundle/
     
       - uses: r0adkll/sign-android-release@v1
-        name: Sign app APK
+        name: Sign app bundle
         id: sign_app
         with:
-          releaseDirectory: /home/runner/work/EffnerApp/EffnerApp
+          releaseDirectory: /home/runner/work/EffnerApp/EffnerApp/bundle
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
