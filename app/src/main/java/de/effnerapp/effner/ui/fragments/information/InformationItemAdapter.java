@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.model.Content;
+import de.effnerapp.effner.data.api.json.data.Content;
 import de.effnerapp.effner.tools.view.IntentHelper;
 import de.effnerapp.effner.ui.activities.main.MainActivity;
 

@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.effnerapp.effner.data.mvv.json.FindStopResponse;
 import de.effnerapp.effner.data.mvv.MvvClient;
+import de.effnerapp.effner.data.mvv.json.FindStopResponse;
 import de.effnerapp.effner.data.mvv.json.StopItem;
 
 public class AutoCompleteAdapter extends ArrayAdapter<StopItem> implements Filterable {

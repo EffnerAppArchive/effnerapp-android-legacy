@@ -7,22 +7,21 @@ import android.content.SharedPreferences;
 
 import androidx.preference.PreferenceManager;
 
-
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.json.Auth;
-import de.effnerapp.effner.json.AuthResponse;
+import de.effnerapp.effner.data.api.json.auth.ApiCredentials;
+import de.effnerapp.effner.data.api.json.auth.AuthResponse;
 import de.effnerapp.effner.services.Authenticator;
-import de.effnerapp.effner.tools.HashGenerator;
-import de.effnerapp.effner.tools.model.AuthError;
+import de.effnerapp.effner.tools.misc.HashGenerator;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -30,9 +29,8 @@ import okhttp3.Response;
 public class RegistrationManager {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final Context context;
-    private Auth auth;
-    private boolean ok;
-    private AuthError error;
+    private ApiCredentials credentials;
+    private String error;
 
     public RegistrationManager(Context context) {
         this.context = context;
@@ -53,20 +51,29 @@ public class RegistrationManager {
                 .url(createUrl(id, password, sClass))
                 .build();
 
+        boolean ok;
         try {
             Response response = client.newCall(request).execute();
             String res = Objects.requireNonNull(response.body()).string();
-            AuthResponse authResponse = gson.fromJson(res, AuthResponse.class);
 
-            if (authResponse.getStatus().getStatus() == 200) {
-                auth = authResponse.getAuth();
-                ok = auth.getToken() != null;
-            } else {
-                error = new AuthError(true, authResponse.getStatus().getMsg());
+            try {
+                AuthResponse authResponse = gson.fromJson(res, AuthResponse.class);
+                if (authResponse.getStatus().getStatus() == 200) {
+                    credentials = authResponse.getCredentials();
+                    ok = credentials.getToken() != null;
+                } else {
+                    error = authResponse.getStatus().getMsg();
+                    ok = false;
+                }
+            } catch (IllegalStateException | JsonSyntaxException e) {
+                e.printStackTrace();
                 ok = false;
+                error = response.code() + " " + response.message();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
+            ok = false;
         }
 
         if (ok) {
@@ -99,7 +106,7 @@ public class RegistrationManager {
         editor.putBoolean("APP_REGISTERED", true);
         editor.putString("APP_DSB_LOGIN_ID", id);
         editor.putString("APP_DSB_LOGIN_PASSWORD", password);
-        editor.putString("APP_USER_CLASS", auth.getsClass());
+        editor.putString("APP_USER_CLASS", credentials.getsClass());
         editor.apply();
 
         //enable general notifications
@@ -110,13 +117,14 @@ public class RegistrationManager {
         }
 
         Account account = new Account(Authenticator.ACCOUNT_NAME, Authenticator.ACCOUNT_TYPE);
-        accountManager.addAccountExplicitly(account, auth.getToken(), null);
+        accountManager.addAccountExplicitly(account, credentials.getToken(), null);
     }
 
-    public AuthError getError() {
-        if (error == null) {
-            error = new AuthError(false, null);
-        }
+    public boolean isError() {
+        return error != null;
+    }
+
+    public String getError() {
         return error;
     }
 }

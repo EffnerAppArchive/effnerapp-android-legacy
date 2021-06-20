@@ -20,8 +20,8 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.mvv.json.Departure;
-import de.effnerapp.effner.data.utils.ApiClient;
 
 public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Departure> departures;
@@ -67,7 +67,6 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else {
                 iHolder.time.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
             }
-//            iHolder.time.setText(departureLive);
 
             if (departure.getLine().getNumber().startsWith("S")) {
                 iHolder.line.setBackgroundTintList(ColorStateList.valueOf(activity.getResources().getColor(R.color.mvv_badge_train)));
@@ -82,8 +81,6 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             String[] t = departure.getDirection().split(" ");
             String dT = t.length >= 2 ? t[0] + " " + t[1] : t[0];
             iHolder.destination.setText(dT);
-            // end
-
 
             try {
                 Date departureTime = sourceFormat.parse(departureDate + " " + departureLive);
@@ -91,7 +88,7 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 assert departureTime != null;
                 long diff = departureTime.getTime() - System.currentTimeMillis();
 
-                iHolder.time.setText(convertTime(diff));
+                iHolder.time.setText(getDepartureTime(diff));
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -99,13 +96,6 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    // TODO: clean (extract maybe)
-    private String convertTime(long millis) {
-        long hours = Math.max(0, TimeUnit.MILLISECONDS.toHours(millis));
-        long minutes = Math.max(0, TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(hours));
-
-        return hours == 0 && minutes == 0 ? "jetzt" : "in " + String.format(Locale.GERMAN, "%02d:%02d", hours, minutes);
-    }
 
     @Override
     public int getItemCount() {
@@ -122,6 +112,14 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             return 1;
         }
+    }
+
+
+    private String getDepartureTime(long millis) {
+        long hours = Math.max(0, TimeUnit.MILLISECONDS.toHours(millis));
+        long minutes = Math.max(0, TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(hours));
+
+        return hours == 0 && minutes == 0 ? "jetzt" : "in " + String.format(Locale.GERMAN, "%02d:%02d", hours, minutes);
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {

@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,10 +37,9 @@ import java.util.List;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.utils.ClassesCallback;
 import de.effnerapp.effner.services.Authenticator;
-import de.effnerapp.effner.tools.ClassUtils;
 import de.effnerapp.effner.tools.auth.ServerAuthenticator;
+import de.effnerapp.effner.tools.misc.ClassUtils;
 import de.effnerapp.effner.ui.activities.intro.IntroActivity;
 import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 import okhttp3.Call;
@@ -50,6 +50,8 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final OkHttpClient client = new OkHttpClient();
+
     private ProgressDialog dialog;
 
     @Override
@@ -78,18 +80,30 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        getClasses(new ClassesCallback() {
+        String url = getString(R.string.uri_api_get_classes);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onSuccess(List<String> classes) {
-                List<String> items = new ArrayList<>(classes);
-                items.addAll(Arrays.asList("11", "12"));
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(LoginActivity.this, android.R.layout.simple_list_item_1, items);
-                runOnUiThread(() -> classSelector.setAdapter(adapter));
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String res = Objects.requireNonNull(response.body()).string();
+
+                try {
+                    List<String> items = new ArrayList<>(Arrays.asList(gson.fromJson(res, String[].class)));
+                    items.addAll(Arrays.asList("11", "12"));
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(LoginActivity.this, android.R.layout.simple_list_item_1, items);
+                    runOnUiThread(() -> classSelector.setAdapter(adapter));
+                } catch (IllegalStateException | JsonSyntaxException e) {
+                    Snackbar.make(findViewById(R.id.container), R.string.s_err_load_classes, BaseTransientBottomBar.LENGTH_INDEFINITE).setAction(R.string.button_retry, v -> recreate()).show();
+                }
             }
 
             @Override
-            public void onFailure() {
-                Snackbar.make(findViewById(R.id.container), R.string.s_err_load_classes, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_retry, v -> recreate()).show();
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Snackbar.make(findViewById(R.id.container), R.string.s_err_load_classes, BaseTransientBottomBar.LENGTH_INDEFINITE).setAction(R.string.button_retry, v -> recreate()).show();
             }
         });
 
@@ -155,29 +169,6 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         });
 
-    }
-
-    private void getClasses(ClassesCallback callback) {
-        OkHttpClient client = new OkHttpClient();
-
-        String url = getString(R.string.uri_api_get_classes);
-
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String res = Objects.requireNonNull(response.body()).string();
-                callback.onSuccess(Arrays.asList(gson.fromJson(res, String[].class)));
-            }
-
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callback.onFailure();
-            }
-        });
     }
 
     private boolean validateInput(String id, String password, Object sClass, String course) {

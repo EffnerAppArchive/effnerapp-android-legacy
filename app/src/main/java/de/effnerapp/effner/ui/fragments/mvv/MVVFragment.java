@@ -25,8 +25,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.mvv.json.Departure;
 import de.effnerapp.effner.data.mvv.MvvClient;
+import de.effnerapp.effner.data.mvv.json.Departure;
 import de.effnerapp.effner.data.mvv.json.StopItem;
 
 /**
@@ -111,8 +111,8 @@ public class MVVFragment extends Fragment {
     }
 
     private void fetchDepartures(String stopId) {
-        mvvClient.loadDepartures(stopId, (isSuccess, data) -> {
-            if (isSuccess && isVisible()) {
+        mvvClient.loadDepartures(stopId, data -> {
+            if (isVisible()) {
                 departures.clear();
                 departures.addAll(Arrays.asList(data.getDepartures()));
                 requireActivity().runOnUiThread(() -> departureItemAdapter.notifyDataSetChanged());

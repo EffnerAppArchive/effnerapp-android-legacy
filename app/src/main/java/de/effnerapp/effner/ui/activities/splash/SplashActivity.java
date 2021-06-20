@@ -9,10 +9,12 @@ import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.data.api.json.data.DataResponse;
 import de.effnerapp.effner.data.dsbmobile.DSBClient;
-import de.effnerapp.effner.data.utils.ApiClient;
 import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.error.ErrorUtils;
+import de.effnerapp.effner.tools.misc.Promise;
 import de.effnerapp.effner.ui.activities.intro.IntroActivity;
 import de.effnerapp.effner.ui.activities.login.LoginActivity;
 import de.effnerapp.effner.ui.activities.main.MainActivity;
@@ -57,27 +59,31 @@ public class SplashActivity extends AppCompatActivity {
 
         ApiClient api = new ApiClient(this, token);
 
-        api.loadData((isSuccess, data) -> {
-            if (isSuccess && data.getStatus().isLogin()) {
+        api.loadData(new Promise<DataResponse, String>() {
+            @Override
+            public void accept(DataResponse data) {
                 // load substitutions
                 DSBClient dsbClient = new DSBClient(sharedPreferences.getString("APP_DSB_LOGIN_ID", ""), sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", ""));
                 new Thread(() -> dsbClient.load(() -> {
                     if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
                         runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
                     }
+
+                    return null;
                 })).start();
 
                 // start MainActivity and close current activity
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
-            } else {
-                if (!isSuccess) {
-                    new ErrorUtils(this).showError("Could not connect to server.", true, true);
-                } else if (data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
-                    startActivity(new Intent(this, LoginActivity.class));
+            }
+
+            @Override
+            public void reject(String s) {
+                if (s.equals("AUTHENTICATION_FAILED")) {
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
                 } else {
-                    new ErrorUtils(this).showError(data.getStatus().getMsg(), true, true);
+                    ErrorUtils.with(SplashActivity.this).showError(s, true, true);
                 }
             }
         });

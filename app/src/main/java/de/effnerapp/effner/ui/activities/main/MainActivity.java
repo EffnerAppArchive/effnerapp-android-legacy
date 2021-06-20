@@ -25,8 +25,10 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.data.api.json.data.DataResponse;
 import de.effnerapp.effner.data.dsbmobile.DSBClient;
-import de.effnerapp.effner.data.utils.ApiClient;
+import de.effnerapp.effner.tools.misc.Promise;
 import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 import de.effnerapp.effner.ui.fragments.substitutions.SubstitutionsFragment;
 
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if(Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.navigation_home) {
+                if (Objects.requireNonNull(navController.getCurrentDestination()).getId() == R.id.navigation_home) {
                     moveTaskToBack(true);
                 } else {
                     navController.navigate(R.id.navigation_home);
@@ -103,15 +105,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void reloadData() {
-        ApiClient.getInstance().loadData((isSuccess, data) -> {
-            if (!isSuccess || !data.getStatus().isLogin()) {
-                if (!isSuccess) {
-                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), R.string.s_err_server_connection, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_retry, v -> reloadData()).show());
-                } else if (data.getStatus().getMsg().equals("AUTHENTICATION_FAILED")) {
-                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), R.string.s_err_server_authentication, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_retry, v -> reloadData()).show());
-                } else {
-                    startActivity(new Intent(this, SplashActivity.class));
+        ApiClient.getInstance().loadData(new Promise<DataResponse, String>() {
+            @Override
+            public void accept(DataResponse data) {
+            }
+
+            @Override
+            public void reject(String s) {
+                if (s.equals("AUTHENTICATION_FAILED")) {
+                    startActivity(new Intent(MainActivity.this, SplashActivity.class));
                     finish();
+                } else {
+                    runOnUiThread(() -> Snackbar.make(findViewById(R.id.root), R.string.s_err_reload_data, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_retry, v -> reloadData()).show());
                 }
             }
         });
@@ -121,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
             if (SubstitutionsFragment.getInstance() != null && SubstitutionsFragment.getInstance().isVisible()) {
                 runOnUiThread(() -> SubstitutionsFragment.getInstance().onDataLoadFinished());
             }
+            return null;
         })).start();
     }
 

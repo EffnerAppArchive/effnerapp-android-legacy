@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Locale;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.model.Schooltest;
-import de.effnerapp.effner.data.utils.ApiClient;
+import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.data.api.json.data.Schooltest;
 
 public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Schooltest> schooltests;

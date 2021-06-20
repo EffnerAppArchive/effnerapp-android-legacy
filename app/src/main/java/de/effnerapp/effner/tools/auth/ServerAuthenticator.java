@@ -1,7 +1,6 @@
 package de.effnerapp.effner.tools.auth;
 
 import android.app.Activity;
-import android.widget.Toast;
 
 import de.effnerapp.effner.tools.error.ErrorUtils;
 
@@ -13,20 +12,20 @@ public class ServerAuthenticator {
     }
 
     public boolean register(String id, String password, String sClass) {
-        ErrorUtils errorUtils = new ErrorUtils(activity);
+        ErrorUtils errorUtils = ErrorUtils.with(activity);
 
         RegistrationManager registrationManager = new RegistrationManager(activity);
 
         boolean result = registrationManager.register(id, password, sClass);
 
-        if (!registrationManager.getError().isError()) {
+        if (!registrationManager.isError()) {
             return result;
         } else {
-            if (registrationManager.getError().getMsg().equals("AUTHENTICATION_FAILED")) {
-                activity.runOnUiThread(() -> Toast.makeText(activity, "Anmeldung fehlgeschlagen", Toast.LENGTH_SHORT).show());
+            System.out.println(registrationManager.getError());
+            if (registrationManager.getError().equals("AUTHENTICATION_FAILED")) {
                 return false;
             }
-            errorUtils.showError(registrationManager.getError().getMsg(), false, true);
+            errorUtils.showError(registrationManager.getError(), false, true);
             return false;
         }
     }

@@ -4,16 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
@@ -28,10 +27,10 @@ import java.util.Locale;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.utils.ApiClient;
-import de.effnerapp.effner.ui.models.timetableview.Schedule;
-import de.effnerapp.effner.ui.models.timetableview.Time;
-import de.effnerapp.effner.ui.models.timetableview.TimetableView;
+import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.ui.views.timetableview.Schedule;
+import de.effnerapp.effner.ui.views.timetableview.Time;
+import de.effnerapp.effner.ui.views.timetableview.TimetableView;
 
 /**
  * A simple {@link Fragment} subclass.

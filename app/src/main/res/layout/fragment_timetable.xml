@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.timetable.TimetableFragment">
 
-    <de.effnerapp.effner.ui.models.timetableview.TimetableView
+    <de.effnerapp.effner.ui.views.timetableview.TimetableView
         android:id="@+id/timetable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +17,7 @@
         app:row_count="11"
         app:start_time="1" >
 
-    </de.effnerapp.effner.ui.models.timetableview.TimetableView>
+    </de.effnerapp.effner.ui.views.timetableview.TimetableView>
 
     <RelativeLayout
         android:layout_width="match_parent"
