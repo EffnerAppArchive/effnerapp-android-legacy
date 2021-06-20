@@ -26,7 +26,7 @@ jobs:
       - run: 'echo "$VERSION_NAME" > VERSION'
         shell: bash
         env:
-          VERSION_NAME: ${{ANDROID_VERSION_NAME}}
+          VERSION_NAME: ${{env.ANDROID_VERSION_NAME}}
           
       - uses: actions/upload-artifact@v2
         with:
@@ -49,7 +49,7 @@ jobs:
         run: chmod +x gradlew
         
       - name: Build APK
-        run: ./gradlew buildRelease
+        run: ./gradlew build
         
       - name: Build bundle
         run: ./gradlew bundleRelease
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Unsigned APK
-          path: /home/runner/work/EffnerApp/EffnerApp/app/build/outputs/apk/release/app-release.apk
+          path: /home/runner/work/EffnerApp/EffnerApp/app/build/outputs/apk/release/app-release-unsigned.apk
           
       - uses: actions/upload-artifact@v2
         with:
@@ -67,7 +67,7 @@ jobs:
   sign:
     name: Sign app bundle
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [check, build]
     
     steps:
       - uses: actions/checkout@v2
@@ -87,12 +87,13 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: Unsigned app bundle
+          path: bundle/
     
       - uses: r0adkll/sign-android-release@v1
-        name: Sign app APK
+        name: Sign app bundle
         id: sign_app
         with:
-          releaseDirectory: /home/runner/work/EffnerApp/EffnerApp
+          releaseDirectory: /home/runner/work/EffnerApp/EffnerApp/bundle
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -111,7 +112,7 @@ jobs:
           prerelease: false
           automatic_release_tag: ${{ steps.getversion.outputs.version }}
           files: |
-            app-release.apk
+            app-release-unsigned.apk
             ${{steps.sign_app.outputs.signedReleaseFile}}
            
   upload:
