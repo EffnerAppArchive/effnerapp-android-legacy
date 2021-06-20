@@ -49,7 +49,7 @@ jobs:
         run: chmod +x gradlew
         
       - name: Build APK
-        run: ./gradlew buildRelease
+        run: ./gradlew build
         
       - name: Build bundle
         run: ./gradlew bundleRelease
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: Unsigned APK
-          path: /home/runner/work/EffnerApp/EffnerApp/app/build/outputs/apk/debug/app-debug.apk
+          path: /home/runner/work/EffnerApp/EffnerApp/app/build/outputs/apk/release/app-release-unsigned.apk
           
       - uses: actions/upload-artifact@v2
         with:
@@ -111,7 +111,7 @@ jobs:
           prerelease: false
           automatic_release_tag: ${{ steps.getversion.outputs.version }}
           files: |
-            app-release.apk
+            app-release-unsigned.apk
             ${{steps.sign_app.outputs.signedReleaseFile}}
            
   upload:
