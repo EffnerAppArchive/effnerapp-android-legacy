@@ -23,7 +23,7 @@
     <string name="preference_category_about_title">Über EffnerApp</string>
     <string name="preference_category_notifications_title">Benachrichtigungen</string>
     <string name="preference_notifications_title">Benachrichtigungen</string>
-    <string name="preference_notifications_description">Erhalte Nachrichten über neue Vertretungen</string>
+    <string name="preference_notifications_description">Erhalte Push-Notifications über Vertretungen.</string>
     <string name="preference_feedback_title">Feedback</string>
     <string name="preference_feedback_description">Was findest du gut und was sollen wir besser machen?</string>
     <string name="preference_build_title">App-Version</string>
