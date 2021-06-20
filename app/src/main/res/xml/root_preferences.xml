@@ -42,13 +42,11 @@
         <Preference
             app:key="privacyPolicy"
             app:title="@string/preference_privacy_policy_title"
-            app:summary="@string/preference_privacy_policy_description"
             app:icon="@drawable/ic_baseline_policy_24" />
 
         <Preference
             app:key="imprint"
             app:title="@string/preference_imprint_title"
-            app:summary="@string/preference_imprint_description"
             app:icon="@drawable/ic_baseline_book_24" />
 
         <Preference
