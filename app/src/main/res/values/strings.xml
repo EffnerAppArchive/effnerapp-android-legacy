@@ -12,7 +12,7 @@
     <string name="intro_slide3_title">Los geht\'s</string>
     <string name="intro_slide3_description">Viel Spaß mit der EffnerApp!</string>
 
-    <!-- Preference screen -->
+    <!-- preference screen -->
 
     <string name="preference_design_dark_description_on">Das dunkle Design ist aktiviert.</string>
     <string name="preference_design_dark_description_off">Das helle Design ist aktiviert.</string>
@@ -28,17 +28,15 @@
     <string name="preference_feedback_description">Was findest du gut und was sollen wir besser machen?</string>
     <string name="preference_build_title">App-Version</string>
     <string name="preference_build_description">Version: ?, Build: ?</string>
-    <string name="preference_privacy_policy_title">Datenschutz-Bestimmungen</string>
-    <string name="preference_privacy_policy_description">Klicke, um mehr zu erfahren.</string>
+    <string name="preference_privacy_policy_title">Datenschutzerklärung</string>
     <string name="preference_imprint_title">Impressum</string>
-    <string name="preference_imprint_description">Klicke, um mehr zu erfahren.</string>
     <string name="preference_about_title">Über die App</string>
     <string name="preference_class_title">Deine Klasse</string>
     <string name="preference_class_description"><![CDATA[<?>]]></string>
     <string name="preference_logout_title">Abmelden</string>
     <string name="preference_logout_description">Melde dich ab.</string>
 
-    <!-- input fields hints -->
+    <!-- input fields -->
 
     <string name="input_id_hint">ID</string>
     <string name="input_password_hint">Passwort</string>
@@ -58,7 +56,7 @@
     <string name="title_information">Informationen</string>
     <string name="title_mvv">MVV</string>
 
-    <!-- Snackbars -->
+    <!-- snackbars -->
 
     <string name="s_login_help">Die Anmeldedaten sind die selben, die du auch für die "DSBmobile"-App benötigst.</string>
 
@@ -71,7 +69,7 @@
     <string name="s_prompt_enter_credentials">Bitte gebe die Login-Daten ein.</string>
     <string name="s_prompt_login">Bitte melde dich an.</string>
 
-    <!-- Dialogs -->
+    <!-- dialogs -->
 
     <string name="d_account_exists_title">Ein Account existiert bereits</string>
     <string name="d_account_exists_message">Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl.\nDu kannst es entweder erneut versuchen oder dich neu anmelden.</string>
@@ -103,7 +101,7 @@
 
     <string name="d_news_attached_documents">Angehängte Dokuemente</string>
 
-    <!-- Toasts -->
+    <!-- toasts -->
 
     <string name="t_document_unavailable">Dieses Dokument ist nicht verfügbar</string>
 
