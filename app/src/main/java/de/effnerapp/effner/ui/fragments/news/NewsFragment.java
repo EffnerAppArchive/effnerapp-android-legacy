@@ -19,8 +19,8 @@ import java.util.Locale;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.utils.ApiClient;
-import de.effnerapp.effner.data.utils.NewsParser;
+import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.tools.parse.NewsParser;
 import de.effnerapp.effner.ui.fragments.news.sections.Head;
 import de.effnerapp.effner.ui.fragments.news.sections.Item;
 import de.effnerapp.effner.ui.fragments.news.sections.ItemAdapter;
@@ -47,7 +47,9 @@ public class NewsFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+
         List<NewsItem> news = new NewsParser().parse(ApiClient.getInstance().getData().getNews());
+
         int i = 0;
         for(NewsItem newsItem : news) {
             String date = parseDate(newsItem.getDate());
@@ -66,6 +68,7 @@ public class NewsFragment extends Fragment {
             heads.add(new Head(title, Collections.singletonList(item), newsItem.getUrls(), Color.BLACK));
             i++;
         }
+
         ItemAdapter adapter = new ItemAdapter(heads);
         recyclerView.setAdapter(adapter);
         return view;

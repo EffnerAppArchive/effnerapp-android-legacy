@@ -50,9 +50,10 @@
 
         android:layout_marginStart="8dp"
         android:hint="@string/input_course_hint"
+        android:imeOptions="actionDone"
         android:importantForAutofill="no"
         android:inputType="number"
-        android:imeOptions="actionDone"
+        android:maxLength="1"
         android:selectAllOnFocus="true"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/input_class"

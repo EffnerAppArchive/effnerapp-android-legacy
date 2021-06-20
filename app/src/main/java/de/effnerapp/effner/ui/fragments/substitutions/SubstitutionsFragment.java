@@ -33,7 +33,7 @@ import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
 import de.effnerapp.effner.data.dsbmobile.model.Day;
 import de.effnerapp.effner.data.dsbmobile.model.SClass;
 import de.effnerapp.effner.data.dsbmobile.model.Substitution;
-import de.effnerapp.effner.tools.ClassUtils;
+import de.effnerapp.effner.tools.misc.ClassUtils;
 import de.effnerapp.effner.tools.view.IntentHelper;
 import de.effnerapp.effner.ui.fragments.substitutions.sections.Badge;
 import de.effnerapp.effner.ui.fragments.substitutions.sections.Head;

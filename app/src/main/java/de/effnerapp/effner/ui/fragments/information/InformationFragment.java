@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.model.Content;
-import de.effnerapp.effner.data.utils.ApiClient;
+import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.data.api.json.data.Content;
 
 /**
  * A simple {@link Fragment} subclass.

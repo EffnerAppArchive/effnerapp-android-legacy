@@ -24,10 +24,10 @@ import java.util.Collections;
 import java.util.List;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.model.Content;
-import de.effnerapp.effner.data.model.Schooltest;
-import de.effnerapp.effner.data.utils.ApiClient;
-import de.effnerapp.effner.tools.ClassUtils;
+import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.data.api.json.data.Content;
+import de.effnerapp.effner.data.api.json.data.Schooltest;
+import de.effnerapp.effner.tools.misc.ClassUtils;
 import de.effnerapp.effner.tools.view.IntentHelper;
 
 public class SchooltestsFragment extends Fragment {

@@ -78,8 +78,8 @@
         app:isPreferenceVisible="false">
 
         <Preference
-            app:key="dev_auth_token"
-            app:title="Authentication token"
+            app:key="dev_api_token"
+            app:title="API token"
             app:summary="@string/placeholder_default"
             app:icon="@drawable/ic_baseline_developer_mode_24" />
 

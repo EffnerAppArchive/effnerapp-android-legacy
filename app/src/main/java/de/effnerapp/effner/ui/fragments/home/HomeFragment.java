@@ -21,10 +21,10 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.model.DataResponse;
-import de.effnerapp.effner.data.utils.ApiClient;
-import de.effnerapp.effner.data.utils.HeaderTextParser;
-import de.effnerapp.effner.tools.ClassUtils;
+import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.data.api.json.data.DataResponse;
+import de.effnerapp.effner.tools.misc.ClassUtils;
+import de.effnerapp.effner.tools.parse.HeaderTextParser;
 import de.effnerapp.effner.tools.view.IntentHelper;
 
 public class HomeFragment extends Fragment {

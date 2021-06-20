@@ -56,7 +56,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Preference logoutPreference = findPreference("logout");
 
         PreferenceCategory devToolsCategory = findPreference("dev_tools_cat");
-        Preference devAuthToken = findPreference("dev_auth_token");
+        Preference devApiToken = findPreference("dev_api_token");
         Preference devFirebaseToken = findPreference("dev_firebase_token");
 
         assert devToolsCategory != null;
@@ -163,17 +163,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             return true;
         });
 
-        assert devAuthToken != null;
+        assert devApiToken != null;
         assert devFirebaseToken != null;
 
         String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
-        devAuthToken.setSummary(token);
+        devApiToken.setSummary(token);
         devFirebaseToken.setSummary(sharedPreferences.getString("APP_FIREBASE_TOKEN", "Not available"));
 
         ClipboardManager clipboard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
 
-        devAuthToken.setOnPreferenceClickListener(preference -> {
+        devApiToken.setOnPreferenceClickListener(preference -> {
             ClipData clip = ClipData.newPlainText("effnerapp auth token", preference.getSummary());
             clipboard.setPrimaryClip(clip);
             Toast.makeText(context, "Copied to clipboard.", Toast.LENGTH_SHORT).show();

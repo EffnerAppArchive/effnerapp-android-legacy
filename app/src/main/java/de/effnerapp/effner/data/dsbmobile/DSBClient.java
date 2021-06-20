@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
 import de.effnerapp.effner.data.dsbmobile.model.Day;
@@ -36,7 +37,7 @@ public class DSBClient {
     }
 
 
-    public void load(ResultCallback resultCallback) {
+    public void load(Callable<Void> callback) {
         List<DSBMobile.TimeTable> timeTables = null;
         try {
             timeTables = dsbMobile.getTimeTables();
@@ -139,7 +140,12 @@ public class DSBClient {
                 }
             }
         }
-        resultCallback.onFinish();
+
+        try {
+            callback.call();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private List<Document> splitDocument(Document document) {

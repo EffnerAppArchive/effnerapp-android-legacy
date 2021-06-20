@@ -8,8 +8,12 @@ import de.effnerapp.effner.R;
 public class ErrorUtils {
     private final Activity activity;
 
-    public ErrorUtils(Activity activity) {
+    private ErrorUtils(Activity activity) {
         this.activity = activity;
+    }
+
+    public static ErrorUtils with(Activity activity) {
+        return new ErrorUtils(activity);
     }
 
     public void showError(String errorMessage, boolean recreateOnRetry, boolean showNegativeButton) {

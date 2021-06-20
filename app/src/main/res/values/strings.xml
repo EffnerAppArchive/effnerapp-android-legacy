@@ -63,6 +63,7 @@
     <string name="s_login_help">Die Anmeldedaten sind die selben, die du auch für die "DSBmobile"-App benötigst.</string>
 
     <string name="s_err_load_classes">"Fehler beim Laden der Klassen.</string>
+    <string name="s_err_reload_data">Aktualisieren der Daten fehlgeschlagen.</string>
 
     <string name="s_err_server_connection">Verbindung mit dem Server fehlgeschlagen.</string>
     <string name="s_err_server_authentication">Authentifizierung mit dem Server fehlgeschlagen.</string>

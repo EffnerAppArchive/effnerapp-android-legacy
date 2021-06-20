@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.Objects;
 
-import de.effnerapp.effner.data.mvv.callbacks.MvvCallback;
 import de.effnerapp.effner.data.mvv.json.FindStopResponse;
 import de.effnerapp.effner.data.mvv.json.MvvResponse;
+import de.effnerapp.effner.tools.misc.Consumer;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -20,7 +20,7 @@ import okhttp3.Response;
 public class MvvClient {
     private final Gson gson = new Gson();
 
-    public void loadDepartures(String stopId, MvvCallback callback) {
+    public void loadDepartures(String stopId, Consumer<MvvResponse> consumer) {
         long time = System.currentTimeMillis() / 1000;
 
         String url = "https://www.mvv-muenchen.de/" +
@@ -41,17 +41,16 @@ public class MvvClient {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 e.printStackTrace();
-                callback.onFinish(false, null);
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String res = Objects.requireNonNull(response.body()).string();
                 try {
-                    MvvResponse mvvResponse = gson.fromJson(res, MvvResponse.class);
-                    callback.onFinish(true, mvvResponse);
+                    MvvResponse data = gson.fromJson(res, MvvResponse.class);
+                    consumer.accept(data);
                 } catch (JsonSyntaxException e) {
-                    callback.onFinish(false, null);
+                    // TODO: handle
                 }
             }
         });
