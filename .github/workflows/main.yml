@@ -4,7 +4,7 @@ name: Application CI/CD
 on:
   workflow_dispatch:
   push:
-    branches: [ release ]
+    branches: [ master ]
     paths: 
       - 'app/build.gradle'
 
