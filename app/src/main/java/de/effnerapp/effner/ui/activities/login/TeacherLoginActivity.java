@@ -1,3 +1,9 @@
+/*
+ * Developed by Sebastian Müller and Luis Bros.
+ * Last updated: 12.06.21, 23:46.
+ * Copyright (c) 2021 EffnerApp.
+ */
+
 package de.effnerapp.effner.ui.activities.login;
 
 import android.content.Intent;

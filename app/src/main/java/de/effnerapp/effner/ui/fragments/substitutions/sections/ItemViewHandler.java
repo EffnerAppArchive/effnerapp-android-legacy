@@ -1,3 +1,9 @@
+/*
+ * Developed by Sebastian Müller and Luis Bros.
+ * Last updated: 20.05.21, 18:07.
+ * Copyright (c) 2021 EffnerApp.
+ */
+
 package de.effnerapp.effner.ui.fragments.substitutions.sections;
 
 import android.view.View;

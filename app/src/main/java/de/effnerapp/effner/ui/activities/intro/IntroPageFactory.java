@@ -1,7 +1,7 @@
 /*
- *  Created by SpyderScript on 10.10.2020, 22:33.
- *  Project: Effner.
- *  Copyright (c) 2020.
+ * Developed by Sebastian Müller and Luis Bros.
+ * Last updated: 22.06.21, 19:43.
+ * Copyright (c) 2021 EffnerApp.
  */
 
 package de.effnerapp.effner.ui.activities.intro;

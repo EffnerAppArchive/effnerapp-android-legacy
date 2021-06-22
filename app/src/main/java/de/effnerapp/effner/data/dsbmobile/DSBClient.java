@@ -1,3 +1,9 @@
+/*
+ * Developed by Sebastian Müller and Luis Bros.
+ * Last updated: 20.06.21, 17:45.
+ * Copyright (c) 2021 EffnerApp.
+ */
+
 package de.effnerapp.effner.data.dsbmobile;
 
 import org.jsoup.Jsoup;
