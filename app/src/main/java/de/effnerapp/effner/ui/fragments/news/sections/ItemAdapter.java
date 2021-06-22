@@ -1,3 +1,9 @@
+/*
+ * Developed by Sebastian Müller and Luis Bros.
+ * Last updated: 13.06.21, 13:21.
+ * Copyright (c) 2021 EffnerApp.
+ */
+
 package de.effnerapp.effner.ui.fragments.news.sections;
 
 import android.app.AlertDialog;
