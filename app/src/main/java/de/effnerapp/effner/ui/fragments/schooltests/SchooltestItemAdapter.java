@@ -6,6 +6,7 @@
 
 package de.effnerapp.effner.ui.fragments.schooltests;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,12 @@ import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.api.json.data.Schooltest;
 
 public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final Context context;
     private final List<Schooltest> schooltests;
     private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
-    SchooltestItemAdapter(List<Schooltest> schooltests) {
+    SchooltestItemAdapter(Context context, List<Schooltest> schooltests) {
+        this.context = context;
         this.schooltests = schooltests;
     }
 
@@ -66,10 +69,11 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             assert sDate != null;
             if (sDate.after(new Date())) {
                 iHolder.itemCard.getBackground().setAlpha(255);
-                iHolder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
+
+                iHolder.dateText.setTextColor(context.getResources().getColor(R.color.green));
             } else {
                 iHolder.itemCard.getBackground().setAlpha(100);
-                iHolder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
+                iHolder.dateText.setTextColor(context.getResources().getColor(R.color.red));
             }
             iHolder.dateText.setText(date);
             iHolder.itemText.setText(text);

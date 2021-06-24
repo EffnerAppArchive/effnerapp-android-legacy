@@ -69,9 +69,9 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             int dL = Integer.parseInt(departureLive.replace(":", ""));
 
             if (dP >= dL) {
-                iHolder.time.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
+                iHolder.time.setTextColor(activity.getResources().getColor(R.color.green));
             } else {
-                iHolder.time.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
+                iHolder.time.setTextColor(activity.getResources().getColor(R.color.red));
             }
 
             if (departure.getLine().getNumber().startsWith("S")) {

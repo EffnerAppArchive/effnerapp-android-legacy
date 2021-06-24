@@ -66,7 +66,7 @@ public class SchooltestsFragment extends Fragment {
             recyclerView.setLayoutManager(linearLayoutManager);
             List<Schooltest> schooltests = new ArrayList<>(Arrays.asList(ApiClient.getInstance().getData().getSchooltests()));
             Collections.reverse(schooltests);
-            adapter = new SchooltestItemAdapter(schooltests);
+            adapter = new SchooltestItemAdapter(requireContext(), schooltests);
             recyclerView.setAdapter(adapter);
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -76,9 +76,9 @@ public class SchooltestsFragment extends Fragment {
                     if (position == 1) {
                         List<Schooltest> list = new ArrayList<>(schooltests);
                         Collections.reverse(list);
-                        adapter = new SchooltestItemAdapter(list);
+                        adapter = new SchooltestItemAdapter(requireContext(), list);
                     } else {
-                        adapter = new SchooltestItemAdapter(schooltests);
+                        adapter = new SchooltestItemAdapter(requireContext(), schooltests);
                     }
                     recyclerView.setAdapter(adapter);
                 }
