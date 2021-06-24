@@ -67,7 +67,10 @@ public class HomeFragment extends Fragment {
         MaterialCardView mvvCard = view.findViewById(R.id.mvv_card);
 
         timetableCard.setOnClickListener(v -> navigateTo(R.id.navigation_timetable));
-        substitutionsCard.setOnClickListener(v -> navigateTo(R.id.navigation_substitutions));
+
+        // don't use navigateTo(id) here
+        substitutionsCard.setOnClickListener(v -> navController.navigate(R.id.navigation_substitutions));
+
         foodPlanCard.setOnClickListener(v -> IntentHelper.openView(requireContext(), ApiClient.getInstance().getData().getContentByKey("DATA_FOOD_PLAN").getValue()));
         newsCard.setOnClickListener(v -> navigateTo(R.id.navigation_news));
         informationCard.setOnClickListener(v -> navigateTo(R.id.navigation_information));
