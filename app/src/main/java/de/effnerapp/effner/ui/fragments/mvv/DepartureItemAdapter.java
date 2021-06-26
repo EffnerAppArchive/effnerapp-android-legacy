@@ -26,7 +26,6 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.mvv.json.Departure;
 
 public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

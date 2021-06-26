@@ -8,18 +8,22 @@ package de.effnerapp.effner.tools.misc;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class HashGenerator {
+public class HashTools {
     private final String algorithm;
     private final Charset charset;
 
-    public HashGenerator(String algorithm, Charset charset) {
+    public HashTools(String algorithm, Charset charset) {
         this.algorithm = algorithm;
         this.charset = charset;
     }
 
+    public static String sha512(String s) {
+        return new HashTools("SHA-512", StandardCharsets.UTF_8).generate(s);
+    }
 
     public String generate(String input) {
         return getHexString(getHashedBytes(input));

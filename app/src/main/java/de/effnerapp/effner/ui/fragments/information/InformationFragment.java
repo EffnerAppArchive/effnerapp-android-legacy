@@ -20,11 +20,10 @@ import java.util.List;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.api.ApiClient;
-import de.effnerapp.effner.data.api.json.data.Content;
+import de.effnerapp.effner.data.api.json.data.Document;
 
 /**
  * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
  */
 public class InformationFragment extends Fragment {
 
@@ -41,16 +40,16 @@ public class InformationFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        List<Content> items = new ArrayList<>();
+        List<Document> items = new ArrayList<>();
 
         if(ApiClient.getInstance() == null) {
             requireActivity().recreate();
             return view;
         }
 
-        for (Content content : ApiClient.getInstance().getData().getContent()) {
-            if (content.getName().startsWith("DATA_INFORMATION")) {
-                items.add(content);
+        for (Document document : ApiClient.getInstance().getData().getDocuments()) {
+            if (document.getKey().startsWith("DATA_INFORMATION")) {
+                items.add(document);
             }
         }
 

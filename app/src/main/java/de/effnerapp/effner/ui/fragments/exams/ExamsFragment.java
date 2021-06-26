@@ -4,7 +4,7 @@
  * Copyright (c) 2021 EffnerApp.
  */
 
-package de.effnerapp.effner.ui.fragments.schooltests;
+package de.effnerapp.effner.ui.fragments.exams;
 
 
 import android.content.SharedPreferences;
@@ -31,16 +31,16 @@ import java.util.List;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.api.ApiClient;
-import de.effnerapp.effner.data.api.json.data.Content;
-import de.effnerapp.effner.data.api.json.data.Schooltest;
+import de.effnerapp.effner.data.api.json.data.Document;
+import de.effnerapp.effner.data.api.json.data.Exam;
 import de.effnerapp.effner.tools.misc.ClassUtils;
 import de.effnerapp.effner.tools.view.IntentHelper;
 
-public class SchooltestsFragment extends Fragment {
+public class ExamsFragment extends Fragment {
     private RecyclerView recyclerView;
-    private SchooltestItemAdapter adapter;
+    private ExamItemAdapter adapter;
 
-    public SchooltestsFragment() {
+    public ExamsFragment() {
         // Required empty public constructor
     }
 
@@ -50,8 +50,8 @@ public class SchooltestsFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_schooltests, container, false);
-        recyclerView = view.findViewById(R.id.schooltests_recycler_view);
+        View view = inflater.inflate(R.layout.fragment_exams, container, false);
+        recyclerView = view.findViewById(R.id.exams_view);
         Spinner spinner = view.findViewById(R.id.spinner);
 
         String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
@@ -64,9 +64,9 @@ public class SchooltestsFragment extends Fragment {
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            List<Schooltest> schooltests = new ArrayList<>(Arrays.asList(ApiClient.getInstance().getData().getSchooltests()));
-            Collections.reverse(schooltests);
-            adapter = new SchooltestItemAdapter(requireContext(), schooltests);
+            List<Exam> exams = new ArrayList<>(Arrays.asList(ApiClient.getInstance().getData().getExams()));
+            Collections.reverse(exams);
+            adapter = new ExamItemAdapter(requireContext(), exams);
             recyclerView.setAdapter(adapter);
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -74,11 +74,11 @@ public class SchooltestsFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                     if (position == 1) {
-                        List<Schooltest> list = new ArrayList<>(schooltests);
+                        List<Exam> list = new ArrayList<>(exams);
                         Collections.reverse(list);
-                        adapter = new SchooltestItemAdapter(requireContext(), list);
+                        adapter = new ExamItemAdapter(requireContext(), list);
                     } else {
-                        adapter = new SchooltestItemAdapter(requireContext(), schooltests);
+                        adapter = new ExamItemAdapter(requireContext(), exams);
                     }
                     recyclerView.setAdapter(adapter);
                 }
@@ -90,7 +90,7 @@ public class SchooltestsFragment extends Fragment {
         } else {
             recyclerView.setVisibility(View.GONE);
             spinner.setVisibility(View.GONE);
-            GridLayout gridLayout = view.findViewById(R.id.schooltests_card_layout);
+            GridLayout gridLayout = view.findViewById(R.id.exams_card_layout);
             gridLayout.setVisibility(View.VISIBLE);
             View disclaimerInfo = view.findViewById(R.id.disclaimer_info);
             disclaimerInfo.setVisibility(View.VISIBLE);
@@ -100,18 +100,18 @@ public class SchooltestsFragment extends Fragment {
             String keyPrefix = "DATA_TOP_LEVEL_SA_DOC_" + ClassUtils.getFirstDigits(sClass) + "_";
 
             h1Card.setOnClickListener(v -> {
-                Content content = ApiClient.getInstance().getData().getContentByKey(keyPrefix + "1");
-                if (content != null) {
-                    IntentHelper.openView(requireContext(), content.getValue());
+                Document document = ApiClient.getInstance().getData().getDocumentByKey(keyPrefix + "1");
+                if (document != null) {
+                    IntentHelper.openView(requireContext(), document.getUri());
                 } else {
                     Toast.makeText(getContext(), R.string.t_document_unavailable, Toast.LENGTH_SHORT).show();
                 }
             });
 
             h2Card.setOnClickListener(v -> {
-                Content content = ApiClient.getInstance().getData().getContentByKey(keyPrefix + "2");
-                if (content != null) {
-                    IntentHelper.openView(requireContext(), content.getValue());
+                Document document = ApiClient.getInstance().getData().getDocumentByKey(keyPrefix + "2");
+                if (document != null) {
+                    IntentHelper.openView(requireContext(), document.getUri());
                 } else {
                     Toast.makeText(getContext(), R.string.t_document_unavailable, Toast.LENGTH_SHORT).show();
                 }

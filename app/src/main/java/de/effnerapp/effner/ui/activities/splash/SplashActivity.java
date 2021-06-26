@@ -6,7 +6,6 @@
 
 package de.effnerapp.effner.ui.activities.splash;
 
-import android.accounts.AccountManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.api.json.data.DataResponse;
 import de.effnerapp.effner.data.dsbmobile.DSBClient;
-import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.error.ErrorUtils;
 import de.effnerapp.effner.tools.misc.Promise;
 import de.effnerapp.effner.ui.activities.intro.IntroActivity;
@@ -35,7 +33,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        AccountManager accountManager = AccountManager.get(this);
         if (!sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false)) {
             // set APP_DESIGN_DARK preference based on system dark mode
             detectSystemTheme();
@@ -47,23 +44,15 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         if (sharedPreferences.getBoolean("APP_REGISTERED", false)) {
-            if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length > 0) {
-                String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
-                loadData(token);
-            } else {
-                sharedPreferences.edit().clear().apply();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-            }
+            loadData();
         } else {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
     }
 
-    private void loadData(String token) {
-
-        ApiClient api = new ApiClient(this, token);
+    private void loadData() {
+        ApiClient api = new ApiClient(this);
 
         api.loadData(new Promise<DataResponse, String>() {
             @Override
@@ -85,7 +74,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void reject(String s) {
-                if (s.equals("AUTHENTICATION_FAILED")) {
+                if (s.equals("Unauthorized")) {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
                 } else {

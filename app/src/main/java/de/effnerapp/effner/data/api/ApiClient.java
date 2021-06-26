@@ -7,11 +7,11 @@
 package de.effnerapp.effner.data.api;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
+
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
+import de.effnerapp.effner.data.api.json.ApiResponse;
 import de.effnerapp.effner.data.api.json.data.DataResponse;
+import de.effnerapp.effner.tools.misc.HashTools;
 import de.effnerapp.effner.tools.misc.Promise;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,38 +32,35 @@ import okhttp3.Response;
 
 public class ApiClient {
     private static ApiClient instance;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final String token;
-    private final String BASE_URL;
-    private PackageInfo info;
+    private final Gson gson = new Gson();
+    private final String url, id, password;
 
     private DataResponse data;
 
-    public ApiClient(Context context, String token) {
+    public ApiClient(Context context) {
         instance = this;
-        this.BASE_URL = context.getString(R.string.uri_api_get_data);
-        this.token = token;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        try {
-            info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        this.url = context.getString(R.string.uri_api_get_data) + "?class=" + sharedPreferences.getString("APP_USER_CLASS", "");
+        this.id = sharedPreferences.getString("APP_DSB_LOGIN_ID", "");
+        this.password = sharedPreferences.getString("APP_DSB_LOGIN_PASSWORD", "");
     }
 
     public void loadData(Promise<DataResponse, String> promise) {
-        String url = BASE_URL + "?token=" + token + "&app_version=" + info.versionName;
 
         OkHttpClient client = new OkHttpClient();
 
+        long now = System.currentTimeMillis();
+
         Request request = new Request.Builder()
                 .url(url)
+                .header("Authorization", "Basic " + HashTools.sha512(id + ":" + password + ":" + now))
+                .header("X-Time", String.valueOf(now))
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
                 promise.reject(e.getMessage());
             }
 
@@ -69,14 +68,14 @@ public class ApiClient {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String res = Objects.requireNonNull(response.body()).string();
                 try {
-                    data = gson.fromJson(res, DataResponse.class);
-                    if (data.getStatus().isLogin()) {
+                    ApiResponse apiResponse = gson.fromJson(res, ApiResponse.class);
+                    if (apiResponse.getStatus().isLogin()) {
+                        data = apiResponse.getData();
                         promise.accept(data);
                     } else {
-                        promise.reject(data.getStatus().getMsg());
+                        promise.reject(apiResponse.getStatus().getError());
                     }
                 } catch (JsonSyntaxException e) {
-                    e.printStackTrace();
                     promise.reject(response.code() + " " + response.message());
                 }
             }

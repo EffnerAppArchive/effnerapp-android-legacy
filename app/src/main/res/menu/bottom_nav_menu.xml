@@ -10,9 +10,9 @@
         android:icon="@drawable/ic_view_list_black_24dp"
         android:title="@string/title_substitutions" />
     <item
-        android:id="@+id/navigation_schooltests"
+        android:id="@+id/navigation_exams"
         android:icon="@drawable/ic_school_black_24dp"
-        android:title="@string/title_schooltests" />
+        android:title="@string/title_exams" />
 
     <item
         android:id="@+id/navigation_settings"

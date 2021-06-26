@@ -49,10 +49,9 @@
 
     <string name="title_home">Home</string>
     <string name="title_substitutions">Vertretungen</string>
-    <string name="title_schooltests">Schulaufgaben</string>
+    <string name="title_exams">Schulaufgaben</string>
     <string name="title_settings">Einstellungen</string>
     <string name="title_timetable">Stundenplan</string>
-    <string name="title_news">News</string>
     <string name="title_information">Informationen</string>
     <string name="title_mvv">MVV</string>
 
@@ -63,16 +62,11 @@
     <string name="s_err_load_classes">"Fehler beim Laden der Klassen.</string>
     <string name="s_err_reload_data">Aktualisieren der Daten fehlgeschlagen.</string>
 
-    <string name="s_err_server_connection">Verbindung mit dem Server fehlgeschlagen.</string>
     <string name="s_err_server_authentication">Authentifizierung mit dem Server fehlgeschlagen.</string>
 
     <string name="s_prompt_enter_credentials">Bitte gebe die Login-Daten ein.</string>
-    <string name="s_prompt_login">Bitte melde dich an.</string>
 
     <!-- dialogs -->
-
-    <string name="d_account_exists_title">Ein Account existiert bereits</string>
-    <string name="d_account_exists_message">Auf deinem Gerät befindet sich bereits ein EffnerApp-Account, jedoch schlug die Anmeldung am Server fehl.\nDu kannst es entweder erneut versuchen oder dich neu anmelden.</string>
 
     <string name="d_timetable_unavailable_title">Kein Stundenplan</string>
     <string name="d_timetable_unavailable_message">Für deine Klasse wurde noch kein Stundenplan eingereicht!\nWenn du möchtest, kannst du einen per E-Mail einreichen.</string>
@@ -99,15 +93,11 @@
     <string name="d_settings_about_title">Über die App</string>
     <string name="d_settings_about_message">EffnerApp - by Luis &amp; Sebi!\n\n© 2021 EffnerApp - Danke an alle Mitwirkenden ❤</string>
 
-    <string name="d_news_attached_documents">Angehängte Dokuemente</string>
-
     <!-- toasts -->
 
     <string name="t_document_unavailable">Dieses Dokument ist nicht verfügbar</string>
 
     <string name="t_prompt_change_class">Um deine Klasse zu ändern, melde dich zuerst ab.</string>
-
-    <string name="t_no_attached_documents">An diesen Beitrag wurden keine Dokumente angehängt.</string>
 
     <!-- image descriptions -->
 
@@ -120,7 +110,6 @@
 
     <string name="placeholder_term">Term</string>
     <string name="placeholder_date">Date</string>
-    <string name="placeholder_news_content">Content</string>
     <string name="placeholder_substitution_head"><![CDATA[<?>. Stunde verteten durch <?>]]></string>
     <string name="placeholder_default"><![CDATA[<?>]]></string>
     <string name="placeholder_header_text">42 Tage bis zum Wochenende!</string>
@@ -137,9 +126,8 @@
     <string name="card_food_plan">Speiseplan</string>
     <string name="card_substitutions">Vertretungen</string>
     <string name="card_timetable">Stundenplan</string>
-    <string name="card_news">News</string>
-    <string name="card_schooltests_hj1">1. Halbjahr</string>
-    <string name="card_schooltests_hj2">2. Halbjahr</string>
+    <string name="card_exams_1">1. Halbjahr</string>
+    <string name="card_exams_2">2. Halbjahr</string>
     <string name="card_information">Informationen</string>
     <string name="card_mvv">MVV</string>
 
@@ -171,7 +159,7 @@
     <string name="uri_link_email_feedback">mailto:hello@effnerapp.de</string>
     <string name="uri_link_email_timetable">mailto:stundenplan@effnerapp.de</string>
 
-    <string name="uri_api_register">https://api.effnerapp.de/auth/register</string>
-    <string name="uri_api_get_classes">https://api.effnerapp.de/data/classes/get</string>
-    <string name="uri_api_get_data">https://api.effnerapp.de/data/get</string>
+    <string name="uri_api_login">https://api.effner.app/v2/auth/login</string>
+    <string name="uri_api_get_classes">https://api.effner.app/v1/data/classes/get</string>
+    <string name="uri_api_get_data">https://api.effner.app/v2/data</string>
 </resources>

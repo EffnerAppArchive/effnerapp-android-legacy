@@ -22,7 +22,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomnavigation.LabelVisibilityMode;
-import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,11 +56,11 @@ public class TimetableFragment extends Fragment {
         TimetableView timetable = view.findViewById(R.id.timetable);
         TextView timetableInfoText = view.findViewById(R.id.timetable_info_text);
 
-        String[][] data = new Gson().fromJson(ApiClient.getInstance().getData().getTimetable().getValue(), String[][].class);
+        String[][] lessons = ApiClient.getInstance().getData().getTimetable().getLessons();
 
-        if (data != null && data.length != 0) {
+        if (lessons != null && lessons.length != 0) {
             try {
-                SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.GERMAN);
+                SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.GERMAN);
                 SimpleDateFormat targetFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.GERMAN);
                 Date lastUpdate = originFormat.parse(ApiClient.getInstance().getData().getTimetable().getCreatedAt());
                 assert lastUpdate != null;
@@ -74,7 +73,7 @@ public class TimetableFragment extends Fragment {
             List<Schedule> schedules = new ArrayList<>();
 
             int dayI = 0;
-            for (String[] day : data) {
+            for (String[] day : lessons) {
                 for (int i = 0; i < 10; i++) {
                     String lesson = day[i];
 
@@ -84,7 +83,7 @@ public class TimetableFragment extends Fragment {
                         schedule.setDay(dayI);
                         schedule.setStartTime(new Time(i + 1, 0));
                         schedule.setEndTime(new Time(i + 2, 0));
-                        schedule.setBackgroundColor(ApiClient.getInstance().getData().getColorByKey("COLOR_TIMETABLE_" + lesson).getColorValue());
+                        schedule.setBackgroundColor(ApiClient.getInstance().getData().getTimetableColorBySubjectName(lesson).getColorValue());
                         schedules.add(schedule);
                     }
                 }
@@ -119,7 +118,7 @@ public class TimetableFragment extends Fragment {
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
-        // navigate to news fragment
+        // navigate to fragment
         navController.navigate(R.id.navigation_home);
     }
 }

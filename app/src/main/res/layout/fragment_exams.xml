@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.schooltests.SchooltestsFragment">
+    tools:context=".ui.fragments.exams.ExamsFragment">
 
     <GridLayout
-        android:id="@+id/schooltests_card_layout"
+        android:id="@+id/exams_card_layout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_gravity="center"
@@ -33,7 +33,7 @@
                 android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/card_schooltests_hj1"
+                android:text="@string/card_exams_1"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -59,7 +59,7 @@
                 android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/card_schooltests_hj2"
+                android:text="@string/card_exams_2"
                 android:textAlignment="center"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -87,7 +87,7 @@
         android:layout_gravity="end" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/schooltests_recycler_view"
+        android:id="@+id/exams_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="25dp" />

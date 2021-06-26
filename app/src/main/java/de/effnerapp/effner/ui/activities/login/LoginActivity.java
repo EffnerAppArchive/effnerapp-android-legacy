@@ -6,9 +6,7 @@
 
 package de.effnerapp.effner.ui.activities.login;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +29,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,9 +40,10 @@ import java.util.List;
 import java.util.Objects;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.auth.ServerAuthenticator;
+import de.effnerapp.effner.tools.error.ErrorUtils;
 import de.effnerapp.effner.tools.misc.ClassUtils;
+import de.effnerapp.effner.tools.misc.Promise;
 import de.effnerapp.effner.ui.activities.intro.IntroActivity;
 import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 import okhttp3.Call;
@@ -55,7 +53,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson = new Gson();
     private final OkHttpClient client = new OkHttpClient();
 
     private ProgressDialog dialog;
@@ -113,20 +111,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        AccountManager accountManager = AccountManager.get(this);
-        if (accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE).length == 1) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this)
-                    .setCancelable(false)
-                    .setTitle(R.string.d_account_exists_title)
-                    .setMessage(R.string.d_account_exists_message)
-                    .setPositiveButton(R.string.button_retry, (dialogInterface, i) -> {
-                        startActivity(new Intent(this, SplashActivity.class));
-                        finish();
-                    })
-                    .setNegativeButton(R.string.button_login, (dialogInterface, i) -> Toast.makeText(this, R.string.s_prompt_login, Toast.LENGTH_SHORT).show());
-            dialog.show();
-        }
-
         classSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -151,18 +135,33 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 dialog.setCancelable(false);
                 dialog.show();
-                new Thread(() -> {
-                    ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this);
-                    String sClass = ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) ? classSelector.getSelectedItem().toString() + "Q" + course.getText().toString() : classSelector.getSelectedItem().toString();
-                    boolean login = serverAuthenticator.register(id.getText().toString(), password.getText().toString(), sClass);
-                    runOnUiThread(dialog::cancel);
-                    if (login) {
-                        startActivity(new Intent(this, SplashActivity.class));
-                        finish();
-                    } else {
-                        runOnUiThread(() -> Toast.makeText(this, R.string.s_err_server_authentication, Toast.LENGTH_SHORT).show());
+
+                String sClass = ClassUtils.isAdvancedClass(classSelector.getSelectedItem().toString()) ? classSelector.getSelectedItem().toString() + "Q" + course.getText().toString() : classSelector.getSelectedItem().toString();
+
+                ServerAuthenticator serverAuthenticator = new ServerAuthenticator(this);
+                serverAuthenticator.login(id.getText().toString(), password.getText().toString(), sClass, new Promise<Void, String>() {
+                    @Override
+                    public void accept(Void unused) {
+                        System.out.println("loing");
+                        runOnUiThread(() -> {
+                            dialog.cancel();
+                            startActivity(new Intent(LoginActivity.this, SplashActivity.class));
+                            finish();
+                        });
                     }
-                }).start();
+
+                    @Override
+                    public void reject(String error) {
+                        System.err.println(error);
+                        runOnUiThread(dialog::cancel);
+                        if (error.equals("Unauthorized")) {
+                            runOnUiThread(() -> Toast.makeText(LoginActivity.this, R.string.s_err_server_authentication, Toast.LENGTH_SHORT).show());
+                            return;
+                        }
+
+                        ErrorUtils.with(LoginActivity.this).showError(error, false, true);
+                    }
+                });
             } else {
                 Snackbar.make(findViewById(R.id.container), R.string.s_prompt_enter_credentials, BaseTransientBottomBar.LENGTH_LONG).show();
                 hideKeyboardFrom(this, findViewById(R.id.container));
