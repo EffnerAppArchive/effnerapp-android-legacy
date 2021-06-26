@@ -6,17 +6,8 @@
 
 package de.effnerapp.effner.data.api.json.data;
 
-public class Schooltest {
-    private int id;
-    private String type, name, date, updated_at;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getType() {
-        return type;
-    }
+public class Exam {
+    private String name, date;
 
     public String getName() {
         return name;
@@ -24,9 +15,5 @@ public class Schooltest {
 
     public String getDate() {
         return date;
-    }
-
-    public String getUpdateTime() {
-        return updated_at;
     }
 }

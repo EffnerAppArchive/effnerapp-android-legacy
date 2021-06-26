@@ -6,74 +6,50 @@
 
 package de.effnerapp.effner.data.api.json.data;
 
-import android.accounts.AccountManager;
-
-import de.effnerapp.effner.data.api.json.status.LoginStatus;
-import de.effnerapp.effner.services.Authenticator;
-import de.effnerapp.effner.ui.activities.main.MainActivity;
+import java.util.Arrays;
 
 public class DataResponse {
-    private LoginStatus status;
-    private Schooltest[] schooltests;
-    private Holidays[] holidays;
-    private News[] news;
-    private DayInformation dayInformation;
+    private String motd;
     private Timetable timetable;
-    private Content[] content;
-    private AppColor[] colors;
+    private TimetableColor[] colors;
+    private Exam[] exams;
+    private Document[] documents;
 
-    public LoginStatus getStatus() {
-        return status;
+    public String getMotd() {
+        return motd;
     }
 
-    public Schooltest[] getSchooltests() {
-        return schooltests;
-    }
-
-    public Holidays[] getHolidays() {
-        return holidays;
-    }
-
-    public News[] getNews() {
-        return news;
-    }
-
-    public DayInformation getDayInformation() {
-        return dayInformation;
+    public Exam[] getExams() {
+        return exams;
     }
 
     public Timetable getTimetable() {
         return timetable;
     }
 
-    public Content[] getContent() {
-        return content;
+    public Document[] getDocuments() {
+        return documents;
     }
 
-    public AppColor[] getColors() {
+    public TimetableColor[] getColors() {
         return colors;
     }
 
-    public Content getContentByKey(String key) {
-        for (Content c : content) {
-            if (c.getName().equals(key)) {
-                if (c.getValue().contains("{APP_TOKEN}")) {
-                    AccountManager accountManager = AccountManager.get(MainActivity.getInstance());
-                    String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
-                    c.setValue(c.getValue().replace("{APP_TOKEN}", token));
-                }
-                return c;
+    public Document getDocumentByKey(String key) {
+        for (Document document : documents) {
+            if (document.getKey().equals(key)) {
+                return document;
             }
         }
         return null;
     }
 
-    public AppColor getColorByKey(String key) {
-        for (AppColor color : colors) {
-            if (color.getName().equals(key)) {
+    public TimetableColor getTimetableColorBySubjectName(String s) {
+        for (TimetableColor color : colors) {
+            if (Arrays.asList(color.getSubjects()).contains(s)) {
                 return color;
             }
         }
-        return AppColor.BLACK;
+        return TimetableColor.BLACK;
     }
 }

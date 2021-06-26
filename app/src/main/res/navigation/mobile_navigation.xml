@@ -11,12 +11,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_news"
-        android:name="de.effnerapp.effner.ui.fragments.news.NewsFragment"
-        android:label="@string/title_news"
-        tools:layout="@layout/fragment_news" />
-
-    <fragment
         android:id="@+id/navigation_timetable"
         android:name="de.effnerapp.effner.ui.fragments.timetable.TimetableFragment"
         android:label="@string/title_timetable"
@@ -35,10 +29,10 @@
         tools:layout="@layout/fragment_substitutions" />
 
     <fragment
-        android:id="@+id/navigation_schooltests"
-        android:name="de.effnerapp.effner.ui.fragments.schooltests.SchooltestsFragment"
-        android:label="@string/title_schooltests"
-        tools:layout="@layout/fragment_schooltests" />
+        android:id="@+id/navigation_exams"
+        android:name="de.effnerapp.effner.ui.fragments.exams.ExamsFragment"
+        android:label="@string/title_exams"
+        tools:layout="@layout/fragment_exams" />
 
     <fragment
         android:id="@+id/navigation_mvv"
