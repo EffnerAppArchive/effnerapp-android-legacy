@@ -64,12 +64,16 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             String departurePlanned = departure.getDeparturePlanned();
             String departureLive = departure.getDepartureLive();
 
-            int dP = Integer.parseInt(departurePlanned.replace(":", ""));
-            int dL = Integer.parseInt(departureLive.replace(":", ""));
+            try {
+                int dP = Integer.parseInt(departurePlanned.replace(":", ""));
+                int dL = Integer.parseInt(departureLive.replace(":", ""));
 
-            if (dP >= dL) {
-                iHolder.time.setTextColor(activity.getResources().getColor(R.color.green));
-            } else {
+                if (dP >= dL) {
+                    iHolder.time.setTextColor(activity.getResources().getColor(R.color.green));
+                } else {
+                    iHolder.time.setTextColor(activity.getResources().getColor(R.color.red));
+                }
+            } catch (NumberFormatException e) {
                 iHolder.time.setTextColor(activity.getResources().getColor(R.color.red));
             }
 
