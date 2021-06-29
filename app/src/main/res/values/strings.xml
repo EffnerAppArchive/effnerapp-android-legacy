@@ -159,7 +159,7 @@
     <string name="uri_link_email_feedback">mailto:hello@effnerapp.de</string>
     <string name="uri_link_email_timetable">mailto:stundenplan@effnerapp.de</string>
 
-    <string name="uri_api_login">https://api.effner.app/v2/auth/login</string>
-    <string name="uri_api_get_classes">https://api.effner.app/v1/data/classes/get</string>
-    <string name="uri_api_get_data">https://api.effner.app/v2/data</string>
+    <string name="uri_api_login">https://api.effner.app/auth/login</string>
+    <string name="uri_api_get_classes">https://api.effner.app/data/classes</string>
+    <string name="uri_api_get_data">https://api.effner.app/data</string>
 </resources>
