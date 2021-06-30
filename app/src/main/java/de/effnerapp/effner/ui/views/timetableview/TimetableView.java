@@ -178,7 +178,7 @@ public class TimetableView extends LinearLayout {
                 tv.setLayoutParams(createTableRowParam(cellHeight));
                 if (k == 0) {
                     tv.setText(getHeaderTime(i));
-                    tv.setTextColor(getResources().getColor(R.color.colorHeaderText));
+                    tv.setTextColor(getResources().getColor(R.color.motdColor));
                     tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_SIDE_HEADER_FONT_SIZE_DP);
                     tv.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                     tv.setLayoutParams(createTableRowParam(sideCellWidth, cellHeight));
@@ -203,7 +203,7 @@ public class TimetableView extends LinearLayout {
             } else {
                 tv.setLayoutParams(createTableRowParam(cellHeight));
             }
-            tv.setTextColor(getResources().getColor(R.color.colorHeaderText));
+            tv.setTextColor(getResources().getColor(R.color.motdColor));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_HEADER_FONT_SIZE_DP);
             tv.setText(headerTitle[i]);
             tv.setGravity(Gravity.CENTER);

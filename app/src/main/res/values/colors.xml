@@ -8,7 +8,7 @@
     <color name="black">#000</color>
 
     <!-- TimeTable colors -->
-    <color name="colorHeaderText">#7d7d7d</color>
+    <color name="motdColor">#7d7d7d</color>
 
     <color name="navBackground">#FFFFFE</color>
     <color name="navForeground">#3367D6</color>
@@ -23,4 +23,7 @@
     <color name="mvv_badge_bus">#4A7FE8</color>
     <color name="mvv_badge_train">#79B833</color>
     <color name="mvv_badge_regio">#FD5757</color>
+
+    <color name="red">#ff6969</color>
+    <color name="green">#75ff69</color>
 </resources>

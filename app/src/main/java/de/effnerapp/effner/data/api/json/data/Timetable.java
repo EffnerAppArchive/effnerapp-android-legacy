@@ -6,27 +6,44 @@
 
 package de.effnerapp.effner.data.api.json.data;
 
-public class Timetable {
-    private int id;
-    private String sClass, value, created_by, created_at;
+import com.google.gson.annotations.SerializedName;
 
-    public int getId() {
-        return id;
-    }
+public class Timetable {
+    @SerializedName("class")
+    private String sClass;
+
+    private String[][] lessons;
+    private TimetableColor[] meta;
+
+    private String createdAt, updatedAt;
 
     public String getSClass() {
         return sClass;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public String getCreatedBy() {
-        return created_by;
+    public String[][] getLessons() {
+        return lessons;
     }
 
     public String getCreatedAt() {
-        return created_at;
+        return createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public TimetableColor[] getMeta() {
+        return meta;
+    }
+
+    public TimetableColor getSubjectColor(String subject) {
+        for(TimetableColor c : meta) {
+            if(c.getSubject().equals(subject)) {
+                return c;
+            }
+        }
+
+        return TimetableColor.BLACK;
     }
 }

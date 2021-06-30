@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             pageHeader.setText(destination.getLabel());
 
-            // show labels and set home fragment checkable if we navigate back from the news fragment
-            if (destination.getId() != R.id.navigation_news && destination.getId() != R.id.navigation_information && destination.getId() != R.id.navigation_timetable && destination.getId() != R.id.navigation_mvv) {
+            // show labels and set home fragment checkable if we navigate back from the fragment
+            if (destination.getId() != R.id.navigation_information && destination.getId() != R.id.navigation_timetable && destination.getId() != R.id.navigation_mvv) {
                 navView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_SELECTED);
                 navView.getMenu().getItem(0).setCheckable(true);
             }

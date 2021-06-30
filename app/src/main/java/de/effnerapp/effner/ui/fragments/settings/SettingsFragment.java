@@ -6,7 +6,6 @@
 
 package de.effnerapp.effner.ui.fragments.settings;
 
-import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -29,7 +28,6 @@ import androidx.preference.PreferenceManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.services.Authenticator;
 import de.effnerapp.effner.tools.view.IntentHelper;
 import de.effnerapp.effner.ui.activities.intro.IntroActivity;
 import de.effnerapp.effner.ui.activities.splash.SplashActivity;
@@ -50,8 +48,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         sClass = sharedPreferences.getString("APP_USER_CLASS", "");
 
-        AccountManager accountManager = AccountManager.get(context);
-
         Preference introPreference = findPreference("intro");
         Preference feedbackPreference = findPreference("feedback");
         Preference buildPreference = findPreference("build");
@@ -62,7 +58,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         Preference logoutPreference = findPreference("logout");
 
         PreferenceCategory devToolsCategory = findPreference("dev_tools_cat");
-        Preference devApiToken = findPreference("dev_api_token");
         Preference devFirebaseToken = findPreference("dev_firebase_token");
 
         assert devToolsCategory != null;
@@ -126,9 +121,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                         // clear sharedPreferences
                         sharedPreferences.edit().clear().apply();
 
-                        // remove account
-                        accountManager.removeAccountExplicitly(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
-
                         // disable Firebase Notifications
                         FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
                         firebaseMessaging.unsubscribeFromTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
@@ -169,22 +161,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             return true;
         });
 
-        assert devApiToken != null;
         assert devFirebaseToken != null;
 
-        String token = accountManager.getPassword(accountManager.getAccountsByType(Authenticator.ACCOUNT_TYPE)[0]);
-        devApiToken.setSummary(token);
         devFirebaseToken.setSummary(sharedPreferences.getString("APP_FIREBASE_TOKEN", "Not available"));
 
         ClipboardManager clipboard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-
-
-        devApiToken.setOnPreferenceClickListener(preference -> {
-            ClipData clip = ClipData.newPlainText("effnerapp auth token", preference.getSummary());
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(context, "Copied to clipboard.", Toast.LENGTH_SHORT).show();
-            return true;
-        });
 
         devFirebaseToken.setOnPreferenceClickListener(preference -> {
             ClipData clip = ClipData.newPlainText("effnerapp firebase token", preference.getSummary());
@@ -192,8 +173,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             Toast.makeText(context, "Copied to clipboard.", Toast.LENGTH_SHORT).show();
             return true;
         });
-
-
     }
 
     @Override

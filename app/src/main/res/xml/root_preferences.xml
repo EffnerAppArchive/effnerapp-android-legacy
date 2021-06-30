@@ -76,12 +76,6 @@
         app:isPreferenceVisible="false">
 
         <Preference
-            app:key="dev_api_token"
-            app:title="API token"
-            app:summary="@string/placeholder_default"
-            app:icon="@drawable/ic_baseline_developer_mode_24" />
-
-        <Preference
             app:key="dev_firebase_token"
             app:title="Firebase token"
             app:summary="@string/placeholder_default"
