@@ -4,8 +4,9 @@
  * Copyright (c) 2021 EffnerApp.
  */
 
-package de.effnerapp.effner.ui.fragments.schooltests;
+package de.effnerapp.effner.ui.fragments.exams;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +26,16 @@ import java.util.List;
 import java.util.Locale;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.api.ApiClient;
-import de.effnerapp.effner.data.api.json.data.Schooltest;
+import de.effnerapp.effner.data.api.json.data.Exam;
 
-public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final List<Schooltest> schooltests;
+public class ExamItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final Context context;
+    private final List<Exam> exams;
     private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMAN);
 
-    SchooltestItemAdapter(List<Schooltest> schooltests) {
-        this.schooltests = schooltests;
+    ExamItemAdapter(Context context, List<Exam> exams) {
+        this.context = context;
+        this.exams = exams;
     }
 
     @NotNull
@@ -55,8 +57,8 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
         if (holder.getItemViewType() == 0) {
             ItemViewHolder iHolder = (ItemViewHolder) holder;
-            String text = schooltests.get(i).getName();
-            String date = schooltests.get(i).getDate();
+            String text = exams.get(i).getName();
+            String date = exams.get(i).getDate();
             Date sDate = null;
             try {
                 sDate = format.parse(date);
@@ -66,10 +68,11 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             assert sDate != null;
             if (sDate.after(new Date())) {
                 iHolder.itemCard.getBackground().setAlpha(255);
-                iHolder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
+
+                iHolder.dateText.setTextColor(context.getResources().getColor(R.color.green));
             } else {
                 iHolder.itemCard.getBackground().setAlpha(100);
-                iHolder.dateText.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
+                iHolder.dateText.setTextColor(context.getResources().getColor(R.color.red));
             }
             iHolder.dateText.setText(date);
             iHolder.itemText.setText(text);
@@ -78,7 +81,7 @@ public class SchooltestItemAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return schooltests.size() + 1;
+        return exams.size() + 1;
     }
 
     @Override

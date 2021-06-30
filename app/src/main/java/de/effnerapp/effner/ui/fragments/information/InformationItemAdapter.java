@@ -21,14 +21,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.api.json.data.Content;
+import de.effnerapp.effner.data.api.json.data.Document;
 import de.effnerapp.effner.tools.view.IntentHelper;
 import de.effnerapp.effner.ui.activities.main.MainActivity;
 
 public class InformationItemAdapter extends RecyclerView.Adapter<InformationItemAdapter.ItemViewHolder> {
-    private final List<Content> items;
+    private final List<Document> items;
 
-    InformationItemAdapter(List<Content> items) {
+    InformationItemAdapter(List<Document> items) {
         this.items = items;
     }
 
@@ -47,7 +47,7 @@ public class InformationItemAdapter extends RecyclerView.Adapter<InformationItem
     public void onBindViewHolder(@NonNull InformationItemAdapter.ItemViewHolder holder, int i) {
         String text = items.get(i).getName();
         holder.itemText.setText(text.replace("DATA_INFORMATION_", ""));
-        holder.cardView.setOnClickListener(v -> IntentHelper.openView(MainActivity.getInstance(), items.get(i).getValue()));
+        holder.cardView.setOnClickListener(v -> IntentHelper.openView(MainActivity.getInstance(), items.get(i).getUri()));
     }
 
     @Override

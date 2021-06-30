@@ -26,7 +26,6 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.effnerapp.effner.R;
-import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.mvv.json.Departure;
 
 public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -65,13 +64,17 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             String departurePlanned = departure.getDeparturePlanned();
             String departureLive = departure.getDepartureLive();
 
-            int dP = Integer.parseInt(departurePlanned.replace(":", ""));
-            int dL = Integer.parseInt(departureLive.replace(":", ""));
+            try {
+                int dP = Integer.parseInt(departurePlanned.replace(":", ""));
+                int dL = Integer.parseInt(departureLive.replace(":", ""));
 
-            if (dP >= dL) {
-                iHolder.time.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_GREEN").getColorValue());
-            } else {
-                iHolder.time.setTextColor(ApiClient.getInstance().getData().getColorByKey("COLOR_STATIC_RED").getColorValue());
+                if (dP >= dL) {
+                    iHolder.time.setTextColor(activity.getResources().getColor(R.color.green));
+                } else {
+                    iHolder.time.setTextColor(activity.getResources().getColor(R.color.red));
+                }
+            } catch (NumberFormatException e) {
+                iHolder.time.setTextColor(activity.getResources().getColor(R.color.red));
             }
 
             if (departure.getLine().getNumber().startsWith("S")) {

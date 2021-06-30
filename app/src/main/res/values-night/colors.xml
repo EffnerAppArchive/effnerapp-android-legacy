@@ -8,7 +8,7 @@
     <color name="black">#000</color>
 
     <!-- TimeTable colors -->
-    <color name="colorHeaderText">#7d7d7d</color>
+    <color name="motdColor">#7d7d7d</color>
 
     <color name="navBackground">#121212</color>
     <color name="navForeground">#FFFFFF</color>
