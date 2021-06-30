@@ -13,6 +13,7 @@ public class Timetable {
     private String sClass;
 
     private String[][] lessons;
+    private TimetableColor[] meta;
 
     private String createdAt, updatedAt;
 
@@ -30,5 +31,19 @@ public class Timetable {
 
     public String getUpdatedAt() {
         return updatedAt;
+    }
+
+    public TimetableColor[] getMeta() {
+        return meta;
+    }
+
+    public TimetableColor getSubjectColor(String subject) {
+        for(TimetableColor c : meta) {
+            if(c.getSubject().equals(subject)) {
+                return c;
+            }
+        }
+
+        return TimetableColor.BLACK;
     }
 }

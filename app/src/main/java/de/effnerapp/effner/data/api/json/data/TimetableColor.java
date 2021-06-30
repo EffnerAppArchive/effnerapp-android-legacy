@@ -10,15 +10,15 @@ import android.graphics.Color;
 
 public class TimetableColor {
     public static final TimetableColor BLACK = new TimetableColor("#000");
+    private String subject;
     private final String color;
-    private String[] subjects;
 
     public TimetableColor(String color) {
         this.color = color;
     }
 
-    public String[] getSubjects() {
-        return subjects;
+    public String getSubject() {
+        return subject;
     }
 
     public int getColorValue() {
