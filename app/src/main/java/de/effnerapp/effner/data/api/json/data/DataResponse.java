@@ -11,7 +11,6 @@ import java.util.Arrays;
 public class DataResponse {
     private String motd;
     private Timetable timetable;
-    private TimetableColor[] colors;
     private Exam[] exams;
     private Document[] documents;
 
@@ -31,10 +30,6 @@ public class DataResponse {
         return documents;
     }
 
-    public TimetableColor[] getColors() {
-        return colors;
-    }
-
     public Document getDocumentByKey(String key) {
         for (Document document : documents) {
             if (document.getKey().equals(key)) {
@@ -42,14 +37,5 @@ public class DataResponse {
             }
         }
         return null;
-    }
-
-    public TimetableColor getTimetableColorBySubjectName(String s) {
-        for (TimetableColor color : colors) {
-            if (Arrays.asList(color.getSubjects()).contains(s)) {
-                return color;
-            }
-        }
-        return TimetableColor.BLACK;
     }
 }

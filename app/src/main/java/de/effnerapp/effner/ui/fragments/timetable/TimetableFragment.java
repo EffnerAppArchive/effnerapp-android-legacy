@@ -66,7 +66,8 @@ public class TimetableFragment extends Fragment {
                 assert lastUpdate != null;
                 String text = "Zuletzt aktualisiert: " + targetFormat.format(lastUpdate);
                 timetableInfoText.setText(text);
-            } catch (ParseException e) {
+            } catch (ParseException | NullPointerException e) {
+                timetableInfoText.setVisibility(View.GONE);
                 e.printStackTrace();
             }
 
@@ -83,7 +84,7 @@ public class TimetableFragment extends Fragment {
                         schedule.setDay(dayI);
                         schedule.setStartTime(new Time(i + 1, 0));
                         schedule.setEndTime(new Time(i + 2, 0));
-                        schedule.setBackgroundColor(ApiClient.getInstance().getData().getTimetableColorBySubjectName(lesson).getColorValue());
+                        schedule.setBackgroundColor(ApiClient.getInstance().getData().getTimetable().getSubjectColor(lesson).getColorValue());
                         schedules.add(schedule);
                     }
                 }
