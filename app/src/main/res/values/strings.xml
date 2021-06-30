@@ -135,7 +135,7 @@
     <!-- cards -->
 
     <string name="card_food_plan">Speiseplan</string>
-    <string name="card_illness_doc">Krankheitsanzeige</string>
+    <string name="card_substitutions">Vertretungen</string>
     <string name="card_timetable">Stundenplan</string>
     <string name="card_news">News</string>
     <string name="card_schooltests_hj1">1. Halbjahr</string>
