@@ -6,6 +6,7 @@
 
 package de.effnerapp.effner.ui.fragments.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.api.json.data.DataResponse;
 import de.effnerapp.effner.tools.view.IntentHelper;
+import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 
 public class HomeFragment extends Fragment {
 
@@ -36,25 +38,27 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        TextView motd = view.findViewById(R.id.motd);
 
         if(ApiClient.getInstance() == null) {
-            requireActivity().recreate();
+            startActivity(new Intent(requireContext(), SplashActivity.class));
+            requireActivity().finish();
             return view;
         }
 
         DataResponse data = ApiClient.getInstance().getData();
-        motd.setText(data.getMotd());
 
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         navController = Objects.requireNonNull(navHostFragment).getNavController();
         navView = requireActivity().findViewById(R.id.nav_view);
 
+        TextView motd = view.findViewById(R.id.motd);
         MaterialCardView timetableCard = view.findViewById(R.id.timetable_card);
         MaterialCardView substitutionsCard = view.findViewById(R.id.substitutions_card);
         MaterialCardView foodPlanCard = view.findViewById(R.id.food_plan_card);
         MaterialCardView informationCard = view.findViewById(R.id.information_card);
         MaterialCardView mvvCard = view.findViewById(R.id.mvv_card);
+
+        motd.setText(data.getMotd());
 
         timetableCard.setOnClickListener(v -> navigateTo(R.id.navigation_timetable));
 
