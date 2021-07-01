@@ -15,7 +15,7 @@ public class Timetable {
     private String[][] lessons;
     private TimetableColor[] meta;
 
-    private String createdAt, updatedAt;
+    private String updatedAt;
 
     public String getSClass() {
         return sClass;
@@ -23,10 +23,6 @@ public class Timetable {
 
     public String[][] getLessons() {
         return lessons;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
     }
 
     public String getUpdatedAt() {

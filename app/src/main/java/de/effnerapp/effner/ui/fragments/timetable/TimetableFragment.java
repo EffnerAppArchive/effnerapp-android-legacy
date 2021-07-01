@@ -62,7 +62,7 @@ public class TimetableFragment extends Fragment {
             try {
                 SimpleDateFormat originFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.GERMAN);
                 SimpleDateFormat targetFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.GERMAN);
-                Date lastUpdate = originFormat.parse(ApiClient.getInstance().getData().getTimetable().getCreatedAt());
+                Date lastUpdate = originFormat.parse(ApiClient.getInstance().getData().getTimetable().getUpdatedAt());
                 assert lastUpdate != null;
                 String text = "Zuletzt aktualisiert: " + targetFormat.format(lastUpdate);
                 timetableInfoText.setText(text);
