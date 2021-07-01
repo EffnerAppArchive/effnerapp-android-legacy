@@ -6,6 +6,7 @@
 
 package de.effnerapp.effner.ui.fragments.information;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.List;
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.api.json.data.Document;
+import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +45,8 @@ public class InformationFragment extends Fragment {
         List<Document> items = new ArrayList<>();
 
         if(ApiClient.getInstance() == null) {
-            requireActivity().recreate();
+            startActivity(new Intent(requireContext(), SplashActivity.class));
+            requireActivity().finish();
             return view;
         }
 
