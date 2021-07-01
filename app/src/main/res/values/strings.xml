@@ -147,17 +147,17 @@
     <string name="title_activity_login">Anmelden</string>
 
     <string name="text_disclaimer">Alle Angaben sind ohne Gewähr. Es gilt das Wort der Lehrkraft.</string>
-    <string name="text_warning_privacy"><![CDATA[Mit der Anmeldung stimmst du der <a href=\"https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf\">Datenschutzerklärung</a> zu.]]></string>
+    <string name="text_warning_privacy"><![CDATA[Mit der Anmeldung stimmst du der <a href=\"https://effner.app/resources/Datenschutzerkl%C3%A4rung.pdf\">Datenschutzerklärung</a> zu.]]></string>
     <string name="text_disclaimer_mvv">Alle Angaben sind ohne Gewähr. Die Daten stammen von mvv-muenchen.de.</string>
     <string name="text_no_departures">Derzeit sind keine Abfahrten verfügbar.</string>
 
     <!-- URIs -->
 
-    <string name="uri_link_privacy_policy">https://effnerapp.de/resources/Datenschutzerkl%C3%A4rung.pdf</string>
-    <string name="uri_link_imprint">https://effnerapp.de/resources/Impressum.pdf</string>
+    <string name="uri_link_privacy_policy">https://effner.app/resources/Datenschutzerkl%C3%A4rung.pdf</string>
+    <string name="uri_link_imprint">https://effner.app/resources/Impressum.pdf</string>
     <string name="uri_link_google_play">https://play.google.com/store/apps/details?id=de.effnerapp.effner</string>
-    <string name="uri_link_email_feedback">mailto:hello@effnerapp.de</string>
-    <string name="uri_link_email_timetable">mailto:stundenplan@effnerapp.de</string>
+    <string name="uri_link_email_feedback">mailto:hello@effner.app</string>
+    <string name="uri_link_email_timetable">mailto:stundenplan@effner.app</string>
 
     <string name="uri_api_login">https://api.effner.app/auth/login</string>
     <string name="uri_api_get_classes">https://api.effner.app/data/classes</string>
