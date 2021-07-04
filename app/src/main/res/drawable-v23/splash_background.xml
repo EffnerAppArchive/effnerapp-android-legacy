@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 04.07.21, 16:54.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
 
-    <item android:drawable="@color/white" />
+    <item android:drawable="@color/default_background" />
 
     <item
-        android:drawable="@drawable/app_logo"
-        android:width="110dp"
+        android:drawable="@drawable/ic_effnerapp_logo"
+        android:width="100dp"
         android:height="100dp"
         android:gravity="center"/>
 

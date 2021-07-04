@@ -6,8 +6,6 @@
 
 package de.effnerapp.effner.data.api.json.data;
 
-import java.util.Arrays;
-
 public class DataResponse {
     private String motd;
     private Timetable timetable;

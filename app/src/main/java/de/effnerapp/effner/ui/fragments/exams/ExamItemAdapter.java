@@ -43,9 +43,9 @@ public class ExamItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         // create a new view
         if (viewType == 0) {
-            return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.term_item, parent, false));
+            return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exam, parent, false));
         } else {
-            return new InfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.disclaimer_info, parent, false));
+            return new InfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_disclaimer_exams, parent, false));
         }
     }
 

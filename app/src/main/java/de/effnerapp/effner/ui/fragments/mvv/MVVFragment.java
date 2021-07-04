@@ -35,9 +35,6 @@ import de.effnerapp.effner.data.mvv.MvvClient;
 import de.effnerapp.effner.data.mvv.json.Departure;
 import de.effnerapp.effner.data.mvv.json.StopItem;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MVVFragment extends Fragment {
 
     private final MvvClient mvvClient;
@@ -47,7 +44,6 @@ public class MVVFragment extends Fragment {
 
 
     public MVVFragment() {
-        // Required empty public constructor
         mvvClient = new MvvClient();
     }
 

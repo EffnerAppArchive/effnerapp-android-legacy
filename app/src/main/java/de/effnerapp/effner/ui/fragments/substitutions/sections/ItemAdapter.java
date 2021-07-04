@@ -26,13 +26,13 @@ public class ItemAdapter extends ExpandableRecyclerViewAdapter<HeadViewHandler, 
 
     @Override
     public HeadViewHandler onCreateGroupViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_head, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_substitution_head, parent, false);
         return new HeadViewHandler(view);
     }
 
     @Override
     public ItemViewHandler onCreateChildViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_substitution_body, parent, false);
         return new ItemViewHandler(view);
     }
 

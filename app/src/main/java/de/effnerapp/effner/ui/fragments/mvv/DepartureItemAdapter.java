@@ -44,9 +44,9 @@ public class DepartureItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         // create a new view
         if (viewType == 0) {
-            return new DepartureItemAdapter.ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.departure_item, parent, false));
+            return new DepartureItemAdapter.ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_departure, parent, false));
         } else {
-            return new DepartureItemAdapter.InfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.no_departures_item, parent, false));
+            return new DepartureItemAdapter.InfoViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_no_departures, parent, false));
         }
     }
 

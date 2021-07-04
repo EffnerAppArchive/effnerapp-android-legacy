@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 20.05.21, 18:07.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TableLayout

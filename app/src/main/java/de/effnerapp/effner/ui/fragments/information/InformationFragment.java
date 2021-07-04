@@ -24,9 +24,6 @@ import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.api.json.data.Document;
 import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class InformationFragment extends Fragment {
 
     public InformationFragment() {

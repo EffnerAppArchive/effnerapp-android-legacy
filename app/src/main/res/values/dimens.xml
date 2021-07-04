@@ -1,3 +1,9 @@
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 20.05.21, 18:07.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

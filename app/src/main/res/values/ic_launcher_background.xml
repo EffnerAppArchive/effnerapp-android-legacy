@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 04.07.21, 16:58.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <resources>
     <color name="ic_launcher_background">#FFFFFF</color>
 </resources>

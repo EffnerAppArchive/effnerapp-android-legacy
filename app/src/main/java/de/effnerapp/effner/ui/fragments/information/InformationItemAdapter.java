@@ -36,7 +36,7 @@ public class InformationItemAdapter extends RecyclerView.Adapter<InformationItem
     @Override
     public InformationItemAdapter.ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        return new InformationItemAdapter.ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.information_item, parent, false));
+        return new InformationItemAdapter.ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_document, parent, false));
     }
 
     @Override

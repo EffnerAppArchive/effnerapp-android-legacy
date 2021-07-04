@@ -1,0 +1,27 @@
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 04.07.21, 14:22.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="3000"
+    android:viewportHeight="3000">
+  <path
+      android:pathData="M67.28,1383.89l697.61,0l0,652.6l-697.61,0z"
+      android:fillColor="#2C6CBD"/>
+  <path
+      android:pathData="M67.28,2036.44L752.19,2725.71L1793.02,2724.92L1071.22,2029.03L67.28,2036.44Z"
+      android:fillColor="#33B544" />
+  <path
+      android:pathData="M983.15,1654.14L1995.06,1653.87L2699.87,972.15L1680.21,971.42L983.15,1654.14Z"
+      android:fillColor="#FABE18" />
+  <path
+      android:pathData="M1680.21,971.42L997.84,288.71L2017.74,288.92L2699.88,971.43L1680.21,971.42Z"
+      android:fillColor="#2C6CBD" />
+  <path
+      android:pathData="M1931.65,2212.7l494.82,-494.38l516.72,517.18l-494.82,494.38z"
+      android:fillColor="#FABE18"/>
+</vector>

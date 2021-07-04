@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 13.06.21, 12:31.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
