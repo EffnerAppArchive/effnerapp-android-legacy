@@ -37,9 +37,6 @@ import de.effnerapp.effner.ui.views.timetableview.Schedule;
 import de.effnerapp.effner.ui.views.timetableview.Time;
 import de.effnerapp.effner.ui.views.timetableview.TimetableView;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class TimetableFragment extends Fragment {
 
 

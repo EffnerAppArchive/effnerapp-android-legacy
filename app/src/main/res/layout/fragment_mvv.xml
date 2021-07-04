@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 13.06.21, 13:14.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -10,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        layout="@layout/mvv_disclaimer" />
+        layout="@layout/item_disclaimer_mvv" />
 
     <AutoCompleteTextView
         android:id="@+id/input_stop"

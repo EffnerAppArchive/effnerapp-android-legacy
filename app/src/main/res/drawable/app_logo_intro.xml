@@ -1,3 +1,9 @@
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 04.07.21, 16:51.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <!-- i'm pretty sure it shouldn't be done that way, but it kinda works, so shut up -->
@@ -17,16 +23,13 @@
                 android:width="50dp"
                 android:height="50dp" />
 
-            <!-- The app_logo drawable is not square so we have to set the bottom padding to 60dp -->
-            <!-- we should set it back to 30 if we create a new logo -->
             <padding
-                android:bottom="60dp"
+                android:bottom="30dp"
                 android:top="30dp"
                 android:left="30dp"
                 android:right="30dp" />
         </shape>
     </item>
-    <item>
-        <bitmap android:src="@drawable/app_logo" />
-    </item>
+    <item android:drawable="@drawable/ic_effnerapp_logo" />
+
 </layer-list>

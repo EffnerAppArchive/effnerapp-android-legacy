@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 04.07.21, 16:59.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <resources>
 
     <style name="AppTheme.Default" parent="AppTheme.Base">
         <item name="colorSurface">#020202</item>
         <item name="android:colorBackground">#000</item>
         <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
-    </style>
-
-    <!-- Splash Screen theme -->
-    <style name="AppTheme.SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_background_dark</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppTheme.PreferenceTheme" parent="@style/PreferenceThemeOverlay">

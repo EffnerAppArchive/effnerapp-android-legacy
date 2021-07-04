@@ -151,13 +151,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
         assert privacyPolicyPreference != null;
         privacyPolicyPreference.setOnPreferenceClickListener(preference -> {
-            IntentHelper.openView(context, Uri.parse(getString(R.string.uri_link_privacy_policy)));
+            IntentHelper.openView(context, Uri.parse(getString(R.string.uri_link_privacy_policy)), "application/pdf");
             return true;
         });
 
         assert imprintPreference != null;
         imprintPreference.setOnPreferenceClickListener(preference -> {
-            IntentHelper.openView(context, Uri.parse(getString(R.string.uri_link_imprint)));
+            IntentHelper.openView(context, Uri.parse(getString(R.string.uri_link_imprint)), "application/pdf");
             return true;
         });
 

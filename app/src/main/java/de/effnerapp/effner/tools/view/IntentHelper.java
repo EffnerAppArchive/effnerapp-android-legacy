@@ -17,9 +17,18 @@ import androidx.browser.customtabs.CustomTabsIntent;
 
 public class IntentHelper {
     public static void openView(Context context, Uri uri) {
-        if (uri.toString().endsWith(".pdf")) {
+        String contentType = uri.toString().endsWith(".pdf") ? "application/pdf" : null;
+        openView(context, uri, contentType);
+    }
+
+    public static void openView(Context context, String url) {
+        openView(context, Uri.parse(url));
+    }
+
+    public static void openView(Context context, Uri uri, String contentType) {
+        if(contentType != null) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/pdf");
+            intent.setDataAndType(uri, contentType);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
             try {
@@ -28,7 +37,6 @@ public class IntentHelper {
                 // fallback to default action_view handler
                 context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
             }
-
             return;
         }
 
@@ -37,9 +45,5 @@ public class IntentHelper {
         CustomTabsIntent intent = builder.build();
         intent.intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.launchUrl(context, uri);
-    }
-
-    public static void openView(Context context, String url) {
-        openView(context, Uri.parse(url));
     }
 }

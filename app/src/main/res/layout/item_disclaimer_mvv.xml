@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Developed by Sebastian Müller and Luis Bros.
+  ~ Last updated: 13.06.21, 02:33.
+  ~ Copyright (c) 2021 EffnerApp.
+  -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,7 +15,7 @@
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
         android:padding="25dp"
-        android:text="@string/text_disclaimer"
+        android:text="@string/text_disclaimer_mvv"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/default_text_color"
