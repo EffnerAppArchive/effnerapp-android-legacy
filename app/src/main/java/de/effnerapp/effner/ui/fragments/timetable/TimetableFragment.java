@@ -33,12 +33,12 @@ import java.util.Objects;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.api.ApiClient;
+import de.effnerapp.effner.ui.activities.splash.SplashActivity;
 import de.effnerapp.effner.ui.views.timetableview.Schedule;
 import de.effnerapp.effner.ui.views.timetableview.Time;
 import de.effnerapp.effner.ui.views.timetableview.TimetableView;
 
 public class TimetableFragment extends Fragment {
-
 
     public TimetableFragment() {
         // Required empty public constructor
@@ -49,6 +49,12 @@ public class TimetableFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_timetable, container, false);
         Context context = requireContext();
+
+        if(ApiClient.getInstance() == null) {
+            startActivity(new Intent(requireContext(), SplashActivity.class));
+            requireActivity().finish();
+            return view;
+        }
 
         TimetableView timetable = view.findViewById(R.id.timetable);
         TextView timetableInfoText = view.findViewById(R.id.timetable_info_text);

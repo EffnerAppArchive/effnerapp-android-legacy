@@ -9,7 +9,7 @@ package de.effnerapp.effner.data.api.json.data;
 import android.graphics.Color;
 
 public class TimetableColor {
-    public static final TimetableColor BLACK = new TimetableColor("#000");
+    public static final TimetableColor BLACK = new TimetableColor("#000000");
     private String subject;
     private final String color;
 
@@ -22,6 +22,12 @@ public class TimetableColor {
     }
 
     public int getColorValue() {
-        return Color.parseColor(color);
+        try {
+            return Color.parseColor(color);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return Color.BLACK;
+        }
+
     }
 }
