@@ -20,8 +20,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.Objects;
 
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
 
     private void navigateTo(@IdRes int id) {
         // workaround to uncheck the currently selected item
-        navView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
+        navView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_UNLABELED);
         navView.getMenu().getItem(0).setCheckable(false);
 
         // navigate to fragment

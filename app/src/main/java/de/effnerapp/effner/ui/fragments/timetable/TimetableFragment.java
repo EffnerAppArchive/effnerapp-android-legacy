@@ -21,7 +21,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -116,7 +116,7 @@ public class TimetableFragment extends Fragment {
         BottomNavigationView navView = requireActivity().findViewById(R.id.nav_view);
 
         // workaround to uncheck the currently selected item
-        navView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED);
+        navView.setLabelVisibilityMode(NavigationBarView.LABEL_VISIBILITY_UNLABELED);
         navView.getMenu().getItem(0).setCheckable(false);
 
         NavHostFragment navHostFragment = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
