@@ -142,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
                 serverAuthenticator.login(id.getText().toString(), password.getText().toString(), sClass, new Promise<Void, String>() {
                     @Override
                     public void accept(Void unused) {
-                        System.out.println("loing");
                         runOnUiThread(() -> {
                             dialog.cancel();
                             startActivity(new Intent(LoginActivity.this, SplashActivity.class));

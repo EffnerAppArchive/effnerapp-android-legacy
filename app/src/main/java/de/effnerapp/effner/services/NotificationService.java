@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -45,9 +46,11 @@ public class NotificationService extends FirebaseMessagingService {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_effnerapp_logo)
+                .setSmallIcon(R.drawable.ic_effnerapp_notification_icon)
                 .setColor(getResources().getColor(R.color.white))
                 .setContentTitle(remoteMessage.getNotification().getTitle())
                 .setContentText(remoteMessage.getNotification().getBody())
@@ -55,6 +58,7 @@ public class NotificationService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .setPriority(1)
                 .setAutoCancel(true);
+
         if (remoteMessage.getNotification().getImageUrl() != null) {
             try {
                 URL url = new URL(remoteMessage.getNotification().getImageUrl().toString());
@@ -76,8 +80,10 @@ public class NotificationService extends FirebaseMessagingService {
         createNotificationChannel();
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
+        Random random = new Random();
+
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify(random.nextInt(100), builder.build());
     }
 
     private void createNotificationChannel() {

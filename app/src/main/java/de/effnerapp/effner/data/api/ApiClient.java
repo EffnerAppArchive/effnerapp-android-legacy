@@ -76,7 +76,8 @@ public class ApiClient {
                         promise.reject(apiResponse.getStatus().getError());
                     }
                 } catch (JsonSyntaxException e) {
-                    promise.reject(response.code() + " " + response.message());
+                    e.printStackTrace();
+                    promise.reject("ERR " + response.code() + " " + response.message());
                 }
             }
         });

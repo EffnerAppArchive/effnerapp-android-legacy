@@ -66,7 +66,6 @@ public class ServerAuthenticator {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String res = Objects.requireNonNull(response.body()).string();
-
                 try {
                     ApiResponse apiResponse = gson.fromJson(res, ApiResponse.class);
                     if (apiResponse.getStatus().isLogin()) {
@@ -75,10 +74,10 @@ public class ServerAuthenticator {
                     } else if (apiResponse.getStatus().getError() != null) {
                         promise.reject(apiResponse.getStatus().getError());
                     } else {
-                        promise.reject(response.code() + " " + response.message());
+                        promise.reject("ERR " + response.code() + " " + response.message());
                     }
                 } catch (IllegalStateException | JsonSyntaxException e) {
-                    promise.reject(response.code() + " " + response.message());
+                    promise.reject("ERR " + response.code() + " " + response.message());
                 }
             }
         });
