@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.concurrent.Callable;
 
 import de.effnerapp.effner.data.dsbmobile.model.AbsentClass;
@@ -93,10 +94,15 @@ public class DSBClient {
 
                         break;
                     case "K":
-                        for (Element tr : table.select("tr")) {
-                            String sClass = tr.selectFirst("th").text();
-                            String period = tr.selectFirst("td").text();
-                            absentClasses.add(new AbsentClass(date, sClass, period));
+                        for (Element tbody : table.select("tbody")) {
+                            String sClass = tbody.selectFirst("th").text();
+
+                            StringBuilder periods = new StringBuilder();
+                            for (Element td : tbody.select("td")) {
+                                periods.append(td.text()).append(", ");
+                            }
+
+                            absentClasses.add(new AbsentClass(date, sClass, periods.substring(0, periods.length() - 3)));
                         }
 
                         break;

@@ -64,7 +64,7 @@ public class ExamsFragment extends Fragment {
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            List<Exam> exams = new ArrayList<>(Arrays.asList(ApiClient.getInstance().getData().getExams()));
+            List<Exam> exams = new ArrayList<>(Arrays.asList(ApiClient.getInstance().getData().getExams().getExams()));
             Collections.reverse(exams);
             adapter = new ExamItemAdapter(requireContext(), exams);
             recyclerView.setAdapter(adapter);

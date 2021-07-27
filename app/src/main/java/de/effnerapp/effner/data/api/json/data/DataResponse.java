@@ -9,14 +9,14 @@ package de.effnerapp.effner.data.api.json.data;
 public class DataResponse {
     private String motd;
     private Timetable timetable;
-    private Exam[] exams;
+    private Exams exams;
     private Document[] documents;
 
     public String getMotd() {
         return motd;
     }
 
-    public Exam[] getExams() {
+    public Exams getExams() {
         return exams;
     }
 
