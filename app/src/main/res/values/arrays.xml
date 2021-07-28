@@ -28,4 +28,14 @@
         <item>Neuste zuerst</item>
         <item>Älteste zuerst</item>
     </string-array>
+
+    <string-array name="fcm_channels_entries">
+        <item>General Notifications</item>
+        <item>Dev Notifications</item>
+    </string-array>
+
+    <string-array name="fcm_channels_entry_values">
+        <item>APP_GENERAL_NOTIFICATIONS</item>
+        <item>APP_DEV_NOTIFICATIONS</item>
+    </string-array>
 </resources>

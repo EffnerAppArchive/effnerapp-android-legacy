@@ -4,7 +4,8 @@
   ~ Copyright (c) 2021 EffnerApp.
   -->
 
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/preference_category_notifications_title">
 
@@ -87,10 +88,11 @@
             app:summary="@string/placeholder_default"
             app:icon="@drawable/ic_baseline_local_fire_department_24" />
 
-        <ListPreference
-            app:key="dev_firebase_channels"
+        <MultiSelectListPreference
+            app:key="dev_fcm_channels"
             app:title="FCM Channels"
-            app:entryValues="@array/default_header_title" />
+            app:entries="@array/fcm_channels_entries"
+            app:entryValues="@array/fcm_channels_entry_values" />
     </PreferenceCategory>
 
 </PreferenceScreen>

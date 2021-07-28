@@ -20,12 +20,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import de.effnerapp.effner.R;
 import de.effnerapp.effner.tools.view.IntentHelper;
@@ -178,17 +182,35 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key == null) return;
+        System.out.println(key);
         switch (key) {
             case "APP_NOTIFICATIONS":
                 setNotifications(sharedPreferences.getBoolean(key, false));
                 break;
             case "APP_DESIGN_DARK":
-                if (sharedPreferences.getBoolean("APP_DESIGN_DARK", false)) {
+                if (sharedPreferences.getBoolean(key, false)) {
                     ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     ((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 break;
+            case "dev_fcm_channels":
+                String[] channelEntryValues = getResources().getStringArray(R.array.fcm_channels_entry_values);
+                Set<String> selectedChannels = sharedPreferences.getStringSet(key, new HashSet<>());
+
+                for (String channel : channelEntryValues) {
+                    if(selectedChannels.contains(channel)) {
+                        FirebaseMessaging.getInstance().subscribeToTopic(channel).addOnCompleteListener(task -> {
+                            if(task.isSuccessful()) {
+                                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Successfully subscribed to channel " + channel, Toast.LENGTH_SHORT).show());
+                            } else {
+                                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), "Error while subscribing to channel " + channel + ": " + task.getException(), Toast.LENGTH_LONG).show());
+                            }
+                        });
+                    } else {
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic(channel);
+                    }
+                }
         }
     }
 
