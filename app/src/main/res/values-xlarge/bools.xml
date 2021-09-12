@@ -7,5 +7,5 @@
   -->
 
 <resources>
-    <bool name="portrait_only">false</bool>
+    <bool name="isLargeDevice">true</bool>
 </resources>
