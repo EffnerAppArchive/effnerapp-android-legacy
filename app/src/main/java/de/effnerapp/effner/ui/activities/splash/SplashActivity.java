@@ -1,19 +1,22 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 20.06.21, 20:06.
+ * Last updated: 12.09.21, 20:09.
  * Copyright (c) 2021 EffnerApp.
+ *
  */
 
 package de.effnerapp.effner.ui.activities.splash;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import de.effnerapp.effner.R;
 import de.effnerapp.effner.data.api.ApiClient;
 import de.effnerapp.effner.data.api.json.data.DataResponse;
 import de.effnerapp.effner.data.dsbmobile.DSBClient;
@@ -31,6 +34,11 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (!sharedPreferences.getBoolean("IntroActivity.COMPLETED_ON_BOARDING", false)) {

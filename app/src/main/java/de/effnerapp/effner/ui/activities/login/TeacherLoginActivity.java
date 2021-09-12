@@ -1,12 +1,14 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 12.06.21, 23:46.
+ * Last updated: 12.09.21, 20:09.
  * Copyright (c) 2021 EffnerApp.
+ *
  */
 
 package de.effnerapp.effner.ui.activities.login;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,10 @@ public class TeacherLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_teacher);
+
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
         EditText id = findViewById(R.id.input_id);
         EditText password = findViewById(R.id.input_password);

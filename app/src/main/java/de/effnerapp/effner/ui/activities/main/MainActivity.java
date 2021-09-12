@@ -1,7 +1,8 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 20.06.21, 19:43.
+ * Last updated: 12.09.21, 20:09.
  * Copyright (c) 2021 EffnerApp.
+ *
  */
 
 package de.effnerapp.effner.ui.activities.main;
@@ -10,6 +11,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -47,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance = this;
+
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         activityCreatedTime = System.currentTimeMillis();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

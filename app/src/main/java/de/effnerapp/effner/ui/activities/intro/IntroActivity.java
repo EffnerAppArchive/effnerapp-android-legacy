@@ -1,13 +1,15 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 20.06.21, 17:31.
+ * Last updated: 12.09.21, 20:09.
  * Copyright (c) 2021 EffnerApp.
+ *
  */
 
 package de.effnerapp.effner.ui.activities.intro;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -27,6 +29,10 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 

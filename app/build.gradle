@@ -1,3 +1,10 @@
+/*
+ * Developed by Sebastian Müller and Luis Bros.
+ * Last updated: 12.09.21, 19:48.
+ * Copyright (c) 2021 EffnerApp.
+ *
+ */
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'

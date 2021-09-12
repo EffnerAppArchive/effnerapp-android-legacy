@@ -1,7 +1,8 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 20.06.21, 19:46.
+ * Last updated: 12.09.21, 20:09.
  * Copyright (c) 2021 EffnerApp.
+ *
  */
 
 package de.effnerapp.effner.ui.activities.login;
@@ -10,6 +11,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -62,6 +64,10 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if (getResources().getBoolean(R.bool.portrait_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
 
         EditText id = findViewById(R.id.input_id);
         EditText password = findViewById(R.id.input_password);

@@ -1,7 +1,8 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 20.06.21, 19:20.
+ * Last updated: 12.09.21, 19:48.
  * Copyright (c) 2021 EffnerApp.
+ *
  */
 
 package de.effnerapp.effner.ui.fragments.information;
