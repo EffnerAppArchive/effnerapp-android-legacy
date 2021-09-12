@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -35,7 +36,11 @@ public class IntentHelper {
                 context.startActivity(intent);
             } catch (ActivityNotFoundException e) {
                 // fallback to default action_view handler
-                context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                try {
+                    context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                } catch (ActivityNotFoundException e1) {
+                    Toast.makeText(context, e1.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
             return;
         }
