@@ -1,1 +1,2 @@
-- Landscape-Support für Tablets
+- App-Icons werden nun auch für ältere Android-Versionen angezeigt
+- Ein Fehler, der Geräte mit Android 7.0 nicht mit dem Server kommunizieren ließ, wurde behoben
