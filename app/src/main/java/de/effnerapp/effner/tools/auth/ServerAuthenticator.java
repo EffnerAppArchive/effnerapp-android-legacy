@@ -1,6 +1,6 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 12.09.21, 19:48.
+ * Last updated: 14.09.21, 20:19.
  * Copyright (c) 2021 EffnerApp.
  *
  */
@@ -92,7 +92,9 @@ public class ServerAuthenticator {
                 .putString("APP_USER_CLASS", sClass)
                 .apply();
 
-        // subscribe to general app notifications
+        // subscribe to push notifications
         FirebaseMessaging.getInstance().subscribeToTopic("APP_GENERAL_NOTIFICATIONS");
+        FirebaseMessaging.getInstance().subscribeToTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
+        sharedPreferences.edit().putBoolean("APP_NOTIFICATIONS", true).apply();
     }
 }

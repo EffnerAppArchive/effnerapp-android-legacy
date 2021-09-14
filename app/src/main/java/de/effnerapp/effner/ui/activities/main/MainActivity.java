@@ -1,6 +1,6 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 12.09.21, 20:09.
+ * Last updated: 14.09.21, 21:31.
  * Copyright (c) 2021 EffnerApp.
  *
  */
@@ -28,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -54,9 +55,17 @@ public class MainActivity extends AppCompatActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         }
 
+
         activityCreatedTime = System.currentTimeMillis();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        // enable push notifications if not already enabled
+        if (!sharedPreferences.contains("APP_NOTIFICATIONS")) {
+            String sClass = sharedPreferences.getString("APP_USER_CLASS", "");
+            FirebaseMessaging.getInstance().subscribeToTopic("APP_SUBSTITUTION_NOTIFICATIONS_" + sClass);
+            sharedPreferences.edit().putBoolean("APP_NOTIFICATIONS", true).apply();
+        }
 
         setDarkMode(sharedPreferences.getBoolean("APP_DESIGN_DARK", false));
 

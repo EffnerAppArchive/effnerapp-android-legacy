@@ -1,2 +1,2 @@
-- App-Icons werden nun auch für ältere Android-Versionen angezeigt
-- Ein Fehler, der Geräte mit Android 7.0 nicht mit dem Server kommunizieren ließ, wurde behoben
+- Push-Benachrichtigungen sind nun standardmäßig aktiviert
+- Anzeigefehler wurde behoben
