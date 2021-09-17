@@ -1,6 +1,6 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 14.09.21, 21:32.
+ * Last updated: 17.09.21, 21:45.
  * Copyright (c) 2021 EffnerApp.
  *
  */
@@ -16,8 +16,8 @@ android {
         applicationId "de.effnerapp.effner"
         minSdkVersion 22
         targetSdkVersion 31
-        versionCode 66
-        versionName "1.4.9"
+        versionCode 67
+        versionName "1.5.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

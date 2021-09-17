@@ -1,6 +1,6 @@
 /*
  * Developed by Sebastian Müller and Luis Bros.
- * Last updated: 12.09.21, 19:48.
+ * Last updated: 17.09.21, 21:19.
  * Copyright (c) 2021 EffnerApp.
  *
  */
@@ -9,7 +9,7 @@ package de.effnerapp.effner.data.api.json.data;
 
 public class DataResponse {
     private String motd;
-    private Timetable timetable;
+    private Timetable[] timetables;
     private Exams exams;
     private Document[] documents;
 
@@ -21,8 +21,8 @@ public class DataResponse {
         return exams;
     }
 
-    public Timetable getTimetable() {
-        return timetable;
+    public Timetable[] getTimetables() {
+        return timetables;
     }
 
     public Document[] getDocuments() {

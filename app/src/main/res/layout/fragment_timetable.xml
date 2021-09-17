@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Developed by Sebastian Müller and Luis Bros.
-  ~ Last updated: 12.09.21, 19:48.
+  ~ Last updated: 17.09.21, 21:28.
   ~ Copyright (c) 2021 EffnerApp.
   ~
   -->
@@ -45,5 +45,11 @@
             app:drawableTint="@color/default_text_color" />
 
     </RelativeLayout>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end" />
 
 </FrameLayout>
