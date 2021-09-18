@@ -46,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // fixes Handshake bug on Android 7.0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
             try {
                 // Google Play will install latest OpenSSL
                 ProviderInstaller.installIfNeeded(getApplicationContext());
